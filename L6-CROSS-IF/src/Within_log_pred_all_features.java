@@ -160,18 +160,6 @@ public void pre_process_data()
 }
 
 
-
-// clps.learn_and_insert_adtree(precision, recall, accuracy,fmeasure,roc_auc);
- //clps.learn_and_insert_decision_table(precision, recall, accuracy,fmeasure,roc_auc);
- //clps.learn_and_insert_j48(precision, recall, accuracy,fmeasure,roc_auc);
- //clps.learn_and_insert_logistic(precision, recall, accuracy,fmeasure,roc_auc);
-// clps.learn_and_insert_random_forest(precision, recall, accuracy,fmeasure,roc_auc);
- //clps.learn_and_insert_naive_bayes(precision, recall, accuracy,fmeasure,roc_auc);
- //clps.learn_and_insert_bayes_net(precision, recall, accuracy,fmeasure,roc_auc);
- //clps.learn_and_insert_adaboost(precision, recall, accuracy,fmeasure,roc_auc);
- //clps.learn_and_insert_rbfnetwork(precision, recall, accuracy,fmeasure,roc_auc);
-
-
 //This function is used to train and test a using a given classifier
 public Evaluation within_adtree() 
 {
@@ -271,7 +259,7 @@ return evaluation;
 
 
 //This function is used to train and test a using a given classifier
-public Evaluation within_pred_random_forest() 
+public Evaluation within_random_forest() 
 {
 		
 Evaluation evaluation = null;
@@ -485,6 +473,119 @@ public void compute_avg_stdev_and_insert(String classifier_name, double[] precis
 
 
 
+private void learn_and_insert_adtree(double[] precision,		double[] recall, double[] accuracy, double[] fmeasure, double[] roc_auc) 
+{
+System.out.println("Computing  ADTree for:"+ type);  
+	
+	//\\=========== Decision table=================================//\\			
+		for(int i=0; i<iterations; i++)
+			 {
+			    read_train_test_split_file(i);
+			   
+				pre_process_data();
+				result = within_adtree();				
+				
+				precision[i]         =   result.precision(1)*100;
+				recall[i]            =   result.recall(1)*100;
+				accuracy[i]          =   result.pctCorrect(); //not required to multiply by 100, it is already in percentage
+				fmeasure[i]          =   result.fMeasure(1)*100;
+				roc_auc[i]           =   result.areaUnderROC(1)*100;		
+			
+				//@ Un comment to see the evalauation results
+				//System.out.println(clp.result.toSummaryString());			
+					
+			}
+				  
+		   compute_avg_stdev_and_insert("ADTree", precision, recall, accuracy, fmeasure , roc_auc );	   
+}
+
+
+private void learn_and_insert_decision_table(double[] precision,		double[] recall, double[] accuracy, double[] fmeasure, double[] roc_auc) 
+{
+System.out.println("Computing  Decision Table for:"+ type);  
+	
+	//\\=========== Decision table=================================//\\			
+		for(int i=0; i<iterations; i++)
+			 {
+			    read_train_test_split_file(i);
+			   
+				pre_process_data();
+				result = within_decision_table();				
+				
+				precision[i]         =   result.precision(1)*100;
+				recall[i]            =   result.recall(1)*100;
+				accuracy[i]          =   result.pctCorrect(); //not required to multiply by 100, it is already in percentage
+				fmeasure[i]          =   result.fMeasure(1)*100;
+				roc_auc[i]           =   result.areaUnderROC(1)*100;		
+			
+				//@ Un comment to see the evalauation results
+				//System.out.println(clp.result.toSummaryString());			
+					
+			}
+				  
+		   compute_avg_stdev_and_insert(" Decision Table", precision, recall, accuracy, fmeasure , roc_auc );	   
+}
+
+
+
+
+private void learn_and_insert_j48(double[] precision,	double[] recall, double[] accuracy, double[] fmeasure, double[] roc_auc) 
+{
+System.out.println("Computing  J48  for:"+ type);  
+	
+	//\\=========== Decision table=================================//\\			
+		for(int i=0; i<iterations; i++)
+			 {
+			    read_train_test_split_file(i);
+			   
+				pre_process_data();
+				result = within_j48();				
+				
+				precision[i]         =   result.precision(1)*100;
+				recall[i]            =   result.recall(1)*100;
+				accuracy[i]          =   result.pctCorrect(); //not required to multiply by 100, it is already in percentage
+				fmeasure[i]          =   result.fMeasure(1)*100;
+				roc_auc[i]           =   result.areaUnderROC(1)*100;		
+			
+				//@ Un comment to see the evalauation results
+				//System.out.println(clp.result.toSummaryString());			
+					
+			}
+				  
+		   compute_avg_stdev_and_insert(" J48", precision, recall, accuracy, fmeasure , roc_auc );	   
+}
+
+
+
+private void learn_and_insert_logistic(double[] precision,	double[] recall, double[] accuracy, double[] fmeasure, double[] roc_auc) 
+{
+System.out.println("Computing  logistic  for:"+ type);  
+	
+	//\\=========== Decision table=================================//\\			
+		for(int i=0; i<iterations; i++)
+			 {
+			    read_train_test_split_file(i);
+			   
+				pre_process_data();
+				result = within_j48();				
+				
+				precision[i]         =   result.precision(1)*100;
+				recall[i]            =   result.recall(1)*100;
+				accuracy[i]          =   result.pctCorrect(); //not required to multiply by 100, it is already in percentage
+				fmeasure[i]          =   result.fMeasure(1)*100;
+				roc_auc[i]           =   result.areaUnderROC(1)*100;		
+			
+				//@ Un comment to see the evalauation results
+				//System.out.println(clp.result.toSummaryString());			
+					
+			}
+				  
+		   compute_avg_stdev_and_insert("Logistic", precision, recall, accuracy, fmeasure , roc_auc );	   
+}
+
+
+
+
 private void learn_and_insert_random_forest(double[] precision,		double[] recall, double[] accuracy, double[] fmeasure, double[] roc_auc) 
 {
 System.out.println("Computing  Random Forest for:"+ type);  
@@ -495,7 +596,7 @@ System.out.println("Computing  Random Forest for:"+ type);
 			    read_train_test_split_file(i);
 			   
 				pre_process_data();
-				result = within_pred_random_forest();				
+				result = within_random_forest();				
 				
 				precision[i]         =   result.precision(1)*100;
 				recall[i]            =   result.recall(1)*100;
@@ -510,6 +611,115 @@ System.out.println("Computing  Random Forest for:"+ type);
 				  
 		   compute_avg_stdev_and_insert("Random Forest", precision, recall, accuracy, fmeasure , roc_auc );	   
 }
+
+
+private void learn_and_insert_naive_bayes(double[] precision,	double[] recall, double[] accuracy, double[] fmeasure, double[] roc_auc) 
+{
+System.out.println("Computing  naive bayes  for:"+ type);  
+	
+	//\\=========== Decision table=================================//\\			
+		for(int i=0; i<iterations; i++)
+			 {
+			    read_train_test_split_file(i);
+			   
+				pre_process_data();
+				result = within_naive_bayes();				
+				
+				precision[i]         =   result.precision(1)*100;
+				recall[i]            =   result.recall(1)*100;
+				accuracy[i]          =   result.pctCorrect(); //not required to multiply by 100, it is already in percentage
+				fmeasure[i]          =   result.fMeasure(1)*100;
+				roc_auc[i]           =   result.areaUnderROC(1)*100;		
+			
+				//@ Un comment to see the evalauation results
+				//System.out.println(clp.result.toSummaryString());			
+					
+			}
+				  
+		   compute_avg_stdev_and_insert("Naive Bayes", precision, recall, accuracy, fmeasure , roc_auc );	   
+}
+
+
+private void learn_and_insert_bayes_net(double[] precision,	double[] recall, double[] accuracy, double[] fmeasure, double[] roc_auc) 
+{
+System.out.println("Computing  bayes net  for:"+ type);  
+	
+	//\\=========== Decision table=================================//\\			
+		for(int i=0; i<iterations; i++)
+			 {
+			    read_train_test_split_file(i);
+			   
+				pre_process_data();
+				result = within_bayes_net();				
+				
+				precision[i]         =   result.precision(1)*100;
+				recall[i]            =   result.recall(1)*100;
+				accuracy[i]          =   result.pctCorrect(); //not required to multiply by 100, it is already in percentage
+				fmeasure[i]          =   result.fMeasure(1)*100;
+				roc_auc[i]           =   result.areaUnderROC(1)*100;		
+			
+				//@ Un comment to see the evalauation results
+				//System.out.println(clp.result.toSummaryString());			
+					
+			}
+				  
+		   compute_avg_stdev_and_insert("Bayes Net", precision, recall, accuracy, fmeasure , roc_auc );	   
+}
+
+
+private void learn_and_insert_adaboostt(double[] precision,	double[] recall, double[] accuracy, double[] fmeasure, double[] roc_auc) 
+{
+System.out.println("Computing  bayes net  for:"+ type);  
+	
+	//\\=========== Decision table=================================//\\			
+		for(int i=0; i<iterations; i++)
+			 {
+			    read_train_test_split_file(i);
+			   
+				pre_process_data();
+				result = within_adaboost();				
+				
+				precision[i]         =   result.precision(1)*100;
+				recall[i]            =   result.recall(1)*100;
+				accuracy[i]          =   result.pctCorrect(); //not required to multiply by 100, it is already in percentage
+				fmeasure[i]          =   result.fMeasure(1)*100;
+				roc_auc[i]           =   result.areaUnderROC(1)*100;		
+			
+				//@ Un comment to see the evalauation results
+				//System.out.println(clp.result.toSummaryString());			
+					
+			}
+				  
+		   compute_avg_stdev_and_insert("AdaBoost", precision, recall, accuracy, fmeasure , roc_auc );	   
+}
+
+private void learn_and_insert_rbfnetwork(double[] precision,	double[] recall, double[] accuracy, double[] fmeasure, double[] roc_auc) 
+{
+System.out.println("Computing  rbfnetwork  for:"+ type);  
+	
+	//\\=========== Decision table=================================//\\			
+		for(int i=0; i<iterations; i++)
+			 {
+			    read_train_test_split_file(i);
+			   
+				pre_process_data();
+				result = within_rbfnetwork();				
+				
+				precision[i]         =   result.precision(1)*100;
+				recall[i]            =   result.recall(1)*100;
+				accuracy[i]          =   result.pctCorrect(); //not required to multiply by 100, it is already in percentage
+				fmeasure[i]          =   result.fMeasure(1)*100;
+				roc_auc[i]           =   result.areaUnderROC(1)*100;		
+			
+				//@ Un comment to see the evalauation results
+				//System.out.println(clp.result.toSummaryString());			
+					
+			}
+				  
+		   compute_avg_stdev_and_insert("RBFNetwork", precision, recall, accuracy, fmeasure , roc_auc );	   
+}
+
+
 
 
 //This is the main function
@@ -528,7 +738,7 @@ public static void main(String args[])
 	  //clps.learn_and_insert_decision_table(precision, recall, accuracy,fmeasure,roc_auc);
 	  //clps.learn_and_insert_j48(precision, recall, accuracy,fmeasure,roc_auc);
 	  //clps.learn_and_insert_logistic(precision, recall, accuracy,fmeasure,roc_auc);
-	//  clps.learn_and_insert_random_forest(precision, recall, accuracy,fmeasure,roc_auc);
+	  clps.learn_and_insert_random_forest(precision, recall, accuracy,fmeasure,roc_auc);
 	  //clps.learn_and_insert_naive_bayes(precision, recall, accuracy,fmeasure,roc_auc);
 	  //clps.learn_and_insert_bayes_net(precision, recall, accuracy,fmeasure,roc_auc);
 	  //clps.learn_and_insert_adaboost(precision, recall, accuracy,fmeasure,roc_auc);
