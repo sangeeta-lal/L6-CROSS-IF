@@ -27,7 +27,7 @@ import weka.filters.supervised.attribute.Discretize;
 import weka.filters.unsupervised.attribute.Standardize;
 import weka.filters.unsupervised.attribute.StringToWordVector;
 
-// This file will be used to ensemble based prediction using stacking of algorithms
+// This file will be perform within project logging predicction for ib-blocks
 public class Within_log_pred_all_features
 {
 
@@ -60,10 +60,10 @@ String source_project="tomcat";
 //String source_project="hd";
 
 
-String db_name ="logging6_isec";
+String db_name ="logging6_crossif";
 String result_table = "within_pred_all_feature_"+type;
 
-String source_file_path = path+"L6-CROSS-IF-ISEC2017\\dataset\\"+source_project+"-arff\\"+type+"\\all-features\\"+source_project+"_"+type+"_all_features.arff";		
+String source_file_path = path+"L6-CROSS-IF\\dataset\\"+source_project+"-arff\\"+type+"\\all-features\\"+source_project+"_"+type+"_all_features.arff";		
 
 DataSource allsource;
 DataSource trainsource;
@@ -161,35 +161,238 @@ public void pre_process_data()
 
 
 
+// clps.learn_and_insert_adtree(precision, recall, accuracy,fmeasure,roc_auc);
+ //clps.learn_and_insert_decision_table(precision, recall, accuracy,fmeasure,roc_auc);
+ //clps.learn_and_insert_j48(precision, recall, accuracy,fmeasure,roc_auc);
+ //clps.learn_and_insert_logistic(precision, recall, accuracy,fmeasure,roc_auc);
+// clps.learn_and_insert_random_forest(precision, recall, accuracy,fmeasure,roc_auc);
+ //clps.learn_and_insert_naive_bayes(precision, recall, accuracy,fmeasure,roc_auc);
+ //clps.learn_and_insert_bayes_net(precision, recall, accuracy,fmeasure,roc_auc);
+ //clps.learn_and_insert_adaboost(precision, recall, accuracy,fmeasure,roc_auc);
+ //clps.learn_and_insert_rbfnetwork(precision, recall, accuracy,fmeasure,roc_auc);
+
+
 //This function is used to train and test a using a given classifier
-public Evaluation cross_pred_random_forest() 
+public Evaluation within_adtree() 
 {
-	
-	
+		
 Evaluation evaluation = null;
-RandomForest  m1 =  new RandomForest();
+ADTree  m1 =  new ADTree();
 
 try
 {
-
-		
+	
     m1.buildClassifier(trains);
 	evaluation= new Evaluation(trains);
 	//System.out.println("h1");
 	evaluation.evaluateModel(m1, tests);
-
 	//System.out.println("h2");
-
 } catch (Exception e) 
 {
 
 	e.printStackTrace();
 }
-
 return evaluation;
 
 }
+
+//This function is used to train and test a using a given classifier
+public Evaluation within_decision_table() 
+{
+		
+Evaluation evaluation = null;
+DecisionTable  m1 =  new DecisionTable();
+
+try
+{
 	
+  m1.buildClassifier(trains);
+	evaluation= new Evaluation(trains);
+	//System.out.println("h1");
+	evaluation.evaluateModel(m1, tests);
+	//System.out.println("h2");
+} catch (Exception e) 
+{
+
+	e.printStackTrace();
+}
+return evaluation;
+
+}
+
+//This function is used to train and test a using a given classifier
+public Evaluation within_j48() 
+{
+		
+Evaluation evaluation = null;
+J48  m1 =  new J48();
+
+try
+{
+	
+  m1.buildClassifier(trains);
+	evaluation= new Evaluation(trains);
+	//System.out.println("h1");
+	evaluation.evaluateModel(m1, tests);
+	//System.out.println("h2");
+} catch (Exception e) 
+{
+
+	e.printStackTrace();
+}
+return evaluation;
+
+}
+
+
+//This function is used to train and test a using a given classifier
+public Evaluation within_logistic() 
+{
+		
+Evaluation evaluation = null;
+Logistic  m1 =  new Logistic();
+
+try
+{
+	
+  m1.buildClassifier(trains);
+	evaluation= new Evaluation(trains);
+	//System.out.println("h1");
+	evaluation.evaluateModel(m1, tests);
+	//System.out.println("h2");
+} catch (Exception e) 
+{
+
+	e.printStackTrace();
+}
+return evaluation;
+
+}
+
+
+//This function is used to train and test a using a given classifier
+public Evaluation within_pred_random_forest() 
+{
+		
+Evaluation evaluation = null;
+RandomForest  m1 =  new RandomForest();
+
+try
+{
+	
+  m1.buildClassifier(trains);
+	evaluation= new Evaluation(trains);
+	//System.out.println("h1");
+	evaluation.evaluateModel(m1, tests);
+
+	//System.out.println("h2");
+} catch (Exception e) 
+{
+
+	e.printStackTrace();
+}
+return evaluation;
+
+}
+
+//This function is used to train and test a using a given classifier
+public Evaluation within_naive_bayes() 
+{
+		
+Evaluation evaluation = null;
+NaiveBayes  m1 =  new NaiveBayes();
+
+try
+{
+	
+m1.buildClassifier(trains);
+	evaluation= new Evaluation(trains);
+	//System.out.println("h1");
+	evaluation.evaluateModel(m1, tests);
+	//System.out.println("h2");
+} catch (Exception e) 
+{
+
+	e.printStackTrace();
+}
+return evaluation;
+
+}
+
+
+//This function is used to train and test a using a given classifier
+public Evaluation within_bayes_net() 
+{
+		
+Evaluation evaluation = null;
+BayesNet  m1 =  new BayesNet();
+
+try
+{
+	
+m1.buildClassifier(trains);
+	evaluation= new Evaluation(trains);
+	//System.out.println("h1");
+	evaluation.evaluateModel(m1, tests);
+	//System.out.println("h2");
+} catch (Exception e) 
+{
+
+	e.printStackTrace();
+}
+return evaluation;
+
+}
+
+//This function is used to train and test a using a given classifier
+public Evaluation within_adaboost() 
+{
+		
+Evaluation evaluation = null;
+AdaBoostM1  m1 =  new AdaBoostM1();
+
+try
+{
+	
+m1.buildClassifier(trains);
+	evaluation= new Evaluation(trains);
+	//System.out.println("h1");
+	evaluation.evaluateModel(m1, tests);
+	//System.out.println("h2");
+} catch (Exception e) 
+{
+
+	e.printStackTrace();
+}
+return evaluation;
+
+}
+
+//This function is used to train and test a using a given classifier
+public Evaluation within_rbfnetwork() 
+{
+		
+Evaluation evaluation = null;
+RBFNetwork  m1 =  new RBFNetwork();
+
+try
+{
+	
+m1.buildClassifier(trains);
+	evaluation= new Evaluation(trains);
+	//System.out.println("h1");
+	evaluation.evaluateModel(m1, tests);
+	//System.out.println("h2");
+} catch (Exception e) 
+{
+
+	e.printStackTrace();
+}
+return evaluation;
+
+}
+
+
 
 
 
@@ -282,8 +485,7 @@ public void compute_avg_stdev_and_insert(String classifier_name, double[] precis
 
 
 
-private void learn_and_insert_random_forest(double[] precision,
-		double[] recall, double[] accuracy, double[] fmeasure, double[] roc_auc) 
+private void learn_and_insert_random_forest(double[] precision,		double[] recall, double[] accuracy, double[] fmeasure, double[] roc_auc) 
 {
 System.out.println("Computing  Random Forest for:"+ type);  
 	
@@ -293,7 +495,7 @@ System.out.println("Computing  Random Forest for:"+ type);
 			    read_train_test_split_file(i);
 			   
 				pre_process_data();
-				result = cross_pred_random_forest();				
+				result = within_pred_random_forest();				
 				
 				precision[i]         =   result.precision(1)*100;
 				recall[i]            =   result.recall(1)*100;
@@ -326,7 +528,7 @@ public static void main(String args[])
 	  //clps.learn_and_insert_decision_table(precision, recall, accuracy,fmeasure,roc_auc);
 	  //clps.learn_and_insert_j48(precision, recall, accuracy,fmeasure,roc_auc);
 	  //clps.learn_and_insert_logistic(precision, recall, accuracy,fmeasure,roc_auc);
-	  clps.learn_and_insert_random_forest(precision, recall, accuracy,fmeasure,roc_auc);
+	//  clps.learn_and_insert_random_forest(precision, recall, accuracy,fmeasure,roc_auc);
 	  //clps.learn_and_insert_naive_bayes(precision, recall, accuracy,fmeasure,roc_auc);
 	  //clps.learn_and_insert_bayes_net(precision, recall, accuracy,fmeasure,roc_auc);
 	  //clps.learn_and_insert_adaboost(precision, recall, accuracy,fmeasure,roc_auc);

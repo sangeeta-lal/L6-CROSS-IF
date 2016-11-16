@@ -70,8 +70,8 @@ String target_project = "cloudstack";
 String db_name ="logging6_isec";
 String result_table = "cross_pred_all_feature_"+type;
 
-String source_file_path = path+"L6-CROSS-IF-ISEC2017\\dataset\\"+source_project+"-arff\\"+type+"\\all-features\\"+source_project+"_"+type+"_all_features.arff";		
-String target_file_path = path+"L6-CROSS-IF-ISEC2017\\dataset\\"+target_project+"-arff\\"+type+"\\all-features\\"+target_project+"_"+type+"_all_features.arff";
+String source_file_path = path+"L6-CROSS-IF\\dataset\\"+source_project+"-arff\\"+type+"\\all-features\\"+source_project+"_"+type+"_all_features.arff";		
+String target_file_path = path+"L6-CROSS-IF\\dataset\\"+target_project+"-arff\\"+type+"\\all-features\\"+target_project+"_"+type+"_all_features.arff";
 
 DataSource trainsource;
 DataSource testsource;
