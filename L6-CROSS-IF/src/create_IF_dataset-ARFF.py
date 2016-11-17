@@ -1,7 +1,7 @@
 import MySQLdb
 import numpy as np
 
-import utill6_isec
+import utill6
 
 
 """=====================================================================================================
