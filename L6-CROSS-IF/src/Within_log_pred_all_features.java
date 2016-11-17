@@ -54,7 +54,7 @@ String driver = "com.mysql.jdbc.Driver";
 //String type = "catch";
 String type = "if";
 
-int iterations=10;
+int iterations=1;
 String source_project="tomcat";
 //String source_project = "cloudstack";
 //String source_project="hd";
@@ -93,7 +93,7 @@ try
 		all_data.randomize(new java.util.Random(i));
 		
 		   
-		int trainSize = (int) Math.round(all_data.numInstances() * 0.5);
+		int trainSize = (int) Math.round(all_data.numInstances() * 0.7);
 		int testSize = all_data.numInstances() - trainSize;
 		
 		trains = new Instances(all_data, 0, trainSize);
@@ -362,6 +362,29 @@ public Evaluation within_rbfnetwork()
 		
 Evaluation evaluation = null;
 RBFNetwork  m1 =  new RBFNetwork();
+
+try
+{
+	
+m1.buildClassifier(trains);
+	evaluation= new Evaluation(trains);
+	//System.out.println("h1");
+	evaluation.evaluateModel(m1, tests);
+	//System.out.println("h2");
+} catch (Exception e) 
+{
+
+	e.printStackTrace();
+}
+return evaluation;
+
+}
+
+public Evaluation within_svm() 
+{
+		
+Evaluation evaluation = null;
+SMO  m1 =  new SMO();
 
 try
 {
@@ -722,6 +745,32 @@ System.out.println("Computing  rbfnetwork  for:"+ type);
 
 
 
+private void learn_and_insert_svm(double[] precision,	double[] recall, double[] accuracy, double[] fmeasure, double[] roc_auc) 
+{
+System.out.println("Computing  SVM  for:"+ type);  
+	
+	//\\=========== Decision table=================================//\\			
+		for(int i=0; i<iterations; i++)
+			 {
+			    read_train_test_split_file(i);
+			   
+				pre_process_data();
+				result = within_svm();				
+				
+				precision[i]         =   result.precision(1)*100;
+				recall[i]            =   result.recall(1)*100;
+				accuracy[i]          =   result.pctCorrect(); //not required to multiply by 100, it is already in percentage
+				fmeasure[i]          =   result.fMeasure(1)*100;
+				roc_auc[i]           =   result.areaUnderROC(1)*100;		
+			
+				//@ Un comment to see the evalauation results
+				//System.out.println(clp.result.toSummaryString());			
+					
+			}
+				  
+		   compute_avg_stdev_and_insert("AdaBoost", precision, recall, accuracy, fmeasure , roc_auc );	   
+}
+
 //This is the main function
 public static void main(String args[])
 {	  	
@@ -738,11 +787,13 @@ public static void main(String args[])
 	  //clps.learn_and_insert_decision_table(precision, recall, accuracy,fmeasure,roc_auc);
 	  //clps.learn_and_insert_j48(precision, recall, accuracy,fmeasure,roc_auc);
 	  //clps.learn_and_insert_logistic(precision, recall, accuracy,fmeasure,roc_auc);
-	  clps.learn_and_insert_random_forest(precision, recall, accuracy,fmeasure,roc_auc);
+	//  clps.learn_and_insert_random_forest(precision, recall, accuracy,fmeasure,roc_auc);
 	  //clps.learn_and_insert_naive_bayes(precision, recall, accuracy,fmeasure,roc_auc);
 	  //clps.learn_and_insert_bayes_net(precision, recall, accuracy,fmeasure,roc_auc);
 	  //clps.learn_and_insert_adaboost(precision, recall, accuracy,fmeasure,roc_auc);
 	  //clps.learn_and_insert_rbfnetwork(precision, recall, accuracy,fmeasure,roc_auc);
+	//clps.learn_and_insert_svm(precision, recall, accuracy,fmeasure,roc_auc);
+	    
     
      }//main	
 	

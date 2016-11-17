@@ -67,7 +67,7 @@ String target_project = "cloudstack";
 //String target_project = "tomcat";
 //String target_project="cloudstack";
 
-String db_name ="logging6_isec";
+String db_name ="logging6_crossif";
 String result_table = "cross_pred_all_feature_"+type;
 
 String source_file_path = path+"L6-CROSS-IF\\dataset\\"+source_project+"-arff\\"+type+"\\all-features\\"+source_project+"_"+type+"_all_features.arff";		
@@ -382,6 +382,32 @@ m1.buildClassifier(trains);
 return evaluation;
 
 }
+
+
+//This function is used to train and test a using a given classifier
+public Evaluation cross_pred_svm() 
+{
+		
+Evaluation evaluation = null;
+SMO  m1 =  new SMO();
+
+try
+{
+	
+m1.buildClassifier(trains);
+	evaluation= new Evaluation(trains);
+	//System.out.println("h1");
+	evaluation.evaluateModel(m1, tests);
+	//System.out.println("h2");
+} catch (Exception e) 
+{
+
+	e.printStackTrace();
+}
+return evaluation;
+
+}
+
 
 
 public Connection initdb(String db_name)
@@ -722,6 +748,33 @@ System.out.println("Computing  rbfnetwork  for:"+ type);
 
 
 
+private void learn_and_insert_svm(double[] precision,	double[] recall, double[] accuracy, double[] fmeasure, double[] roc_auc) 
+{
+System.out.println("Computing  svm  for:"+ type);  
+	
+	//\\=========== Decision table=================================//\\			
+		for(int i=0; i<iterations; i++)
+			 {
+			    read_file();
+			   
+				pre_process_data();
+				result = cross_pred_svm();				
+				
+				precision[i]         =   result.precision(1)*100;
+				recall[i]            =   result.recall(1)*100;
+				accuracy[i]          =   result.pctCorrect(); //not required to multiply by 100, it is already in percentage
+				fmeasure[i]          =   result.fMeasure(1)*100;
+				roc_auc[i]           =   result.areaUnderROC(1)*100;		
+			
+				//@ Un comment to see the evalauation results
+				//System.out.println(clp.result.toSummaryString());			
+					
+			}
+				  
+		   compute_avg_stdev_and_insert("RBFNetwork", precision, recall, accuracy, fmeasure , roc_auc );	   
+}
+
+
 
 //This is the main function
 public static void main(String args[])
@@ -744,7 +797,10 @@ public static void main(String args[])
 	  //clps.learn_and_insert_bayes_net(precision, recall, accuracy,fmeasure,roc_auc);
 	  //clps.learn_and_insert_adaboost(precision, recall, accuracy,fmeasure,roc_auc);
 	  //clps.learn_and_insert_rbfnetwork(precision, recall, accuracy,fmeasure,roc_auc);
-    
+	//clps.learn_and_insert_svm(precision, recall, accuracy,fmeasure,roc_auc);
+	    
+	  
+	  
      }//main	
 	
 }// classs
