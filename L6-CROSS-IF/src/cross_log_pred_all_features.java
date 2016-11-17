@@ -157,6 +157,103 @@ public void pre_process_data()
 }
 
 
+public Evaluation cross_pred_adtree() 
+{
+		
+Evaluation evaluation = null;
+ADTree  m1 =  new ADTree();
+
+try
+{
+	
+    m1.buildClassifier(trains);
+	evaluation= new Evaluation(trains);
+	//System.out.println("h1");
+	evaluation.evaluateModel(m1, tests);
+	//System.out.println("h2");
+} catch (Exception e) 
+{
+
+	e.printStackTrace();
+}
+return evaluation;
+
+}
+
+//This function is used to train and test a using a given classifier
+public Evaluation cross_pred_decision_table() 
+{
+		
+Evaluation evaluation = null;
+DecisionTable  m1 =  new DecisionTable();
+
+try
+{
+	
+  m1.buildClassifier(trains);
+	evaluation= new Evaluation(trains);
+	//System.out.println("h1");
+	evaluation.evaluateModel(m1, tests);
+	//System.out.println("h2");
+} catch (Exception e) 
+{
+
+	e.printStackTrace();
+}
+return evaluation;
+
+}
+
+//This function is used to train and test a using a given classifier
+public Evaluation cross_pred_j48() 
+{
+		
+Evaluation evaluation = null;
+J48  m1 =  new J48();
+
+try
+{
+	
+  m1.buildClassifier(trains);
+	evaluation= new Evaluation(trains);
+	//System.out.println("h1");
+	evaluation.evaluateModel(m1, tests);
+	//System.out.println("h2");
+} catch (Exception e) 
+{
+
+	e.printStackTrace();
+}
+return evaluation;
+
+}
+
+
+//This function is used to train and test a using a given classifier
+public Evaluation cross_pred_logistic() 
+{
+		
+Evaluation evaluation = null;
+Logistic  m1 =  new Logistic();
+
+try
+{
+	
+  m1.buildClassifier(trains);
+	evaluation= new Evaluation(trains);
+	//System.out.println("h1");
+	evaluation.evaluateModel(m1, tests);
+	//System.out.println("h2");
+} catch (Exception e) 
+{
+
+	e.printStackTrace();
+}
+return evaluation;
+
+}
+
+
 
 //This function is used to train and test a using a given classifier
 public Evaluation cross_pred_random_forest() 
@@ -187,6 +284,106 @@ return evaluation;
 
 }
 	
+
+
+//This function is used to train and test a using a given classifier
+public Evaluation cross_pred_naive_bayes() 
+{
+		
+Evaluation evaluation = null;
+NaiveBayes  m1 =  new NaiveBayes();
+
+try
+{
+	
+m1.buildClassifier(trains);
+	evaluation= new Evaluation(trains);
+	//System.out.println("h1");
+	evaluation.evaluateModel(m1, tests);
+	//System.out.println("h2");
+} catch (Exception e) 
+{
+
+	e.printStackTrace();
+}
+return evaluation;
+
+}
+
+
+//This function is used to train and test a using a given classifier
+public Evaluation cross_pred_bayes_net() 
+{
+		
+Evaluation evaluation = null;
+BayesNet  m1 =  new BayesNet();
+
+try
+{
+	
+m1.buildClassifier(trains);
+	evaluation= new Evaluation(trains);
+	//System.out.println("h1");
+	evaluation.evaluateModel(m1, tests);
+	//System.out.println("h2");
+} catch (Exception e) 
+{
+
+	e.printStackTrace();
+}
+return evaluation;
+
+}
+
+//This function is used to train and test a using a given classifier
+public Evaluation cross_pred_adaboost() 
+{
+		
+Evaluation evaluation = null;
+AdaBoostM1  m1 =  new AdaBoostM1();
+
+try
+{
+	
+m1.buildClassifier(trains);
+	evaluation= new Evaluation(trains);
+	//System.out.println("h1");
+	evaluation.evaluateModel(m1, tests);
+	//System.out.println("h2");
+} catch (Exception e) 
+{
+
+	e.printStackTrace();
+}
+return evaluation;
+
+}
+
+//This function is used to train and test a using a given classifier
+public Evaluation cross_pred_rbfnetwork() 
+{
+		
+Evaluation evaluation = null;
+RBFNetwork  m1 =  new RBFNetwork();
+
+try
+{
+	
+m1.buildClassifier(trains);
+	evaluation= new Evaluation(trains);
+	//System.out.println("h1");
+	evaluation.evaluateModel(m1, tests);
+	//System.out.println("h2");
+} catch (Exception e) 
+{
+
+	e.printStackTrace();
+}
+return evaluation;
+
+}
+
+
 
 
 
@@ -279,6 +476,120 @@ public void compute_avg_stdev_and_insert(String classifier_name, double[] precis
 
 
 
+private void learn_and_insert_adtree(double[] precision,		double[] recall, double[] accuracy, double[] fmeasure, double[] roc_auc) 
+{
+System.out.println("Computing  ADTree for:"+ type);  
+	
+	//\\=========== Decision table=================================//\\			
+		for(int i=0; i<iterations; i++)
+			 {
+			    read_file();
+			   
+				pre_process_data();
+				result = cross_pred_adtree();				
+				
+				precision[i]         =   result.precision(1)*100;
+				recall[i]            =   result.recall(1)*100;
+				accuracy[i]          =   result.pctCorrect(); //not required to multiply by 100, it is already in percentage
+				fmeasure[i]          =   result.fMeasure(1)*100;
+				roc_auc[i]           =   result.areaUnderROC(1)*100;		
+			
+				//@ Un comment to see the evalauation results
+				//System.out.println(clp.result.toSummaryString());			
+					
+			}
+				  
+		   compute_avg_stdev_and_insert("ADTree", precision, recall, accuracy, fmeasure , roc_auc );	   
+}
+
+
+private void learn_and_insert_decision_table(double[] precision,		double[] recall, double[] accuracy, double[] fmeasure, double[] roc_auc) 
+{
+System.out.println("Computing  Decision Table for:"+ type);  
+	
+	//\\=========== Decision table=================================//\\			
+		for(int i=0; i<iterations; i++)
+			 {
+			    read_file();
+			   
+				pre_process_data();
+				result = cross_pred_decision_table();				
+				
+				precision[i]         =   result.precision(1)*100;
+				recall[i]            =   result.recall(1)*100;
+				accuracy[i]          =   result.pctCorrect(); //not required to multiply by 100, it is already in percentage
+				fmeasure[i]          =   result.fMeasure(1)*100;
+				roc_auc[i]           =   result.areaUnderROC(1)*100;		
+			
+				//@ Un comment to see the evalauation results
+				//System.out.println(clp.result.toSummaryString());			
+					
+			}
+				  
+		   compute_avg_stdev_and_insert(" Decision Table", precision, recall, accuracy, fmeasure , roc_auc );	   
+}
+
+
+
+
+private void learn_and_insert_j48(double[] precision,	double[] recall, double[] accuracy, double[] fmeasure, double[] roc_auc) 
+{
+System.out.println("Computing  J48  for:"+ type);  
+	
+	//\\=========== Decision table=================================//\\			
+		for(int i=0; i<iterations; i++)
+			 {
+			    read_file();
+			   
+				pre_process_data();
+				result = cross_pred_j48();				
+				
+				precision[i]         =   result.precision(1)*100;
+				recall[i]            =   result.recall(1)*100;
+				accuracy[i]          =   result.pctCorrect(); //not required to multiply by 100, it is already in percentage
+				fmeasure[i]          =   result.fMeasure(1)*100;
+				roc_auc[i]           =   result.areaUnderROC(1)*100;		
+			
+				//@ Un comment to see the evalauation results
+				//System.out.println(clp.result.toSummaryString());			
+					
+			}
+				  
+		   compute_avg_stdev_and_insert(" J48", precision, recall, accuracy, fmeasure , roc_auc );	   
+}
+
+
+
+private void learn_and_insert_logistic(double[] precision,	double[] recall, double[] accuracy, double[] fmeasure, double[] roc_auc) 
+{
+System.out.println("Computing  logistic  for:"+ type);  
+	
+	//\\=========== Decision table=================================//\\			
+		for(int i=0; i<iterations; i++)
+			 {
+			    read_file();
+			   
+				pre_process_data();
+				result = cross_pred_j48();				
+				
+				precision[i]         =   result.precision(1)*100;
+				recall[i]            =   result.recall(1)*100;
+				accuracy[i]          =   result.pctCorrect(); //not required to multiply by 100, it is already in percentage
+				fmeasure[i]          =   result.fMeasure(1)*100;
+				roc_auc[i]           =   result.areaUnderROC(1)*100;		
+			
+				//@ Un comment to see the evalauation results
+				//System.out.println(clp.result.toSummaryString());			
+					
+			}
+				  
+		   compute_avg_stdev_and_insert("Logistic", precision, recall, accuracy, fmeasure , roc_auc );	   
+}
+
+
+
+
+
 private void learn_and_insert_random_forest(double[] precision,
 		double[] recall, double[] accuracy, double[] fmeasure, double[] roc_auc) 
 {
@@ -307,6 +618,116 @@ System.out.println("Computing  Random Forest for:"+ type);
 }
 
 
+
+private void learn_and_insert_naive_bayes(double[] precision,	double[] recall, double[] accuracy, double[] fmeasure, double[] roc_auc) 
+{
+System.out.println("Computing  naive bayes  for:"+ type);  
+	
+	//\\=========== Decision table=================================//\\			
+		for(int i=0; i<iterations; i++)
+			 {
+			    read_file();
+			   
+				pre_process_data();
+				result = cross_pred_naive_bayes();				
+				
+				precision[i]         =   result.precision(1)*100;
+				recall[i]            =   result.recall(1)*100;
+				accuracy[i]          =   result.pctCorrect(); //not required to multiply by 100, it is already in percentage
+				fmeasure[i]          =   result.fMeasure(1)*100;
+				roc_auc[i]           =   result.areaUnderROC(1)*100;		
+			
+				//@ Un comment to see the evalauation results
+				//System.out.println(clp.result.toSummaryString());			
+					
+			}
+				  
+		   compute_avg_stdev_and_insert("Naive Bayes", precision, recall, accuracy, fmeasure , roc_auc );	   
+}
+
+
+private void learn_and_insert_bayes_net(double[] precision,	double[] recall, double[] accuracy, double[] fmeasure, double[] roc_auc) 
+{
+System.out.println("Computing  bayes net  for:"+ type);  
+	
+	//\\=========== Decision table=================================//\\			
+		for(int i=0; i<iterations; i++)
+			 {
+			    read_file();
+			   
+				pre_process_data();
+				result = cross_pred_bayes_net();				
+				
+				precision[i]         =   result.precision(1)*100;
+				recall[i]            =   result.recall(1)*100;
+				accuracy[i]          =   result.pctCorrect(); //not required to multiply by 100, it is already in percentage
+				fmeasure[i]          =   result.fMeasure(1)*100;
+				roc_auc[i]           =   result.areaUnderROC(1)*100;		
+			
+				//@ Un comment to see the evalauation results
+				//System.out.println(clp.result.toSummaryString());			
+					
+			}
+				  
+		   compute_avg_stdev_and_insert("Bayes Net", precision, recall, accuracy, fmeasure , roc_auc );	   
+}
+
+
+private void learn_and_insert_adaboost(double[] precision,	double[] recall, double[] accuracy, double[] fmeasure, double[] roc_auc) 
+{
+System.out.println("Computing  bayes net  for:"+ type);  
+	
+	//\\=========== Decision table=================================//\\			
+		for(int i=0; i<iterations; i++)
+			 {
+			    read_file();
+			   
+				pre_process_data();
+				result = cross_pred_adaboost();				
+				
+				precision[i]         =   result.precision(1)*100;
+				recall[i]            =   result.recall(1)*100;
+				accuracy[i]          =   result.pctCorrect(); //not required to multiply by 100, it is already in percentage
+				fmeasure[i]          =   result.fMeasure(1)*100;
+				roc_auc[i]           =   result.areaUnderROC(1)*100;		
+			
+				//@ Un comment to see the evalauation results
+				//System.out.println(clp.result.toSummaryString());			
+					
+			}
+				  
+		   compute_avg_stdev_and_insert("AdaBoost", precision, recall, accuracy, fmeasure , roc_auc );	   
+}
+
+private void learn_and_insert_rbfnetwork(double[] precision,	double[] recall, double[] accuracy, double[] fmeasure, double[] roc_auc) 
+{
+System.out.println("Computing  rbfnetwork  for:"+ type);  
+	
+	//\\=========== Decision table=================================//\\			
+		for(int i=0; i<iterations; i++)
+			 {
+			    read_file();
+			   
+				pre_process_data();
+				result = cross_pred_rbfnetwork();				
+				
+				precision[i]         =   result.precision(1)*100;
+				recall[i]            =   result.recall(1)*100;
+				accuracy[i]          =   result.pctCorrect(); //not required to multiply by 100, it is already in percentage
+				fmeasure[i]          =   result.fMeasure(1)*100;
+				roc_auc[i]           =   result.areaUnderROC(1)*100;		
+			
+				//@ Un comment to see the evalauation results
+				//System.out.println(clp.result.toSummaryString());			
+					
+			}
+				  
+		   compute_avg_stdev_and_insert("RBFNetwork", precision, recall, accuracy, fmeasure , roc_auc );	   
+}
+
+
+
+
 //This is the main function
 public static void main(String args[])
 {	  	
@@ -323,7 +744,7 @@ public static void main(String args[])
 	  //clps.learn_and_insert_decision_table(precision, recall, accuracy,fmeasure,roc_auc);
 	  //clps.learn_and_insert_j48(precision, recall, accuracy,fmeasure,roc_auc);
 	  //clps.learn_and_insert_logistic(precision, recall, accuracy,fmeasure,roc_auc);
-	  clps.learn_and_insert_random_forest(precision, recall, accuracy,fmeasure,roc_auc);
+	  //clps.learn_and_insert_random_forest(precision, recall, accuracy,fmeasure,roc_auc);
 	  //clps.learn_and_insert_naive_bayes(precision, recall, accuracy,fmeasure,roc_auc);
 	  //clps.learn_and_insert_bayes_net(precision, recall, accuracy,fmeasure,roc_auc);
 	  //clps.learn_and_insert_adaboost(precision, recall, accuracy,fmeasure,roc_auc);

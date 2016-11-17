@@ -667,7 +667,7 @@ System.out.println("Computing  bayes net  for:"+ type);
 }
 
 
-private void learn_and_insert_adaboostt(double[] precision,	double[] recall, double[] accuracy, double[] fmeasure, double[] roc_auc) 
+private void learn_and_insert_adaboost(double[] precision,	double[] recall, double[] accuracy, double[] fmeasure, double[] roc_auc) 
 {
 System.out.println("Computing  bayes net  for:"+ type);  
 	
