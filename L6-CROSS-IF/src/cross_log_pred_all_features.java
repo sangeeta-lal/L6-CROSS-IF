@@ -384,9 +384,6 @@ return evaluation;
 }
 
 
-
-
-
 public Connection initdb(String db_name)
 {
 try {
@@ -585,8 +582,6 @@ System.out.println("Computing  logistic  for:"+ type);
 				  
 		   compute_avg_stdev_and_insert("Logistic", precision, recall, accuracy, fmeasure , roc_auc );	   
 }
-
-
 
 
 
