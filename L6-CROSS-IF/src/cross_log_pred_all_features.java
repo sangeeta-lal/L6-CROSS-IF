@@ -549,7 +549,7 @@ System.out.println("Computing  Decision Table for:"+ type);
 					
 			}
 				  
-		   compute_avg_stdev_and_insert(" Decision Table", precision, recall, accuracy, fmeasure , roc_auc );	   
+		   compute_avg_stdev_and_insert("Decision Table", precision, recall, accuracy, fmeasure , roc_auc );	   
 }
 
 
@@ -578,7 +578,7 @@ System.out.println("Computing  J48  for:"+ type);
 					
 			}
 				  
-		   compute_avg_stdev_and_insert(" J48", precision, recall, accuracy, fmeasure , roc_auc );	   
+		   compute_avg_stdev_and_insert("J48", precision, recall, accuracy, fmeasure , roc_auc );	   
 }
 
 
@@ -593,7 +593,7 @@ System.out.println("Computing  logistic  for:"+ type);
 			    read_file();
 			   
 				pre_process_data();
-				result = cross_pred_j48();				
+				result = cross_pred_logistic();				
 				
 				precision[i]         =   result.precision(1)*100;
 				recall[i]            =   result.recall(1)*100;
@@ -696,7 +696,7 @@ System.out.println("Computing  bayes net  for:"+ type);
 
 private void learn_and_insert_adaboost(double[] precision,	double[] recall, double[] accuracy, double[] fmeasure, double[] roc_auc) 
 {
-System.out.println("Computing  bayes net  for:"+ type);  
+System.out.println("Computing  Adaboost for:"+ type);  
 	
 	//\\=========== Decision table=================================//\\			
 		for(int i=0; i<iterations; i++)
@@ -771,7 +771,7 @@ System.out.println("Computing  svm  for:"+ type);
 					
 			}
 				  
-		   compute_avg_stdev_and_insert("RBFNetwork", precision, recall, accuracy, fmeasure , roc_auc );	   
+		   compute_avg_stdev_and_insert("SVM", precision, recall, accuracy, fmeasure , roc_auc );	   
 }
 
 
