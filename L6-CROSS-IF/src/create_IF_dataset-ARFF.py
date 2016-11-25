@@ -35,9 +35,9 @@ password="1234"
 database="logging6_crossif"
 main_source_table = project+"_if_training6_crossif"  # from this table we have to take the data
 path = "F:\\Research\\L6-CROSS-IF\\dataset\\"
-all_features_db_file_path=path+project+"-arff\\if\\all-features\\"+project+"_if_all_features.arff"
-num_features_db_file_path=path+project+"-arff\\if\\num-features\\"+project+"_if_num_features.arff"
-bool_features_db_file_path=path+project+"-arff\\if\\bool-features\\"+project+"_if_bool_features.arff"
+all_features_db_file_path=path+project+"-arff\\if\\"+project+"_if_all_features.arff"
+num_features_db_file_path=path+project+"-arff\\if\\"+project+"_if_num_features.arff"
+bool_features_db_file_path=path+project+"-arff\\if\\"+project+"_if_bool_features.arff"
 """
 
 port=3307
@@ -46,9 +46,9 @@ password="sangeetal"
 database="logging6_crossif"
 main_source_table = project+"_if_training6_crossif"  # from this table we have to take the data
 path = "E:\\Sangeeta\\Research\\L6-CROSS-IF\\dataset\\"
-all_features_db_file_path=path+project+"-arff\\if\\all-features\\"+project+"_if_all_features.arff"
-num_features_db_file_path=path+project+"-arff\\if\\num-features\\"+project+"_if_num_features.arff"
-bool_features_db_file_path=path+project+"-arff\\if\\bool-features\\"+project+"_if_bool_features.arff"
+all_features_db_file_path=path+project+"-arff\\if\\"+project+"_if_all_features.arff"
+num_features_db_file_path=path+project+"-arff\\if\\"+project+"_if_num_features.arff"
+bool_features_db_file_path=path+project+"-arff\\if\\"+project+"_if_bool_features.arff"
 #"""
 
 
