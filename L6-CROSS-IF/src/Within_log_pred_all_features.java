@@ -31,15 +31,12 @@ import weka.filters.unsupervised.attribute.StringToWordVector;
 public class Within_log_pred_all_features
 {
 
-
-
 /*
 String path = "E:\\Sangeeta\\Research\\";
 String user_name =  "sangeetal";
 String password = "sangeetal";
 String url = "jdbc:mysql://localhost:3307/";
-String driver = "com.mysql.jdbc.Driver"; 
- 
+String driver = "com.mysql.jdbc.Driver";  
 // */
 
 ///*
