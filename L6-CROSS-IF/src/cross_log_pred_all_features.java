@@ -130,7 +130,7 @@ public void pre_process_data()
 	
 	  tests = Filter.useFilter(tests, tfidf_filter);
  
-     
+     /*
 
      //2. Standarize  (not normalize because normalization is affected by outliers very easily)   	  
 	  Standardize  std_filter =  new Standardize();
@@ -146,7 +146,7 @@ public void pre_process_data()
      trains = Filter.useFilter(trains, dfilter);
      
      tests = Filter.useFilter(tests, dfilter);	      
-     
+     */
 
 
 	} catch (Exception e) {
