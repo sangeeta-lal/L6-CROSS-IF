@@ -51,7 +51,7 @@ String driver = "com.mysql.jdbc.Driver";
 //String type = "catch";
 String type = "if";
 
-int iterations=1;
+int iterations=5;
 String source_project="tomcat";
 //String source_project = "cloudstack";
 //String source_project="hd";
@@ -60,7 +60,7 @@ String source_project="tomcat";
 String db_name ="logging6_crossif";
 String result_table = "within_pred_all_feature_"+type;
 
-String source_file_path = path+"L6-CROSS-IF\\dataset\\"+source_project+"-arff\\"+type+"\\all-features\\"+source_project+"_"+type+"_all_features.arff";		
+String source_file_path = path+"L6-CROSS-IF\\dataset\\"+source_project+"-arff\\"+type+"\\"+source_project+"_"+type+"_all_features.arff";		
 
 DataSource allsource;
 DataSource trainsource;
