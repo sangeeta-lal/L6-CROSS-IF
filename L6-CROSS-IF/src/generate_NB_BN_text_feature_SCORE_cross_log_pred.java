@@ -159,14 +159,15 @@ public void pre_process_data()
 }
 
 //This function is used to train and test a using a given classifier
-public void generate_naive_bayes_score() 
+public void generate_nb_bn_score(Classifier m1) 
 {
 
     read_file();
 	pre_process_data();
 	
 	Evaluation evaluation = null;
-	NaiveBayes  m1 =  new NaiveBayes();
+	//NaiveBayes  m1 =  new NaiveBayes();
+	System.out.println("Classifier="+m1.getClass().getName());
 
 	try
 	{
@@ -200,7 +201,7 @@ public void generate_naive_bayes_score()
 						score= m1.distributionForInstance(curr);
 	
 						String update_score = "update "+ result_table +"  set "+ source_project+ "_to_"+target_project+"_nb_score=" +score[1];
-						//System.out.println(update_score);
+						System.out.println("update="+ j);
 	
 						java.sql.Statement stmt = conn.createStatement();
 						stmt.executeUpdate(update_score);
@@ -276,34 +277,6 @@ try {
 
 
 
-/*
-private void learn_and_insert_naive_bayes(double[] precision,	double[] recall, double[] accuracy, double[] fmeasure, double[] roc_auc) 
-{
-System.out.println("Computing  naive bayes  for:"+ type);  
-	
-	//\\=========== Decision table=================================//\\			
-		for(int i=0; i<iterations; i++)
-			 {
-			    read_file();
-			   
-				pre_process_data();
-				result = generate_naive_bayes_score();				
-				
-				precision[i]         =   result.precision(1)*100;
-				recall[i]            =   result.recall(1)*100;
-				accuracy[i]          =   result.pctCorrect(); //not required to multiply by 100, it is already in percentage
-				fmeasure[i]          =   result.fMeasure(1)*100;
-				roc_auc[i]           =   result.areaUnderROC(1)*100;		
-			
-				//@ Un comment to see the evalauation results
-				//System.out.println(clp.result.toSummaryString());			
-					
-			}
-				  
-		   compute_avg_stdev_and_insert("Naive Bayes", precision, recall, accuracy, fmeasure , roc_auc );	   
-}
-*/
-
 
 
 //generate fids
@@ -371,15 +344,10 @@ public static void main(String args[])
 	  
 	  
 	 
-	  gnbs.generate_naive_bayes_score();
-	  //gnbs.learn_and_insert_bayes_net(precision, recall, accuracy,fmeasure,roc_auc);
+	  //gnbs.generate_nb_bn_score(new NaiveBayes());
+	 // gnbs.generate_nb_bn_score(new BayesNet());
 	    
-	  /*double precision[]   = new double[clps.iterations];
-	  double recall[]      = new double[clps.iterations];
-	  double accuracy[]    = new double[clps.iterations];
-	  double fmeasure[]    = new double[clps.iterations];	
-	  double roc_auc[]     = new double[clps.iterations];*/
-		
+	 	
 	  
      }//main	
 
