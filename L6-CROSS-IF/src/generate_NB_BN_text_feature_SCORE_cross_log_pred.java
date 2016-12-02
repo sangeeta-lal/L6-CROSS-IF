@@ -391,7 +391,7 @@ private void get_if_ids()
 		while(rs.next())
 		{
 			int id = rs.getInt(0);
-			if_ids[i] = id;
+			if_ids[i] =  id;
 			i++;
 			
 			System.out.println(" id="+id);
