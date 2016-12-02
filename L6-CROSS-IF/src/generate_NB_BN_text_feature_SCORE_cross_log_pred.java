@@ -70,7 +70,7 @@ String target_project = "cloudstack";
 //String target_project="cloudstack";
 
 String db_name ="logging6_crossif";
-String result_table = source_project+"_"+type+"_training_nb_bn_score";
+String result_table = target_project+"_"+type+"_training_nb_bn_score";  //score will be generated and updated in the target table using source table
 String source_file_path = path+"L6-CROSS-IF\\dataset\\"+source_project+"-arff\\"+type+"\\"+source_project+"_"+type+"_text_features.arff";		
 String target_file_path = path+"L6-CROSS-IF\\dataset\\"+target_project+"-arff\\"+type+"\\"+target_project+"_"+type+"_text_features.arff";
 
@@ -174,21 +174,54 @@ evaluation= new Evaluation(trains);
 
 /////
 
-for (int j = 0; j < tests.numInstances(); j++) 
-{
+conn = initdb(db_name);
+if(conn==null)
+ {
+	System.out.println(" Databasse connection is null");
+	
+ } 
+ 
+else
+  {
+	 try 
+	 	{
+
+		 for (int j = 0; j < tests.numInstances(); j++) 
+		 	{
     
-	double score[] ;
-	Instance curr  =  tests.instance(j);  
-	double actual = curr.classValue();
+			 double score[] ;
+			 Instance curr  =  tests.instance(j);  
+			 double actual = curr.classValue();
 
  
-	score= m1.distributionForInstance(curr);
+			 score= m1.distributionForInstance(curr);
+	
+	
+	
+			 String update_score = "update "+ result_table +"  set "+ source_project+ "_to_"+target_project+"_nb_score=" +score;
+	
+    	
+    		 java.sql.Statement stmt = conn.createStatement();
+    		 stmt.executeUpdate(update_score);
+		
 
+		 	}//for
+		
+		stmt.close();
+		conn.close();
+		
+	} catch (SQLException e) 
+	 {
+		
+		e.printStackTrace();
+	}
+	
+	
+	
 /////
 
 }
 
-	evaluation.evaluateModel(m1, tests);
 
 } catch (Exception e) 
 {
@@ -244,77 +277,8 @@ try {
 }
 
 
-//This method computes the average value  and std. deviation and inserts them in a db
-public void compute_avg_stdev_and_insert(String classifier_name, double[] precision, double[] recall, double[] accuracy, double[] fmeasure, double[] roc_auc) 
-{
 
-// computes following metrics:
-	/*
-	 * 1. Precision
-	 * 2. Recall
-	 * 3. Accuracy
-	 * 4. F measure
-	 * 5. ROC-AUC
-	 * */
-
-	double avg_precision = 0.0;
-	double avg_recall = 0.0;
-	double avg_accuracy = 0.0;
-	double avg_fmeasure = 0.0;	
-	double avg_roc_auc = 0.0;
-	
-	double std_precision = 0.0;
-	double std_recall = 0.0;
-	double std_accuracy = 0.0;
-	double std_fmeasure = 0.0;	
-	double std_roc_auc = 0.0;
-	//double total_instances = 0.0;
-	
-	util6_met  ut = new util6_met();
-	
-	avg_precision   = ut.compute_mean(precision);
-	avg_recall      = ut.compute_mean(recall);
-	avg_fmeasure    = ut.compute_mean(fmeasure);
-	avg_accuracy    = ut.compute_mean(accuracy);
-	avg_roc_auc     = ut.compute_mean(roc_auc);
-	
-	std_precision   = ut.compute_stddev(precision);
-	std_recall      = ut.compute_stddev(recall);
-	std_fmeasure    = ut.compute_stddev(fmeasure);
-	std_accuracy    = ut.compute_stddev(accuracy);
-	std_roc_auc     = ut.compute_stddev(roc_auc);
-	
-		
-  // System.out.println("model ="+classifier_name +"   Acc = "+ avg_accuracy + "  size="+ pred_10_db.size());
-	
-	String insert_str =  " insert into "+ result_table +"  values("+ "'"+ source_project+"','"+ target_project+"','"+ classifier_name+"',"+ trains.numInstances() + ","+ tests.numInstances()+","
-	                       + iterations+","+trains.numAttributes() +","+avg_precision+","+ std_precision+","+ avg_recall+","+ std_recall+","+avg_fmeasure+","+std_fmeasure+","+ avg_accuracy 
-	                       +","+std_accuracy+","+ avg_roc_auc+","+ std_roc_auc+" )";
-	System.out.println("Inserting="+ insert_str);
-	
-	conn = initdb(db_name);
-	if(conn==null)
-	{
-		System.out.println(" Databasse connection is null");
-		
-	}
-	
-	try 
-	{
-		stmt = conn.createStatement();
-		stmt.executeUpdate(insert_str);
-		stmt.close();
-		conn.close();
-	} catch (SQLException e) {
-		
-		e.printStackTrace();
-	}
-
-}
-
-
-
-
+/*
 private void learn_and_insert_naive_bayes(double[] precision,	double[] recall, double[] accuracy, double[] fmeasure, double[] roc_auc) 
 {
 System.out.println("Computing  naive bayes  for:"+ type);  
@@ -340,33 +304,8 @@ System.out.println("Computing  naive bayes  for:"+ type);
 				  
 		   compute_avg_stdev_and_insert("Naive Bayes", precision, recall, accuracy, fmeasure , roc_auc );	   
 }
+*/
 
-
-private void learn_and_insert_bayes_net(double[] precision,	double[] recall, double[] accuracy, double[] fmeasure, double[] roc_auc) 
-{
-System.out.println("Computing  bayes net  for:"+ type);  
-	
-	//\\=========== Decision table=================================//\\			
-		for(int i=0; i<iterations; i++)
-			 {
-			    read_file();
-			   
-				pre_process_data();
-				result = cross_pred_bayes_net();				
-				
-				precision[i]         =   result.precision(1)*100;
-				recall[i]            =   result.recall(1)*100;
-				accuracy[i]          =   result.pctCorrect(); //not required to multiply by 100, it is already in percentage
-				fmeasure[i]          =   result.fMeasure(1)*100;
-				roc_auc[i]           =   result.areaUnderROC(1)*100;		
-			
-				//@ Un comment to see the evalauation results
-				//System.out.println(clp.result.toSummaryString());			
-					
-			}
-				  
-		   compute_avg_stdev_and_insert("Bayes Net", precision, recall, accuracy, fmeasure , roc_auc );	   
-}
 
 
 //generate fids
@@ -397,7 +336,7 @@ private void get_if_ids()
 			if_ids  =   new int[no_of_id];
 			
 			
-			System.out.println(" id="+no_of_id);
+			System.out.println(" no of id="+no_of_id);
 		}
 		
 		
@@ -434,7 +373,7 @@ public static void main(String args[])
 	  
 	  
 	 
-	  //gnbs.learn_and_insert_naive_bayes(precision, recall, accuracy,fmeasure,roc_auc);
+	  gnbs.generate_naive_bayes_score();
 	  //gnbs.learn_and_insert_bayes_net(precision, recall, accuracy,fmeasure,roc_auc);
 	    
 	  /*double precision[]   = new double[clps.iterations];
