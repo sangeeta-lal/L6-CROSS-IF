@@ -373,7 +373,6 @@ System.out.println("Computing  bayes net  for:"+ type);
 private void get_if_ids()
 {
 	
-	String get_str = "select if_id from "+  result_table;
 	
 	Connection conn1 = initdb(db_name);
 	if(conn1==null)
@@ -382,15 +381,34 @@ private void get_if_ids()
 		
 	}
 	
+	String row_count = "select count(*) from " + result_table;
+	String get_str = "select if_id from "+  result_table;
+	
+	
+	
 	try 
 	{
 		java.sql.Statement stmt1 = conn1.createStatement();
-		ResultSet rs = stmt1.executeQuery(get_str);
+		
+		ResultSet rs = stmt1.executeQuery(row_count);
+		while(rs.next())
+		{
+			int no_of_id = rs.getInt(1);
+			if_ids  =   new int[no_of_id];
+			
+			
+			System.out.println(" id="+no_of_id);
+		}
+		
+		
+		
+		
+		rs = stmt1.executeQuery(get_str);
 		
 	    int i=0;
 		while(rs.next())
 		{
-			int id = rs.getInt(0);
+			int id = rs.getInt(1);
 			if_ids[i]  =  id;
 			i++;
 			
