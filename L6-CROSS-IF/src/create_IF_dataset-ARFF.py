@@ -14,11 +14,11 @@ import utill6
 ======================================================================================================"""
 
 #Project
-#"""
+"""
 project= "tomcat"
 title = 'Tomcat'
 #"""
-"""
+#"""
 project =  "cloudstack"
 title = 'CloudStack'
 #"""
@@ -718,9 +718,10 @@ def create_different_text_features_files(if_expr_text_features_db_file_path, til
 
 #===================================================#
 #  call- functions                                  #
-create_one_complete_all_features(all_features_db_file_path)
-create_one_complete_num_features(num_features_db_file_path)
-create_one_complete_bool_features(bool_features_db_file_path)
+
+#create_one_complete_all_features(all_features_db_file_path)
+#create_one_complete_num_features(num_features_db_file_path)
+#create_one_complete_bool_features(bool_features_db_file_path)
 create_one_complete_text_features(text_features_db_file_path)
 
 

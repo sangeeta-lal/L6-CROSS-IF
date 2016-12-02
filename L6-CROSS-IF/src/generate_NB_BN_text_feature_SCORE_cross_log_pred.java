@@ -94,7 +94,7 @@ public void read_file()
 try 
 	{
 	
-	//https://weka.wikispaces.com/Remove+Attributes   // Check this link for remove filter
+	
 		trainsource = new DataSource(source_file_path);
 		trains = trainsource.getDataSet();
 		trains.setClassIndex(0);
@@ -107,7 +107,7 @@ try
 		instance_count_source = trains.numInstances();
 		instance_count_target = tests.numInstances();
 		
-		//System.out.println("Instance count source ="+ instance_count_source + "  Instance count target="+ instance_count_target);
+		System.out.println("Instance count source ="+ instance_count_source + "  Instance count target="+ instance_count_target+  source_file_path);
    
 	} catch (Exception e) 
 	{
@@ -159,76 +159,74 @@ public void pre_process_data()
 }
 
 //This function is used to train and test a using a given classifier
-public Evaluation generate_naive_bayes_score() 
+public void generate_naive_bayes_score() 
 {
-		
-Evaluation evaluation = null;
-NaiveBayes  m1 =  new NaiveBayes();
 
-try
-{
+    read_file();
+	pre_process_data();
 	
-m1.buildClassifier(trains);
-evaluation= new Evaluation(trains);
+	Evaluation evaluation = null;
+	NaiveBayes  m1 =  new NaiveBayes();
+
+	try
+	{
+	
+		m1.buildClassifier(trains);
+		evaluation= new Evaluation(trains);
 
 
 /////
 
-conn = initdb(db_name);
-if(conn==null)
- {
-	System.out.println(" Databasse connection is null");
+		conn = initdb(db_name);
+		if(conn==null)
+			{
+				System.out.println(" Databasse connection is null");
 	
- } 
+			} 
  
-else
-  {
-	 try 
-	 	{
+		else
+		{
+			try 
+				{
 
-		 for (int j = 0; j < tests.numInstances(); j++) 
-		 	{
+				for (int j = 0; j < tests.numInstances(); j++) 
+					{
     
-			 double score[] ;
-			 Instance curr  =  tests.instance(j);  
-			 double actual = curr.classValue();
+						double score[] ;
+						Instance curr  =  tests.instance(j);  
+						double actual = curr.classValue();
 
  
-			 score= m1.distributionForInstance(curr);
+						score= m1.distributionForInstance(curr);
 	
+						String update_score = "update "+ result_table +"  set "+ source_project+ "_to_"+target_project+"_nb_score=" +score[1];
+						//System.out.println(update_score);
 	
-	
-			 String update_score = "update "+ result_table +"  set "+ source_project+ "_to_"+target_project+"_nb_score=" +score;
-	
-    	
-    		 java.sql.Statement stmt = conn.createStatement();
-    		 stmt.executeUpdate(update_score);
+						java.sql.Statement stmt = conn.createStatement();
+						stmt.executeUpdate(update_score);
 		
 
-		 	}//for
+					}//for
 		
-		stmt.close();
-		conn.close();
+				stmt.close();
+				conn.close();
 		
-	} catch (SQLException e) 
-	 {
+				} catch (SQLException e) 
+				{
 		
-		e.printStackTrace();
-	}
+					e.printStackTrace();
+				}
 	
-	
-	
-/////
 
-}
+           }// else
 
 
-} catch (Exception e) 
-{
+		} catch (Exception e) 
+		{
 
-	e.printStackTrace();
-}
-return evaluation;
+			e.printStackTrace();
+			}
+		
 
 }
 
