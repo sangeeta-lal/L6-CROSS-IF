@@ -159,7 +159,7 @@ public void pre_process_data()
 }
 
 //This function is used to train and test a using a given classifier
-public void generate_nb_bn_score(Classifier m1) 
+public void generate_nb_bn_score(Classifier m1, String classifier_acro) 
 {
 
     read_file();
@@ -200,7 +200,7 @@ public void generate_nb_bn_score(Classifier m1)
  
 						score= m1.distributionForInstance(curr);
 	
-						String update_score = "update "+ result_table +"  set "+ source_project+ "_to_"+target_project+"_nb_score=" +score[1] +" where if_id="+if_ids[j];
+						String update_score = "update "+ result_table +"  set "+ source_project+ "_to_"+target_project+"_"+classifier_acro+"_score=" +score[1] +" where if_id="+if_ids[j];
 						System.out.println("update="+ j);
 	
 						java.sql.Statement stmt = conn.createStatement();
@@ -308,8 +308,8 @@ public static void main(String args[])
 	  generate_NB_BN_text_feature_SCORE_cross_log_pred gnbs =  new generate_NB_BN_text_feature_SCORE_cross_log_pred();
 	  gnbs.get_if_ids();  
 	 
-	  //gnbs.generate_nb_bn_score(new NaiveBayes());
-	 // gnbs.generate_nb_bn_score(new BayesNet());
+	  gnbs.generate_nb_bn_score(new NaiveBayes(), "nb");
+	  //gnbs.generate_nb_bn_score(new BayesNet(), "bn");
 	    
      }//main	
 
