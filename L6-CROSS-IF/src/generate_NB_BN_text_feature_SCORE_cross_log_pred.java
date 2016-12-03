@@ -201,7 +201,7 @@ public void generate_nb_bn_score(Classifier m1, String classifier_acro)
 						score= m1.distributionForInstance(curr);
 	
 						String update_score = "update "+ result_table +"  set "+ source_project+ "_to_"+target_project+"_"+classifier_acro+"_score=" +score[1] +" where if_id="+if_ids[j];
-						System.out.println("update="+ j);
+						System.out.println("update="+ j);//+" string="+ update_score);
 	
 						java.sql.Statement stmt = conn.createStatement();
 						stmt.executeUpdate(update_score);
@@ -308,8 +308,8 @@ public static void main(String args[])
 	  generate_NB_BN_text_feature_SCORE_cross_log_pred gnbs =  new generate_NB_BN_text_feature_SCORE_cross_log_pred();
 	  gnbs.get_if_ids();  
 	 
-	  gnbs.generate_nb_bn_score(new NaiveBayes(), "nb");
-	  //gnbs.generate_nb_bn_score(new BayesNet(), "bn");
+	 // gnbs.generate_nb_bn_score(new NaiveBayes(), "nb");
+	  gnbs.generate_nb_bn_score(new BayesNet(), "bn");
 	    
      }//main	
 
