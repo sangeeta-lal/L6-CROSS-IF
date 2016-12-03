@@ -1,9 +1,11 @@
+
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Random;
 
 import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
@@ -14,6 +16,7 @@ import weka.classifiers.functions.MultilayerPerceptron;
 import weka.classifiers.functions.RBFNetwork;
 import weka.classifiers.meta.AdaBoostM1;
 import weka.classifiers.meta.Bagging;
+import weka.classifiers.meta.FilteredClassifier;
 import weka.classifiers.meta.Stacking;
 import weka.classifiers.meta.Vote;
 import weka.classifiers.rules.DecisionTable;
@@ -22,15 +25,18 @@ import weka.classifiers.trees.J48;
 import weka.classifiers.trees.RandomForest;
 import weka.core.Instance;
 import weka.core.Instances;
+import weka.core.Range;
 import weka.core.converters.ArffSaver;
 import weka.core.converters.ConverterUtils.DataSource;
 import weka.filters.Filter;
 import weka.filters.supervised.attribute.Discretize;
+import weka.filters.unsupervised.attribute.AddID;
+import weka.filters.unsupervised.attribute.Remove;
 import weka.filters.unsupervised.attribute.Standardize;
 import weka.filters.unsupervised.attribute.StringToWordVector;
 
 // This file will be used to ensemble based prediction using stacking of algorithms
-public class generate_NB_BN_text_feature_SCORE_cross_log_pred
+public class generate_NB_BN_text_feature_SCORE_within_log_pred
 {
 
 
@@ -58,21 +64,13 @@ String type = "if";
 
 int iterations=1;
 String source_project="tomcat";
-String target_project = "cloudstack";
-//String target_project="hd";
-
-//String source_project="cloudstack";
-//String target_project = "tomcat";
-//String target_project="hd";
-
+//String source_project = "cloudstack";
 //String source_project="hd";
-//String target_project = "tomcat";
-//String target_project="cloudstack";
+
 
 String db_name ="logging6_crossif";
-String result_table = target_project+"_"+type+"_training_nb_bn_score";  //score will be generated and updated in the target table using source table
+String result_table = source_project+"_"+type+"_training_nb_bn_score";  //score will be generated and updated in the target table using source table
 String source_file_path = path+"L6-CROSS-IF\\dataset\\"+source_project+"-arff\\"+type+"\\"+source_project+"_"+type+"_text_features.arff";		
-String target_file_path = path+"L6-CROSS-IF\\dataset\\"+target_project+"-arff\\"+type+"\\"+target_project+"_"+type+"_text_features.arff";
 
 int if_ids[];
 
@@ -86,6 +84,8 @@ int instance_count_source = 0;
 int instance_count_target =0;
 Connection conn=null;	
 java.sql.Statement stmt = null;
+ DataSource allsource;
+Instances all_data;
 
 
 //This function uses dataset from the ARFF files
@@ -95,15 +95,37 @@ try
 	{
 	
 	
-		trainsource = new DataSource(source_file_path);
-		trains = trainsource.getDataSet();
-		trains.setClassIndex(0);
+		allsource = new DataSource(source_file_path);
+		all_data= allsource.getDataSet();
 		
-		testsource = new DataSource(target_file_path);
-		tests = testsource.getDataSet();
+		/*AddID addId = new AddID();
+		addId.setInputFormat(all_data); 
+		Instances all_data_with_id = Filter.useFilter(all_data, addId);*/
 		
+		all_data.randomize(new java.util.Random(1));
+		
+		   
+		int trainSize = (int) Math.round(all_data.numInstances() * 0.5);
+		int testSize = all_data.numInstances() - trainSize;
+		
+		trains = new Instances(all_data, 0, trainSize);
+		tests = new Instances(all_data, trainSize, testSize);
+		
+		
+		/*all_data_with_id.randomize(new java.util.Random(1));
+		
+		   
+		int trainSize = (int) Math.round(all_data_with_id.numInstances() * 0.5);
+		int testSize = all_data_with_id.numInstances() - trainSize;
+		
+		trains = new Instances(all_data_with_id, 0, trainSize);
+		tests = new Instances(all_data_with_id, trainSize, testSize);*/
+		
+		
+		trains.setClassIndex(0);		
 		tests.setClassIndex(0);
 		
+				
 		instance_count_source = trains.numInstances();
 		instance_count_target = tests.numInstances();
 		
@@ -132,17 +154,34 @@ public void pre_process_data()
 	
 	  tests = Filter.useFilter(tests, tfidf_filter);
  
-     /*
+     
+	  //2. Add remove ID filter
+	 // http://weka.8497.n7.nabble.com/How-to-map-original-dataset-with-ID-attribute-and-trained-dataset-without-ID-attribute-td27360.html
+	  
 
-     //2. Standarize  (not normalize because normalization is affected by outliers very easily)   	  
+		/*Remove rm = new Remove();
+		rm.setAttributeIndices("2");
+		rm.setInputFormat(trains);
+		trains = Filter.useFilter(trains, rm);     	  
+		
+		tests = Filter.useFilter(tests, rm);*/
+	 
+		 
+	  //  FilteredClassifier fc = new FilteredClassifier();
+	   // fc.setFilter(rm);
+	    //fc.setClassifier(m1);
+	  
+	  
+	  /*
+
+     //3. Standarize  (not normalize because normalization is affected by outliers very easily)   	  
 	  Standardize  std_filter =  new Standardize();
 	  std_filter.setInputFormat(trains);
 	  trains= Filter.useFilter(trains,std_filter);     	  
 	 
 	  tests= Filter.useFilter(tests,std_filter);  	  
      
-
-     //3. Discretizations
+     //4. Discretizations
 	  Discretize dfilter = new Discretize();
      dfilter.setInputFormat(trains);
      trains = Filter.useFilter(trains, dfilter);
@@ -166,16 +205,32 @@ public void generate_nb_bn_score(Classifier m1)
 	pre_process_data();
 	
 	Evaluation evaluation = null;
+	
 	//NaiveBayes  m1 =  new NaiveBayes();
 	System.out.println("Classifier="+m1.getClass().getName());
 
 	try
 	{
 	
+		Remove rm = new Remove();
+	    rm.setAttributeIndices("2");
+	    FilteredClassifier fc = new FilteredClassifier();
+	    fc.setFilter(rm);
+	    fc.setClassifier(m1);		
 		m1.buildClassifier(trains);
-		evaluation= new Evaluation(trains);
+		//evaluation= new Evaluation(trains);
+		
+		
+		/////
+		
+		 Evaluation eval = new Evaluation(trains);        
+	      StringBuffer forPredictionsPrinting = new StringBuffer();
+	      
+	      Range attsToOutput = new Range("first-last");
+	      Boolean outputDist = new Boolean(true);
 
-
+	      eval.crossValidateModel(fc, trains, 10, new Random(1), forPredictionsPrinting, attsToOutput, outputDist);
+	      
 /////
 
 		conn = initdb(db_name);
@@ -200,8 +255,8 @@ public void generate_nb_bn_score(Classifier m1)
  
 						score= m1.distributionForInstance(curr);
 	
-						String update_score = "update "+ result_table +"  set "+ source_project+ "_to_"+target_project+"_nb_score=" +score[1] +" where if_id="+if_ids[j];
-						System.out.println("update="+ j);
+						String update_score = "update "+ result_table +"  set "+ source_project+ "_to_"+source_project+"_nb_score=" +score[1];
+						//System.out.println("update="+ j+ "  ID="+ tests.instance(j).value(1) + "  score="+ score[1]);
 	
 						java.sql.Statement stmt = conn.createStatement();
 						stmt.executeUpdate(update_score);
@@ -305,10 +360,10 @@ private void get_if_ids()
 public static void main(String args[])
 {	  	
 
-	  generate_NB_BN_text_feature_SCORE_cross_log_pred gnbs =  new generate_NB_BN_text_feature_SCORE_cross_log_pred();
+	  generate_NB_BN_text_feature_SCORE_within_log_pred gnbs =  new generate_NB_BN_text_feature_SCORE_within_log_pred();
 	  gnbs.get_if_ids();  
 	 
-	  //gnbs.generate_nb_bn_score(new NaiveBayes());
+	  gnbs.generate_nb_bn_score(new NaiveBayes());
 	 // gnbs.generate_nb_bn_score(new BayesNet());
 	    
      }//main	
