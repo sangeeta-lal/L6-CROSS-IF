@@ -36,7 +36,7 @@ import weka.filters.unsupervised.attribute.Standardize;
 import weka.filters.unsupervised.attribute.StringToWordVector;
 
 // This file will be used to ensemble based prediction using stacking of algorithms
-public class generate_NB_BN_text_feature_SCORE_within_log_pred
+public class temp_NB_BN_text_feature_SCORE_within
 {
 
 
@@ -76,13 +76,8 @@ int if_ids[];
 
 DataSource trainsource;
 DataSource testsource;
-
-Instances trains_1;
-Instances tests_1;
-
-Instances trains_2;
-Instances tests_2;
-
+Instances trains;
+Instances tests;
 Evaluation result;
 
 int instance_count_source = 0;
@@ -99,30 +94,35 @@ public void read_file()
 try 
 	{
 	
-	    allsource = new DataSource(source_file_path);
+	
+		allsource = new DataSource(source_file_path);
 		all_data= allsource.getDataSet();	
 		
 		all_data.randomize(new java.util.Random(1));
 		
-		//all_data.setClassIndex(0); //  new line
+		all_data.setClassIndex(0); //  new line
 		
 		int trainSize = (int) Math.round(all_data.numInstances() * 0.5);
 		int testSize = all_data.numInstances() - trainSize;
 		
-		trains_1 = new Instances(all_data, 0, trainSize);
-		tests_1 = new Instances(all_data, trainSize, testSize);		
+		trains = new Instances(all_data, 0, trainSize);
+		tests = new Instances(all_data, trainSize, testSize);
 		
-		trains_2 = tests_1;
-		tests_2 =  trains_1;		
 		
-		trains_1.setClassIndex(0);		
-		tests_1.setClassIndex(0);
+		/* AddID addId = new AddID();
+		addId.setInputFormat(all_data); 
+		Instances all_data_with_id = Filter.useFilter(all_data, addId);
+		all_data_with_id.randomize(new java.util.Random(1));			   
+		int trainSize = (int) Math.round(all_data_with_id.numInstances() * 0.5);
+		int testSize = all_data_with_id.numInstances() - trainSize;		
+		trains = new Instances(all_data_with_id, 0, trainSize);
+		tests = new Instances(all_data_with_id, trainSize, testSize);*/
 		
-		trains_2.setClassIndex(0);		
-		tests_2.setClassIndex(0);
+		trains.setClassIndex(0);		
+		tests.setClassIndex(0);
 				
-		//instance_count_source = trains.numInstances();
-		//instance_count_target = tests.numInstances();
+		instance_count_source = trains.numInstances();
+		instance_count_target = tests.numInstances();
 		
 		System.out.println("Instance count source ="+ instance_count_source + "  Instance count target="+ instance_count_target+  source_file_path);
    
@@ -141,22 +141,54 @@ public void pre_process_data()
 
  try
    {	  
-	  //part 1
-	  StringToWordVector tfidf_filter1 = new StringToWordVector();
-	  tfidf_filter1.setIDFTransform(true);
-	  tfidf_filter1.setInputFormat(trains_1);
-	  trains_1 = Filter.useFilter(trains_1, tfidf_filter1);     	  
-	  tests_1 = Filter.useFilter(tests_1, tfidf_filter1);
-	 
+	  //1. TF-IDF
+	 StringToWordVector tfidf_filter = new StringToWordVector();
+	 tfidf_filter.setIDFTransform(true);
+	 tfidf_filter.setInputFormat(trains);
+	 trains = Filter.useFilter(trains, tfidf_filter);     	  
 	
-	  // part 2
-	  StringToWordVector tfidf_filter2 = new StringToWordVector();
-	  tfidf_filter2.setIDFTransform(true);
-	  tfidf_filter2.setInputFormat(trains_1);
-	  tfidf_filter2.setInputFormat(trains_2);
-	  trains_2 = Filter.useFilter(trains_2, tfidf_filter2);     	  
-	  tests_2 = Filter.useFilter(tests_2, tfidf_filter2);
+	 tests = Filter.useFilter(tests, tfidf_filter);
  
+	 // If you are using cross-validation
+	 /* StringToWordVector tfidf_filter = new StringToWordVector();
+	  tfidf_filter.setIDFTransform(true);
+	  tfidf_filter.setInputFormat(all_data);
+	  all_data = Filter.useFilter(all_data, tfidf_filter);  */  	  
+	
+     
+	  //2. Add remove ID filter
+	 // http://weka.8497.n7.nabble.com/How-to-map-original-dataset-with-ID-attribute-and-trained-dataset-without-ID-attribute-td27360.html
+	  
+
+		/*Remove rm = new Remove();
+		rm.setAttributeIndices("2");
+		rm.setInputFormat(trains);
+		trains = Filter.useFilter(trains, rm);     	  
+		
+		tests = Filter.useFilter(tests, rm);*/
+	 
+		 
+	  //  FilteredClassifier fc = new FilteredClassifier();
+	   // fc.setFilter(rm);
+	    //fc.setClassifier(m1);
+	  
+	  
+	  /*
+
+     //3. Standarize  (not normalize because normalization is affected by outliers very easily)   	  
+	  Standardize  std_filter =  new Standardize();
+	  std_filter.setInputFormat(trains);
+	  trains= Filter.useFilter(trains,std_filter);     	  
+	 
+	  tests= Filter.useFilter(tests,std_filter);  	  
+     
+     //4. Discretizations
+	  Discretize dfilter = new Discretize();
+     dfilter.setInputFormat(trains);
+     trains = Filter.useFilter(trains, dfilter);
+     
+     tests = Filter.useFilter(tests, dfilter);	      
+     */
 
 
 	} catch (Exception e) {
@@ -167,48 +199,40 @@ public void pre_process_data()
 }
 
 //This function is used to train and test a using a given classifier
-public void generate_nb_bn_score(Classifier m1, Classifier m2) 
+public void generate_nb_bn_score(Classifier m1) 
 {
 
-    read_file();	
-    pre_process_data();
+    read_file();
+	pre_process_data();
 	
-	Evaluation evaluation_1 = null;
-	Evaluation evaluation_2 = null;
+	Evaluation evaluation = null;
 	
-	try 
-	{
-		
-		  
-		Remove rm1 = new Remove();
-		rm1.setAttributeIndices("2");
-		FilteredClassifier fc1 = new FilteredClassifier();
-		fc1.setFilter(rm1);
-		fc1.setClassifier(m1);
-		m1.buildClassifier(trains_1);
-        evaluation_1= new Evaluation(trains_1);
-     	evaluation_1.evaluateModel(m1, tests_1);    	
-
-		Remove rm2 = new Remove();
-		rm2.setAttributeIndices("2");
-		FilteredClassifier fc2 = new FilteredClassifier();
-		fc2.setFilter(rm2);
-		fc2.setClassifier(m2);
-     	m2.buildClassifier(trains_2);
-        evaluation_2= new Evaluation(trains_2);
-     	evaluation_2.evaluateModel(m2, tests_2);
-	   
-	   
-	} catch (Exception e1) {
-		// TODO Auto-generated catch block
-		e1.printStackTrace();
-	}
-	
-	System.out.println("Classifier 1="+m1.getClass().getName());
-	System.out.println("Classifier 2="+m2.getClass().getName());
+	//NaiveBayes  m1 =  new NaiveBayes();
+	System.out.println("Classifier="+m1.getClass().getName());
 
 	try
 	{
+	
+		Remove rm = new Remove();
+	    rm.setAttributeIndices("2");
+	    FilteredClassifier fc = new FilteredClassifier();
+	    fc.setFilter(rm);
+	    fc.setClassifier(m1);		
+		//m1.buildClassifier(all_data);
+		
+	    m1.buildClassifier(trains);
+	    evaluation= new Evaluation(trains);
+	    evaluation.evaluateModel(m1, tests);
+	    
+		//Evaluation eval = new Evaluation(all_data);        
+	 //   StringBuffer forPredictionsPrinting = new StringBuffer();      
+	  //  Range attsToOutput = new Range("first-last");
+	   // Boolean outputDist = new Boolean(true);
+
+	    // eval.crossValidateModel(fc, all_data, 2, new Random(1), forPredictionsPrinting, attsToOutput, outputDist);
+	    // System.out.println(eval.toSummaryString());
+	    // System.out.println(forPredictionsPrinting + " " + attsToOutput+ " "+ outputDist);
+
 
 		conn = initdb(db_name);
 		if(conn==null)
@@ -222,47 +246,23 @@ public void generate_nb_bn_score(Classifier m1, Classifier m2)
 			try 
 				{
 
-				for (int j = 0; j < tests_1.numInstances(); j++) 
+				for (int j = 0; j < tests.numInstances(); j++) 
 					{
     
 						double score[] ;
-						Instance curr  =  tests_1.instance(j);  
+						Instance curr  =  tests.instance(j);  
 						double actual = curr.classValue();
 
  
 						score= m1.distributionForInstance(curr);
 	
-						String update_score = "update "+ result_table +"  set "+ source_project+ "_to_"+source_project+"_nb_score=" +score[1] + " where if_id="+ tests_1.instance(j).value(1);
-						System.out.println("update="+ j+ "  ID="+ tests_1.instance(j).value(1) + "  score="+ score[1]);
+						String update_score = "update "+ result_table +"  set "+ source_project+ "_to_"+source_project+"_nb_score=" +score[1];
+						System.out.println("update="+ j+ "  ID="+ tests.instance(j).value(1) + "  score="+ score[1]);
 	
 						java.sql.Statement stmt = conn.createStatement();
 						stmt.executeUpdate(update_score);
-		
 
 					}//for
-				
-				System.out.println("Now test 2 will start");
-				
-				for (int j = 0; j < tests_2.numInstances(); j++) 
-				{
-
-					double score[] ;
-					Instance curr  =  tests_2.instance(j);  
-					double actual = curr.classValue();
-
-
-					score= m2.distributionForInstance(curr);
-
-					String update_score = "update "+ result_table +"  set "+ source_project+ "_to_"+source_project+"_nb_score=" +score[1]+" where if_id="+ tests_2.instance(j).value(1);
-					System.out.println("update="+ j+ "  ID="+ tests_2.instance(j).value(1) + "  score="+ score[1]);
-
-					java.sql.Statement stmt = conn.createStatement();
-					stmt.executeUpdate(update_score);
-	
-
-				}//for
-	
-
 		
 				stmt.close();
 				conn.close();
@@ -272,7 +272,6 @@ public void generate_nb_bn_score(Classifier m1, Classifier m2)
 		
 					e.printStackTrace();
 				}
-	
 
            }// else
 
@@ -360,12 +359,11 @@ private void get_if_ids()
 public static void main(String args[])
 {	  	
 
-	  generate_NB_BN_text_feature_SCORE_within_log_pred gnbs =  new generate_NB_BN_text_feature_SCORE_within_log_pred();
-	  
+	  temp_NB_BN_text_feature_SCORE_within gnbs =  new temp_NB_BN_text_feature_SCORE_within();
 	  gnbs.get_if_ids();  
 	 
-	  gnbs.generate_nb_bn_score(new NaiveBayes(), new NaiveBayes());
-	 // gnbs.generate_nb_bn_score(new BayesNet(), new BayesNet());
+	  gnbs.generate_nb_bn_score(new NaiveBayes());
+	 // gnbs.generate_nb_bn_score(new BayesNet());
 	    
      }//main	
 
