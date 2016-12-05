@@ -63,7 +63,7 @@ def write_header_text_features(file_obj,relation_name):
     
     file_obj.write("@relation    "  + relation_name+"\n" )
     file_obj.write("@attribute is_if_logged {0,1}  "+"\n")   
-    file_obj.write("@attribute  id  numeric "+"\n")
+    file_obj.write("@attribute  ifid  numeric "+"\n")
     file_obj.write("@attribute all_text_features_cleaned string "+"\n")
         
     file_obj.write("\n")

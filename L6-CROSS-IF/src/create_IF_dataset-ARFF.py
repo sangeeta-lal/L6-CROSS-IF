@@ -14,18 +14,28 @@ import utill6
 ======================================================================================================"""
 
 #Project
-"""
+#"""
 project= "tomcat"
 title = 'Tomcat'
+source_project = "tomcat"
+target_project = "cloudstack"
+#target_project ="hd"
 #"""
-#"""
+
+"""
 project =  "cloudstack"
 title = 'CloudStack'
+source_project = "cloudstack"
+target_project = "tomcat"
+#target_project = "hd"
 #"""
 
 """
 project =  "hd"
 title = 'Hadoop'
+source_project = "hd"
+target_project = "tomcat"
+target_project = "cloudstack"
 #"""
 
 #"""
@@ -34,12 +44,13 @@ user="root"
 password="1234"
 database="logging6_crossif"
 main_source_table = project+"_if_training6_crossif"  # from this table we have to take the data
+source_table_with_score = project+"_if_training6_nb_bn_score"
 path = "F:\\Research\\L6-CROSS-IF\\dataset\\"
 all_features_db_file_path=path+project+"-arff\\if\\"+project+"_if_all_features.arff"
 num_features_db_file_path=path+project+"-arff\\if\\"+project+"_if_num_features.arff"
 bool_features_db_file_path=path+project+"-arff\\if\\"+project+"_if_bool_features.arff"
 text_features_db_file_path = path+ project+"-arff\\if\\"+project+"_if_text_features.arff"
-
+all_features_with_in_nb_bn_score_file_path  =  path+ project +"-arff\\if\\"+ project+"_if_with_in_nb_bn_score.arff"
 
 if_expr_text_features_db_file_path=path+project+"-arff\\if\\"+project+"_if_expr_text_features.arff"
 till_if_log_level_text_features_db_file_path = path+project+"-arff\\if\\"+project+"_till_if_log_level_text_features.arff"
@@ -58,11 +69,13 @@ user="sangeetal"
 password="sangeetal"
 database="logging6_crossif"
 main_source_table = project+"_if_training6_crossif"  # from this table we have to take the data
+source_table_with_score = project+"_if_training6_nb_bn_score"
 path = "E:\\Sangeeta\\Research\\L6-CROSS-IF\\dataset\\"
 all_features_db_file_path=path+project+"-arff\\if\\"+project+"_if_all_features.arff"
 num_features_db_file_path=path+project+"-arff\\if\\"+project+"_if_num_features.arff"
 bool_features_db_file_path=path+project+"-arff\\if\\"+project+"_if_bool_features.arff"
 text_features_db_file_path = path+ project+"-arff\\if\\"+project+"_if_text_features.arff"
+all_features_with_in_nb_bn_score_file_path  =  path+ project +"-arff\\if\\"+ project+"_if_with_in_nb_bn_score.arff"
 #"""
 
 
@@ -184,6 +197,45 @@ def write_header_text_features(file_obj,relation_name):
     file_obj.write("@data " +"\n")
   
   
+
+#=======================================================#
+#  @ write header including bn_bn_score
+# 
+#=======================================================#
+def write_header_all_features_with_in_nb_bn_score(file_obj,relation_name):
+    
+    nb_score_string = source_project +"_to_"+ source_project+ "_nb_score"
+    bs_score_string = source_project +"_to_"+ source_project+ "_bn_score"
+    
+    file_obj.write("@relation    "  + relation_name+"\n" )
+    file_obj.write("@attribute is_if_logged {0,1}  "+"\n")    
+    file_obj.write("@attribute loc_till_if numeric "+"\n")
+    file_obj.write("@attribute is_till_if_logged {0,1} "+"\n")
+    file_obj.write("@attribute till_if_log_count numeric "+"\n")
+    file_obj.write("@attribute operators_count_till_if numeric "+"\n")
+    file_obj.write("@attribute variables_count_till_if numeric "+"\n")
+    file_obj.write("@attribute method_call_count_till_if numeric "+"\n")
+    file_obj.write("@attribute is_return_in_till_if {0,1} "+"\n")
+    file_obj.write("@attribute throw_throws_till_if {0,1} "+"\n")
+    file_obj.write("@attribute if_in_till_if {0,1} "+"\n")
+    file_obj.write("@attribute if_count_in_till_if numeric "+"\n")
+    file_obj.write("@attribute is_assert_till_if {0,1} "+"\n")
+    file_obj.write("@attribute is_method_have_param {0,1} "+"\n")
+    file_obj.write("@attribute method_param_count numeric "+"\n")
+    file_obj.write("@attribute is_return_in_if {0,1} "+"\n")
+    file_obj.write("@attribute throw_throws_if {0,1} "+"\n")
+    file_obj.write("@attribute is_assert_if {0,1} "+"\n")
+    file_obj.write("@attribute is_null_condition_if {0,1} "+"\n")
+    file_obj.write("@attribute is_instance_of_condition_if {0,1} "+"\n")
+   
+    file_obj.write("@attribute "+nb_score_string+"\n")
+    file_obj.write("@attribute "+bn_score_string+ "\n")
+    
+    #file_obj.write("@attribute all_text_features_cleaned string "+"\n")
+        
+    file_obj.write("\n")
+    file_obj.write("@data " +"\n")
+
 
 ## Note: This function is different from other create dataset files  ##
 #======================================================================#
@@ -497,7 +549,6 @@ def write_in_file_text_features(file_obj, tuple_val):
 def create_one_complete_all_features(all_features_db_file_path):
     #===========Read all the if blocks===============================#
    
-   
 
     str_total_data = "select  if_expr, loc_till_if, is_till_if_logged, till_if_log_count, till_if_log_levels, operators_till_if, operators_count_till_if, variables_till_if,  \
                        variables_count_till_if,method_call_names_till_if, method_call_count_till_if,  is_return_in_till_if, throw_throws_till_if, \
@@ -648,6 +699,50 @@ def create_one_complete_text_features(text_features_db_file_path):
     file_obj.close()
   
   
+
+#=======================================#
+#  all with_in_nb_bn_score features  #
+#=========================================#
+def create_one_complete_all_features_with_in_nb_bn_score(all_features_with_in_nb_bn_score_file_path):
+    #===========Read all the if blocks===============================#
+   
+    nb_score_string = source_project+"_to_"+ source_project+"_nb_score"
+    bn_score_string = source_project+"_to_"+ source_project+"_bn_score"
+  
+
+    str_total_data = "select  if_expr, loc_till_if, is_till_if_logged, till_if_log_count, till_if_log_levels, operators_till_if, operators_count_till_if, variables_till_if,  \
+                       variables_count_till_if,method_call_names_till_if, method_call_count_till_if,  is_return_in_till_if, throw_throws_till_if, \
+                       if_in_till_if, if_count_in_till_if, is_assert_till_if, is_method_have_param,  method_param_type, method_param_name, method_param_count,\
+                       is_return_in_if, throw_throws_if, is_assert_if, is_null_condition_if, is_instance_of_condition_if, package_name, class_name, method_name, is_if_logged,"\
+                        " "+ nb_score_string+ ","+ bn_score_string +""\
+                       "from "+ source_table_with_score +" where if_expr not like '%isTraceEnabled()'  and \
+                       if_expr not like '%isDebugEnabled()'  and if_expr not like '%isInfoEnabled()' and if_expr not like '%isWarnEnabled()'  \
+                       and if_expr not like '%isErrorEnabled()'  and if_expr not like '%isFatalEnabled()'  and if_expr!='' "
+    
+    
+    select_cursor.execute(str_total_data)
+    total_data = select_cursor.fetchall()
+
+
+    #===========================================#
+    #@ 1. Create the complete database    
+    #===========================================#
+   
+    file_obj =  open(all_features_with_in_nb_bn_score_file_path, 'w+')
+   
+    # 1. Write header in the file
+    relation_name =  project +"_if_all_features_with_in_nb_bn_score"
+    write_header_text_features(file_obj, relation_name)
+    
+    #2. write database ibstabces
+    for d in total_data:   
+        write_in_file_text_features(file_obj, d)
+    
+    
+    file_obj.close()
+    
+  
+  
 #===========================================#
 # @ File for one text feature individually  #
 #===========================================#    
@@ -722,8 +817,8 @@ def create_different_text_features_files(if_expr_text_features_db_file_path, til
 #create_one_complete_all_features(all_features_db_file_path)
 #create_one_complete_num_features(num_features_db_file_path)
 #create_one_complete_bool_features(bool_features_db_file_path)
-create_one_complete_text_features(text_features_db_file_path)
-
+#create_one_complete_text_features(text_features_db_file_path)
+create_one_complete_all_features_with_in_nb_bn_score(all_features_with_in_nb_bn_score_file_path)
 
 """
 # Following functions is not running currently, will make in future

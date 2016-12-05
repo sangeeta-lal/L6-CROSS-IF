@@ -69,7 +69,7 @@ String source_project="tomcat";
 
 
 String db_name ="logging6_crossif";
-String result_table = source_project+"_"+type+"_training_nb_bn_score";  //score will be generated and updated in the target table using source table
+String result_table = source_project+"_"+type+"_training6_nb_bn_score";  //score will be generated and updated in the target table using source table
 String source_file_path = path+"L6-CROSS-IF\\dataset\\"+source_project+"-arff\\"+type+"\\"+source_project+"_"+type+"_text_features_with_id.arff";		
 
 int if_ids[];
@@ -222,7 +222,8 @@ public void generate_nb_bn_score(Classifier m1, Classifier m2, String classifier
 			try 
 				{
 
-				for (int j = 0; j < tests_1.numInstances(); j++) 
+				int j=0;
+				for (j = 0; j < tests_1.numInstances(); j++) 
 					{
     
 						double score[] ;
@@ -233,7 +234,10 @@ public void generate_nb_bn_score(Classifier m1, Classifier m2, String classifier
 						score= m1.distributionForInstance(curr);
 	
 						String update_score = "update "+ result_table +"  set "+ source_project+ "_to_"+source_project+"_"+classifier_acro+"_score=" +score[1] + " where if_id="+ tests_1.instance(j).value(1);
-						System.out.println("update="+ j+ "  ID="+ tests_1.instance(j).value(1) + "  score="+ score[1]);
+						
+						if(tests_2.instance(j).value(1) ==2)
+							
+						{System.out.println("update="+ j+ "  ID="+ tests_1.instance(j).value(1) + "  score="+ score[1]);}
 	
 						java.sql.Statement stmt = conn.createStatement();
 						stmt.executeUpdate(update_score);
@@ -241,9 +245,12 @@ public void generate_nb_bn_score(Classifier m1, Classifier m2, String classifier
 
 					}//for
 				
+				System.out.println("J="+j);
+				
 				System.out.println("Now test 2 will start");
 				
-				for (int j = 0; j < tests_2.numInstances(); j++) 
+				j=0;
+				for (j = 0; j < tests_2.numInstances(); j++) 
 				{
 
 					double score[] ;
@@ -253,8 +260,10 @@ public void generate_nb_bn_score(Classifier m1, Classifier m2, String classifier
 
 					score= m2.distributionForInstance(curr);
 
-					String update_score = "update "+ result_table +"  set "+ source_project+ "_to_"+source_project+"_nb_score=" +score[1]+" where if_id="+ tests_2.instance(j).value(1);
-					System.out.println("update="+ j+ "  ID="+ tests_2.instance(j).value(1) + "  score="+ score[1]);
+					String update_score = "update "+ result_table +"  set "+ source_project+ "_to_"+source_project+"_"+ classifier_acro +"_score=" +score[1]+" where if_id="+ tests_2.instance(j).value(1);
+					if(tests_2.instance(j).value(1) ==2)
+					{
+					System.out.println("update="+ j+ "  ID="+ tests_2.instance(j).value(1) + "  score="+ score[1]);}
 
 					java.sql.Statement stmt = conn.createStatement();
 					stmt.executeUpdate(update_score);
@@ -263,7 +272,7 @@ public void generate_nb_bn_score(Classifier m1, Classifier m2, String classifier
 				}//for
 	
 
-		
+				System.out.println("J="+j);
 				stmt.close();
 				conn.close();
 		
@@ -362,7 +371,7 @@ public static void main(String args[])
 
 	  generate_NB_BN_text_feature_SCORE_within_log_pred gnbs =  new generate_NB_BN_text_feature_SCORE_within_log_pred();
 	  
-	  gnbs.get_if_ids();  
+	  //gnbs.get_if_ids();  
 	 
 	 // gnbs.generate_nb_bn_score(new NaiveBayes(), new NaiveBayes(), "nb");
 	  gnbs.generate_nb_bn_score(new BayesNet(), new BayesNet(),"bn");
