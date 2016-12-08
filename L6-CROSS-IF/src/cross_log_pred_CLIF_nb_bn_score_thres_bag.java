@@ -74,7 +74,7 @@ String target_project = "cloudstack";
 String db_name ="logging6_crossif";
 String result_table = "cross_pred_clif_"+type;
 
-String source_file_path = path+"L6-CROSS-IF\\dataset\\"+source_project+"-arff\\"+type+"\\"+source_project+"_to_"+ source_project+type+"_all_features.arff";		
+String source_file_path = path+"L6-CROSS-IF\\dataset\\"+source_project+"-arff\\"+type+"\\"+source_project+"_to_"+ source_project+"_"+type+"_with_in_nb_bn_score.arff";		
 String target_file_path = path+"L6-CROSS-IF\\dataset\\"+target_project+"-arff\\"+type+"\\"+source_project+"_to_"+ target_project+"_"+type+"_cross_nb_bn_score.arff";
 
 DataSource trainsource;
@@ -95,6 +95,7 @@ public void read_file()
 try 
 	{
 	
+	    System.out.println(" source: "+  source_file_path+ "  target:"+ target_file_path);
 		trainsource = new DataSource(source_file_path);
 		trains = trainsource.getDataSet();
 		trains.setClassIndex(0);

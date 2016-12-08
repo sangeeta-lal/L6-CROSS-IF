@@ -35,7 +35,7 @@ project =  "hd"
 title = 'Hadoop'
 source_project = "hd"
 target_project = "tomcat"
-target_project = "cloudstack"
+#target_project = "cloudstack"
 #"""
 
 #"""
