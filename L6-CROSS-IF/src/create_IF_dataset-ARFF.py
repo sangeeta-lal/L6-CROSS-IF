@@ -50,7 +50,7 @@ all_features_db_file_path=path+project+"-arff\\if\\"+project+"_if_all_features.a
 num_features_db_file_path=path+project+"-arff\\if\\"+project+"_if_num_features.arff"
 bool_features_db_file_path=path+project+"-arff\\if\\"+project+"_if_bool_features.arff"
 text_features_db_file_path = path+ project+"-arff\\if\\"+project+"_if_text_features.arff"
-all_features_with_in_nb_bn_score_file_path  =  path+ project +"-arff\\if\\"+ project+"_if_with_in_nb_bn_score.arff"
+all_features_with_in_nb_bn_score_file_path  =  path+ project +"-arff\\if\\"+ project+"_to_"+project+"_if_with_in_nb_bn_score.arff"
 all_features_cross_nb_bn_score_file_path  =  path+ source_project +"-arff\\if\\"+ target_project+"_to_"+source_project+"_if_cross_nb_bn_score.arff"
 
 
@@ -77,7 +77,7 @@ all_features_db_file_path=path+project+"-arff\\if\\"+project+"_if_all_features.a
 num_features_db_file_path=path+project+"-arff\\if\\"+project+"_if_num_features.arff"
 bool_features_db_file_path=path+project+"-arff\\if\\"+project+"_if_bool_features.arff"
 text_features_db_file_path = path+ project+"-arff\\if\\"+project+"_if_text_features.arff"
-all_features_with_in_nb_bn_score_file_path  =  path+ project +"-arff\\if\\"+ project+"_if_with_in_nb_bn_score.arff"
+all_features_with_in_nb_bn_score_file_path  =  path+ project +"-arff\\if\\"+ project+"_to_"+ project+"_if_with_in_nb_bn_score.arff"
 all_features_cross_nb_bn_score_file_path  =  path+ source_project +"-arff\\if\\"+ target_project+"_to_"+source_project+"_if_cross_nb_bn_score.arff"
 
 #"""
