@@ -206,9 +206,13 @@ def write_header_text_features(file_obj,relation_name):
 #=======================================================#
 def write_header_all_features_with_in_nb_bn_score(file_obj,relation_name):
     
-    nb_score_string = source_project +"_to_"+ source_project+ "_nb_score"
-    bn_score_string = source_project +"_to_"+ source_project+ "_bn_score"
-    
+   # nb_score_string = source_project +"_to_"+ source_project+ "_nb_score" // It is correct but changed because feature name should be same in all the files 
+   # bn_score_string = source_project +"_to_"+ source_project+ "_bn_score" // It is correct but changed because feature name should be same in all the files 
+ 
+    nb_score_string = "nb_score" 
+    bn_score_string = "bn_score"
+      
+    file_obj.write("% comment:"+ nb_score_string+ " "+ bn_score_string+"\n")
     file_obj.write("@relation    "  + relation_name+"\n" )
     file_obj.write("@attribute is_if_logged {0,1}  "+"\n")    
     file_obj.write("@attribute loc_till_if numeric "+"\n")
@@ -239,8 +243,6 @@ def write_header_all_features_with_in_nb_bn_score(file_obj,relation_name):
     file_obj.write("@data " +"\n")
     
     
-  
-  
 
 #=======================================================#
 #  @ write header including cross project  bn_bn_score
@@ -248,8 +250,11 @@ def write_header_all_features_with_in_nb_bn_score(file_obj,relation_name):
 #=======================================================#
 def write_header_all_features_cross_nb_bn_score(file_obj,relation_name):
     
-    nb_score_string = target_project +"_to_"+ source_project+ "_nb_score"
-    bn_score_string = target_project +"_to_"+ source_project+ "_bn_score"
+    #nb_score_string = target_project +"_to_"+ source_project+ "_nb_score" // It is correct but changed because feature name should be same in all the files 
+    #bn_score_string = target_project +"_to_"+ source_project+ "_bn_score" // It is correct but changed because feature name should be same in all the files 
+    
+    nb_score_string = "nb_score" 
+    bn_score_string = "bn_score"
     
     file_obj.write("@relation    "  + relation_name+"\n" )
     file_obj.write("@attribute is_if_logged {0,1}  "+"\n")    
@@ -295,7 +300,6 @@ def write_header_one_text_features(file_obj,relation_name, text_feature_name):
     file_obj.write("@data " +"\n")
   
 
-  
     
 #=======================================================#
 # @uses: Function to write in file ceate arff files
@@ -907,7 +911,9 @@ def create_one_complete_all_features_with_in_nb_bn_score(all_features_with_in_nb
     file_obj =  open(all_features_with_in_nb_bn_score_file_path, 'w+')
    
     # 1. Write header in the file
-    relation_name =  project +"_if_all_features_with_in_nb_bn_score"
+    #relation_name =  project +"_if_all_features_with_in_nb_bn_score"  // correct but removing becausse givng same name to all the files
+    
+    relation_name =  "if_all_features_nb_bn_score"
     write_header_all_features_with_in_nb_bn_score(file_obj, relation_name)
     
     #2. write database ibstabces
@@ -952,7 +958,10 @@ def create_one_complete_all_features_cross_nb_bn_score(all_features_cross_nb_bn_
     file_obj =  open(all_features_cross_nb_bn_score_file_path, 'w+')
    
     # 1. Write header in the file
-    relation_name =  target_project+"_to_"+ source_project +"_if_all_features_cross_nb_bn_score"
+    
+    #relation_name =  target_project+"_to_"+ source_project +"_if_all_features_cross_nb_bn_score" // Correct but  removing becuase givng same relation names to all the files
+    relation_name =  "if_all_features_nb_bn_score"
+   
     write_header_all_features_cross_nb_bn_score(file_obj, relation_name)
     
     #2. write database ibstabces
@@ -961,9 +970,7 @@ def create_one_complete_all_features_cross_nb_bn_score(all_features_cross_nb_bn_
     
     
     file_obj.close()
-    
-
-    
+     
   
 #===========================================#
 # @ File for one text feature individually  #
