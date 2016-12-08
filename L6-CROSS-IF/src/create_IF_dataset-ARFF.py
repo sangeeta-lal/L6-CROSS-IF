@@ -51,7 +51,7 @@ num_features_db_file_path=path+project+"-arff\\if\\"+project+"_if_num_features.a
 bool_features_db_file_path=path+project+"-arff\\if\\"+project+"_if_bool_features.arff"
 text_features_db_file_path = path+ project+"-arff\\if\\"+project+"_if_text_features.arff"
 all_features_with_in_nb_bn_score_file_path  =  path+ project +"-arff\\if\\"+ project+"_if_with_in_nb_bn_score.arff"
-all_features_cross_nb_bn_score_file_path  =  path+ source_project +"-arff\\if\\"+ source_project+"_to_"+target_project+"_if_cross_nb_bn_score.arff"
+all_features_cross_nb_bn_score_file_path  =  path+ source_project +"-arff\\if\\"+ target_project+"_to_"+source_project+"_if_cross_nb_bn_score.arff"
 
 
 if_expr_text_features_db_file_path=path+project+"-arff\\if\\"+project+"_if_expr_text_features.arff"
@@ -78,7 +78,7 @@ num_features_db_file_path=path+project+"-arff\\if\\"+project+"_if_num_features.a
 bool_features_db_file_path=path+project+"-arff\\if\\"+project+"_if_bool_features.arff"
 text_features_db_file_path = path+ project+"-arff\\if\\"+project+"_if_text_features.arff"
 all_features_with_in_nb_bn_score_file_path  =  path+ project +"-arff\\if\\"+ project+"_if_with_in_nb_bn_score.arff"
-all_features_cross_nb_bn_score_file_path  =  path+ source_project +"-arff\\if\\"+ source_project+"_to_"+target_project+"_if_cross_nb_bn_score.arff"
+all_features_cross_nb_bn_score_file_path  =  path+ source_project +"-arff\\if\\"+ target_project+"_to_"+source_project+"_if_cross_nb_bn_score.arff"
 
 #"""
 
@@ -952,7 +952,7 @@ def create_one_complete_all_features_cross_nb_bn_score(all_features_cross_nb_bn_
     file_obj =  open(all_features_cross_nb_bn_score_file_path, 'w+')
    
     # 1. Write header in the file
-    relation_name =  source_project+"_to_"+ target_project +"_if_all_features_cross_nb_bn_score"
+    relation_name =  target_project+"_to_"+ source_project +"_if_all_features_cross_nb_bn_score"
     write_header_all_features_cross_nb_bn_score(file_obj, relation_name)
     
     #2. write database ibstabces
