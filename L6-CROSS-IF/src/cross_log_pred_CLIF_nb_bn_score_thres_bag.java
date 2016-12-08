@@ -797,7 +797,7 @@ public static void main(String args[])
 	  //clps.learn_and_insert_decision_table(precision, recall, accuracy,fmeasure,roc_auc);
 	  //clps.learn_and_insert_j48(precision, recall, accuracy,fmeasure,roc_auc);
 	  //clps.learn_and_insert_logistic(precision, recall, accuracy,fmeasure,roc_auc);
-	  //clps.learn_and_insert_random_forest(precision, recall, accuracy,fmeasure,roc_auc);
+	  clps.learn_and_insert_random_forest(precision, recall, accuracy,fmeasure,roc_auc);
 	  //clps.learn_and_insert_naive_bayes(precision, recall, accuracy,fmeasure,roc_auc);
 	  //clps.learn_and_insert_bayes_net(precision, recall, accuracy,fmeasure,roc_auc);
 	  //clps.learn_and_insert_adaboost(precision, recall, accuracy,fmeasure,roc_auc);
