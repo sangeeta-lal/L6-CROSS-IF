@@ -33,7 +33,7 @@ import weka.filters.unsupervised.attribute.StringToWordVector;
 // 1. It uses NB and BN score
 // 2. It uses threshold 
 // 3. It uses bagging
-public class with_log_pred_nb_bn_score_thres_bag
+public class with_log_pred_nb_bn_score_thres_bag_learning
 {
 
 
@@ -61,19 +61,11 @@ String type = "if";
 
 int iterations=1;
 String source_project="tomcat";
-String target_project = "cloudstack";
-//String target_project="hd";
-
 //String source_project="cloudstack";
-//String target_project = "tomcat";
-//String target_project="hd";
-
 //String source_project="hd";
-//String target_project = "tomcat";
-//String target_project="cloudstack";
 
 String db_name ="logging6_crossif";
-String result_table = "within_pred_clif_learning_"+type;
+String result_table = "result_within_pred_clif_learning_"+type;
 
 String source_file_path = path+"L6-CROSS-IF\\dataset\\"+source_project+"-arff\\"+type+"\\"+source_project+"_to_"+ source_project+"_"+type+"_with_in_nb_bn_score.arff";		
 //String target_file_path = path+"L6-CROSS-IF\\dataset\\"+target_project+"-arff\\"+type+"\\"+source_project+"_to_"+ target_project+"_"+type+"_cross_nb_bn_score.arff";
@@ -109,7 +101,7 @@ try
 		
 		all_data.setClassIndex(0); //  new line
 		
-		int trainSize = (int) Math.round(all_data.numInstances() * 0.5);
+		int trainSize = (int) Math.round(all_data.numInstances() * 0.8);
 		int testSize = all_data.numInstances() - trainSize;
 		
 		trains = new Instances(all_data, 0, trainSize);
@@ -297,11 +289,13 @@ public void compute_avg_stdev_and_insert(String classifier_name, double threshol
 	double std_roc_auc     = 0.0;
 	double std_ba          = 0.0;
 
-		
+	double avg_features = trains.numAttributes();
+	double std_features=0.0;
+	
   // System.out.println("model ="+classifier_name +"   Acc = "+ avg_accuracy + "  size="+ pred_10_db.size());
 	
-	String insert_str =  " insert into "+ result_table +"  values("+ "'"+ source_project+"','"+ target_project+"','"+ classifier_name+"',"+ threshold+",'"+ ensemble_type+"',"+ trains.numInstances() + ","+ tests.numInstances()+","
-	                       + iterations+","+trains.numAttributes() +","+avg_precision+","+ std_precision+","+ avg_recall+","+ std_recall+","+avg_fmeasure+","+std_fmeasure+","+ avg_accuracy 
+	String insert_str =  " insert into "+ result_table +"  values("+ "'"+ source_project+"','"+ source_project+"','"+ classifier_name+"',"+ threshold+",'"+ ensemble_type+"',"+ trains.numInstances() + ","+ tests.numInstances()+","
+	                       + iterations+","+ avg_features+","+ std_features +","+avg_precision+","+ std_precision+","+ avg_recall+","+ std_recall+","+avg_fmeasure+","+std_fmeasure+","+ avg_accuracy 
 	                       +","+std_accuracy+","+ avg_roc_auc+","+ std_roc_auc+","+ avg_ba+","+ std_ba+" )";
 	System.out.println("Inserting="+ insert_str);
 	
@@ -351,7 +345,7 @@ System.out.println("Computing for:"+ m1.getClass().getName()+  "  Ensemble:"+ en
 public static void main(String args[])
 {	  	
 
-	  with_log_pred_nb_bn_score_thres_bag clps =  new with_log_pred_nb_bn_score_thres_bag();
+	  with_log_pred_nb_bn_score_thres_bag_learning clps =  new with_log_pred_nb_bn_score_thres_bag_learning();
 	
 	  double precision[]   = new double[clps.iterations];
 	  double recall[]      = new double[clps.iterations];
@@ -374,7 +368,7 @@ public static void main(String args[])
 	  clps.learn_and_insert(new SMO(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
 	    
 	  
-	  //Bagging mdels
+	  //Bagging models
 	  
 	  
      }//main	
