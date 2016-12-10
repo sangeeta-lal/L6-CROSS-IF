@@ -7,18 +7,33 @@ This file gives help about some of the parts of this paper
 
 1. How to create table : "tomcat_if_training_NB_BN_score"
 
+"cross project score generation:"
 Steps:
 a. first run :  create table tomcat_if_training6_NB_BN_score (select *  from tomcat_if_training6_crossif)
 b. Now make f_id as primary key
 c. Now create six columns related to NB and BN score
-d. Now delete the extra rows by running following commands: delete from  tomcat_if_training_nb_bn_score where if_expr like '%isTraceEnabled()'  or
+d. Now delete the extra rows by running following commands: delete from  tomcat_if_training6_nb_bn_score where if_expr like '%isTraceEnabled()'  or
                                                             if_expr like '%isDebugEnabled()'  or if_expr  like '%isInfoEnabled()' or if_expr like '%isWarnEnabled()'  
                                                             or if_expr like '%isErrorEnabled()'  or if_expr  like '%isFatalEnabled()'  or if_expr=''
+ 
+ e. generate WEKA files containing only text features for the required source and target project.
                                                             
- e. Now run the  program    "generate_NB_BN_text_feature_SCORE_cross_log_pred.java" for generating cross-project NB and BN score.              
- f.                                 
+ f. Now run the  program    "generate_NB_BN_text_feature_SCORE_cross_log_pred.java" for generating cross-project NB and BN score.              
+                                 
                                                             
                                                             
                                                             
+"with project score generation:"
+Steps:
+a. first run :  create table tomcat_if_training6_NB_BN_score (select *  from tomcat_if_training6_crossif)
+b. Now make f_id as primary key
+c. Now create six columns related to NB and BN score
+d. Now delete the extra rows by running following commands: delete from  tomcat_if_training6_nb_bn_score where if_expr like '%isTraceEnabled()'  or
+                                                            if_expr like '%isDebugEnabled()'  or if_expr  like '%isInfoEnabled()' or if_expr like '%isWarnEnabled()'  
+                                                            or if_expr like '%isErrorEnabled()'  or if_expr  like '%isFatalEnabled()'  or if_expr=''
+ 
+ e. generate WEKA text features files containing ID'S                                                           
+ f. Now run the  program    "generate_NB_BN_text_feature_SCORE_with_in_log_pred.java" for generating cross-project NB and BN score.              
+                                  
 
     

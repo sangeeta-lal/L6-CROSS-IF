@@ -234,6 +234,7 @@ public void generate_nb_bn_score(Classifier m1, Classifier m2, String classifier
 	
 						String update_score = "update "+ result_table +"  set "+ source_project+ "_to_"+source_project+"_"+classifier_acro+"_score=" +score[1] + " where if_id="+ tests_1.instance(j).value(1);
 						
+						System.out.println(update_score);
 						//if(tests_2.instance(j).value(1) ==2)
 							
 						//{System.out.println("update="+ j+ "  ID="+ tests_1.instance(j).value(1) + "  score="+ score[1]);}
@@ -260,6 +261,7 @@ public void generate_nb_bn_score(Classifier m1, Classifier m2, String classifier
 					score= m2.distributionForInstance(curr);
 
 					String update_score = "update "+ result_table +"  set "+ source_project+ "_to_"+source_project+"_"+ classifier_acro +"_score=" +score[1]+" where if_id="+ tests_2.instance(j).value(1);
+					System.out.println(update_score);
 					
 					//if(tests_2.instance(j).value(1) ==2)
 					//{
