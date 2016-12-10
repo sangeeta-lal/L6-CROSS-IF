@@ -58,8 +58,8 @@ String type = "if";
 
 int iterations=1;
 String source_project="tomcat";
-String target_project = "cloudstack";
-//String target_project="hd";
+//String target_project = "cloudstack";
+String target_project="hd";
 
 //String source_project="cloudstack";
 //String target_project = "tomcat";
@@ -70,7 +70,7 @@ String target_project = "cloudstack";
 //String target_project="cloudstack";
 
 String db_name ="logging6_crossif";
-String result_table = target_project+"_"+type+"_training_nb_bn_score";  //score will be generated and updated in the target table using source table
+String result_table = target_project+"_"+type+"_training6_nb_bn_score";  //score will be generated and updated in the target table using source table
 String source_file_path = path+"L6-CROSS-IF\\dataset\\"+source_project+"-arff\\"+type+"\\"+source_project+"_"+type+"_text_features.arff";		
 String target_file_path = path+"L6-CROSS-IF\\dataset\\"+target_project+"-arff\\"+type+"\\"+target_project+"_"+type+"_text_features.arff";
 
@@ -201,7 +201,7 @@ public void generate_nb_bn_score(Classifier m1, String classifier_acro)
 						score= m1.distributionForInstance(curr);
 	
 						String update_score = "update "+ result_table +"  set "+ source_project+ "_to_"+target_project+"_"+classifier_acro+"_score=" +score[1] +" where if_id="+if_ids[j];
-						System.out.println("update="+ j);//+" string="+ update_score);
+						System.out.println("update="+ j +" string="+ update_score);
 	
 						java.sql.Statement stmt = conn.createStatement();
 						stmt.executeUpdate(update_score);
@@ -288,7 +288,7 @@ private void get_if_ids()
 			if_ids[i]  =  id;
 			i++;
 			
-			System.out.println(" id="+id);
+			//System.out.println(" id="+id);
 		}
 		
 		stmt1.close();
