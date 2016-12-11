@@ -459,7 +459,7 @@ public static void main(String args[])
 	  double  ba[]     =     new double[clps.iterations];
 		
 		
-	 // SIMPLE MODELS 
+	 // SIMPLE MODELS    
 	  //clps.learn_and_insert(new ADTree(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
 	  //clps.learn_and_insert(new DecisionTable(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
 	  //clps.learn_and_insert(new J48(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
