@@ -168,8 +168,91 @@ public void pre_process_data()
 
 
 
+
 //This function is used to train and test a using a given classifier
-public void within_pred_random_forest(Classifier m1, String ensemble_type) 
+public void within_pred_bagging(Classifier mo, String ensemble_type) 
+{
+	
+Evaluation evaluation = null;
+
+Bagging model =  new Bagging();	 //bagging
+model.setClassifier(mo);  //bagging
+model.setNumIterations(20); //bagging
+
+int len=  model.getClass().getName().toString().split("\\.").length;
+String classifier_name =  mo.getClass().getName().toString().split("\\.")[len-1];
+
+try
+{	
+	
+	
+  model.buildClassifier(trains);
+	evaluation= new Evaluation(trains);
+	
+	
+	for(double thres=0.1; thres<=1.0; thres=thres+0.01)
+	 {
+		double tp=0.0, fp=0.0, tn =0.0,fn=0.0;
+		
+		for (int j = 0; j < tests.numInstances(); j++) 
+		 {
+		     
+			double score[] ;
+			Instance curr  =  tests.instance(j);  
+			double actual = curr.classValue();
+		  
+			score= model.distributionForInstance(curr);
+			
+			
+			 double predicted = 0;
+		     if ( score[1] <= thres) 
+		     {   predicted = 0;} 
+		     else 
+		     { 	 predicted = 1 ;}
+			 
+		     if (actual == 1) 
+		       {
+			      if (predicted == 1) 
+			      { 			       tp++;			      } 
+			      else
+			      { 			       fn++; 			      }
+			     }
+
+			 else if (actual == 0)
+			   {
+			      if (predicted == 0) 
+			      { 			       tn++; 			      } 
+			      else 
+			      { 			       fp++; 			      }
+			     }//else if
+
+			
+		 }//  for test instances
+		
+		util6_met ut6 =  new util6_met();
+		
+		double precision    =   ut6.compute_precision(tp, fp, tn, fn);
+		double recall       =   ut6.compute_recall(tp, fp, tn, fn);
+		double accuracy     =   ut6.compute_accuracy(tp, fp, tn, fn);
+		double fmeasure     =   ut6.compute_fmeasure(tp, fp, tn, fn);
+		double roc_auc      =   0.0;// result.areaUnderROC(1)*100;	
+		double ba           =   0.0;// write a function for this computation
+		
+		
+		compute_avg_stdev_and_insert(classifier_name, thres, ensemble_type, precision, recall, accuracy, fmeasure, roc_auc, ba);
+		
+	 }// for thres
+
+} catch (Exception e) 
+{ 	e.printStackTrace();  }
+
+}
+	
+
+
+
+//This function is used to train and test a using a given classifier
+public void within_pred(Classifier m1, String ensemble_type) 
 {
 Evaluation evaluation = null;
 
@@ -330,7 +413,28 @@ System.out.println("Computing for:"+ m1.getClass().getName()+  "  Ensemble:"+ en
 			 {
 			    read_file();			   
 				pre_process_data();
-				within_pred_random_forest(m1, ensemble_type);			
+				within_pred(m1, ensemble_type);			
+				
+				//System.out.println(clp.result.toSummaryString());			
+					
+			}
+				  
+		  // compute_avg_stdev_and_insert("Random Forest", precision, recall, accuracy, fmeasure , roc_auc );	   
+}
+
+
+
+private void learn_and_insert_bagging(Classifier m1, String ensemble_type, double[] precision,
+		double[] recall, double[] accuracy, double[] fmeasure, double[] roc_auc, double ba[]) 
+{
+System.out.println("Computing for:"+ m1.getClass().getName()+  "  Ensemble:"+ ensemble_type);  
+	
+	//\\=========== Decision table=================================//\\			
+		for(int i=0; i<iterations; i++)
+			 {
+			    read_file();			   
+				pre_process_data();
+				within_pred(m1, ensemble_type);			
 				
 				//System.out.println(clp.result.toSummaryString());			
 					
@@ -356,19 +460,92 @@ public static void main(String args[])
 		
 		
 	 // SIMPLE MODELS 
-	  clps.learn_and_insert(new ADTree(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert(new DecisionTable(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert(new J48(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert(new Logistic(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert(new RandomForest(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert(new NaiveBayes(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert(new BayesNet(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert(new AdaBoostM1(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert(new RBFNetwork(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert(new SMO(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	    
+	  //clps.learn_and_insert(new ADTree(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
+	  //clps.learn_and_insert(new DecisionTable(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
+	  //clps.learn_and_insert(new J48(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
+	  //clps.learn_and_insert(new Logistic(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
+	  //clps.learn_and_insert(new RandomForest(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
+	  //clps.learn_and_insert(new NaiveBayes(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
+	  //clps.learn_and_insert(new BayesNet(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
+	  //clps.learn_and_insert(new AdaBoostM1(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
+	  //clps.learn_and_insert(new RBFNetwork(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
+	  //clps.learn_and_insert(new SMO(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
+	   
 	  
 	  //Bagging models
+	  Bagging model =  new Bagging();	 //bagging	 
+	  model.setNumIterations(20);  //bagging
+		
+	  
+	 // model.setClassifier(new ADTree()); 
+	  //clps.learn_and_insert(model, "Bagging", precision, recall, accuracy,fmeasure,roc_auc, ba);
+	  
+	  //model.setClassifier(new DecisionTable()); 
+	  //clps.learn_and_insert(model, "Bagging", precision, recall, accuracy,fmeasure,roc_auc, ba);
+	  
+	 // model.setClassifier(new J48()); 
+	  //clps.learn_and_insert(model, "Bagging", precision, recall, accuracy,fmeasure,roc_auc, ba);
+	  
+	  //model.setClassifier(new Logistic()); 
+	  //clps.learn_and_insert(model, "Bagging", precision, recall, accuracy,fmeasure,roc_auc, ba);
+	  
+	  
+	  //model.setClassifier(new RandomForest()); 
+	  //clps.learn_and_insert(model , "Bagging", precision, recall, accuracy,fmeasure,roc_auc, ba);
+	
+	  //model.setClassifier(new NaiveBayes()); 
+	  //clps.learn_and_insert(model, "Bagging", precision, recall, accuracy,fmeasure,roc_auc, ba);
+	  
+	  //model.setClassifier(new BayesNet()); 
+	  //clps.learn_and_insert(model, "Bagging", precision, recall, accuracy,fmeasure,roc_auc, ba);
+	  
+	  //model.setClassifier(new AdaBoostM1()); 
+	  //clps.learn_and_insert(model, "Bagging", precision, recall, accuracy,fmeasure,roc_auc, ba);
+	  
+	  //model.setClassifier(new RBFNetwork()); 
+	  //clps.learn_and_insert(model, "Bagging", precision, recall, accuracy,fmeasure,roc_auc, ba);
+	 
+	  //model.setClassifier(new SMO()); 
+	  //clps.learn_and_insert(model, "Bagging", precision, recall, accuracy,fmeasure,roc_auc, ba);
+	  
+	  
+	  // Boosting
+	  
+	  AdaBoostM1 model2 =  new AdaBoostM1();	 //boosting 
+	  model2.setNumIterations(20);  //boosting
+		
+	  
+	  //model2.setClassifier(new ADTree()); 
+	  //clps.learn_and_insert(model2, "Boosting", precision, recall, accuracy,fmeasure,roc_auc, ba);
+	  
+	  //model2.setClassifier(new DecisionTable()); 
+	  //clps.learn_and_insert(model2, "Boosting", precision, recall, accuracy,fmeasure,roc_auc, ba);
+	  
+	  //model2.setClassifier(new J48()); 
+	  //clps.learn_and_insert(model2, "Boosting", precision, recall, accuracy,fmeasure,roc_auc, ba);
+	  
+	  //model2.setClassifier(new Logistic()); 
+	  //clps.learn_and_insert(model2, "Boosting", precision, recall, accuracy,fmeasure,roc_auc, ba);
+	  
+	  
+	  //model2.setClassifier(new RandomForest()); 
+	  //clps.learn_and_insert(model2 , "Boosting", precision, recall, accuracy,fmeasure,roc_auc, ba);
+	
+	  //model2.setClassifier(new NaiveBayes()); 
+	  //clps.learn_and_insert(model2, "Boosting", precision, recall, accuracy,fmeasure,roc_auc, ba);
+	  
+	  //model2.setClassifier(new BayesNet()); 
+	  //clps.learn_and_insert(model2, "Boosting", precision, recall, accuracy,fmeasure,roc_auc, ba);
+	  
+	  //model2.setClassifier(new AdaBoostM1()); 
+	  //clps.learn_and_insert(model2, "Boosting", precision, recall, accuracy,fmeasure,roc_auc, ba);
+	  
+	  //model2.setClassifier(new RBFNetwork()); 
+	  //clps.learn_and_insert(model2, "Boosting", precision, recall, accuracy,fmeasure,roc_auc, ba);
+	 
+	  //model2.setClassifier(new SMO()); 
+	 // clps.learn_and_insert(model2, "Boosting", precision, recall, accuracy,fmeasure,roc_auc, ba);
+	
 	  
 	  
      }//main	
