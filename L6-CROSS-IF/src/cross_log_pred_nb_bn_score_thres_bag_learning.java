@@ -459,7 +459,7 @@ public void compute_avg_stdev_and_insert(String classifier_name, double threshol
 	
   // System.out.println("model ="+classifier_name +"   Acc = "+ avg_accuracy + "  size="+ pred_10_db.size());
 	
-	String insert_str =  " insert into "+ result_table +"  values("+ "'"+ source_project+"','"+ source_project+"','"+ classifier_name+"',"+ threshold+",'"+ ensemble_type+"',"+ trains.numInstances() + ","+ tests.numInstances()+","
+	String insert_str =  " insert into "+ result_table +"  values("+ "'"+ source_project+"','"+ target_project+"','"+ classifier_name+"',"+ threshold+",'"+ ensemble_type+"',"+ trains.numInstances() + ","+ tests.numInstances()+","
 	                       + iterations+","+ avg_features+","+ std_features +","+avg_precision+","+ std_precision+","+ avg_recall+","+ std_recall+","+avg_fmeasure+","+std_fmeasure+","+ avg_accuracy 
 	                       +","+std_accuracy+","+ avg_roc_auc+","+ std_roc_auc+","+ avg_ba+","+ std_ba+" )";
 	System.out.println("Inserting="+ insert_str);
