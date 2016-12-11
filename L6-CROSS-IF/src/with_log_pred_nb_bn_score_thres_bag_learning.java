@@ -545,7 +545,7 @@ public static void main(String args[])
 	 
 	  //model2.setClassifier(new SMO()); 
 	 // clps.learn_and_insert(model2, "Boosting", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	
+	 
 	  
 	  
      }//main	
