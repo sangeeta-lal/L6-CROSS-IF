@@ -33,7 +33,7 @@ import weka.filters.unsupervised.attribute.StringToWordVector;
 // 1. It uses NB and BN score
 // 2. It uses threshold 
 // 3. It uses bagging
-public class with_log_pred_nb_bn_score_thres_bag_learning
+public class cross_log_pred_nb_bn_score_thres_bag_learning
 {
 
 
@@ -61,18 +61,29 @@ String type = "if";
 
 int iterations=1;
 String source_project="tomcat";
+String target_project="cloudstack";
+//String target_project="hd";
+
+
 //String source_project="cloudstack";
-//String source_project="hd";
+//String target_project="cloudstack";
+//String target_project="hd";
+
+//String source_project="tomcat";
+//String target_project="cloudstack";
+//String target_project="hd";
+
+
 
 String db_name ="logging6_crossif";
-String result_table = "result_within_pred_clif_learning_"+type;
+String result_table = "result_cross_pred_clif_learning_"+type;
 
 String source_file_path = path+"L6-CROSS-IF\\dataset\\"+source_project+"-arff\\"+type+"\\"+source_project+"_to_"+ source_project+"_"+type+"_with_in_nb_bn_score.arff";		
-//String target_file_path = path+"L6-CROSS-IF\\dataset\\"+target_project+"-arff\\"+type+"\\"+source_project+"_to_"+ target_project+"_"+type+"_cross_nb_bn_score.arff";
+String target_file_path = path+"L6-CROSS-IF\\dataset\\"+target_project+"-arff\\"+type+"\\"+source_project+"_to_"+ target_project+"_"+type+"_cross_nb_bn_score.arff";
 
-//DataSource trainsource;
+DataSource trainsource;
 DataSource testsource;
-DataSource allsource;
+//DataSource allsource;
 
 Instances trains;
 Instances tests;
@@ -91,24 +102,19 @@ public void read_file()
 try 
 	{
 	
-	    System.out.println(" source: "+  source_file_path); //+ "  target:"+ target_file_path);
-		//trainsource = new DataSource(source_file_path);
+	    System.out.println(" source: "+  source_file_path + "  target:"+ target_file_path);
 		
-		allsource = new DataSource(source_file_path);
-		all_data= allsource.getDataSet();	
+	    trainsource = new DataSource(source_file_path);
+		testsource = new DataSource(target_file_path);
 		
-		all_data.randomize(new java.util.Random(1));
+		trains= trainsource.getDataSet();	
+		tests= testsource.getDataSet();
 		
-		all_data.setClassIndex(0); //  new line
+		//all_data.randomize(new java.util.Random(1));
 		
-		int trainSize = (int) Math.round(all_data.numInstances() * 0.8);
-		int testSize = all_data.numInstances() - trainSize;
-		
-		trains = new Instances(all_data, 0, trainSize);
-		tests = new Instances(all_data, trainSize, testSize);
-		
-		trains.setClassIndex(0);
+		trains.setClassIndex(0); //  new line
 		tests.setClassIndex(0);
+		
 		
 		instance_count_source = trains.numInstances();
 		instance_count_target = tests.numInstances();
@@ -544,7 +550,7 @@ System.out.println("Computing for:"+ m1.getClass().getName()+  "  Ensemble:"+ en
 public static void main(String args[])
 {	  	
 
-	  with_log_pred_nb_bn_score_thres_bag_learning clps =  new with_log_pred_nb_bn_score_thres_bag_learning();
+	  cross_log_pred_nb_bn_score_thres_bag_learning clps =  new cross_log_pred_nb_bn_score_thres_bag_learning();
 	
 	  double precision[]   = new double[clps.iterations];
 	  double recall[]      = new double[clps.iterations];
