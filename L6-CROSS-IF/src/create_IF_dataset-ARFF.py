@@ -344,7 +344,7 @@ def write_in_file_all_features(file_obj, tuple_val):
              t_method_param_type + " " +  t_method_param_name +" " +  t_package_name+" "+ t_class_name + " "+ t_method_name         
     
     #Applying camel casing
-    text_features = utill6.camel_case_convert(text_features)
+    text_features = utill6.camel_case_convert(text_features) ## This function converts it to lower case
     text_features = utill6.remove_stop_words(text_features)
     text_features = utill6.stem_it(text_features)
     

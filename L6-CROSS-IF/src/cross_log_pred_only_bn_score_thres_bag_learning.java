@@ -25,19 +25,18 @@ import weka.core.converters.ArffSaver;
 import weka.core.converters.ConverterUtils.DataSource;
 import weka.filters.Filter;
 import weka.filters.supervised.attribute.Discretize;
+import weka.filters.unsupervised.attribute.Remove;
 import weka.filters.unsupervised.attribute.Standardize;
 import weka.filters.unsupervised.attribute.StringToWordVector;
 
 // This file will be used to ensemble based prediction for cross project prediction
 //Note:
-// This is the final CLIF model
-// 1. It uses NB and BN score
+// This is a variant of CLIF model that removes Navie Bayes score from the computations
+// 1. It uses BN
 // 2. It uses threshold 
 // 3. It uses bagging
-public class cross_log_pred_nb_bn_score_thres_bag_learning
+public class cross_log_pred_only_bn_score_thres_bag_learning
 {
-
-
 
 /*
 String path = "E:\\Sangeeta\\Research\\";
@@ -62,8 +61,8 @@ String type = "if";
 
 int iterations=1;
 String source_project="tomcat";
-String target_project="cloudstack";
-//String target_project="hd";
+//String target_project="cloudstack";
+String target_project="hd";
 
 
 //String source_project="cloudstack";
@@ -77,7 +76,7 @@ String target_project="cloudstack";
 
 
 String db_name ="logging6_crossif";
-String result_table = "result_cross_pred_clif_nb_bn_learning_"+type;
+String result_table = "result_cross_pred_clif_only_nb_learning_"+type;
 
 String source_file_path = path+"L6-CROSS-IF\\dataset\\"+source_project+"-arff\\"+type+"\\"+source_project+"_to_"+ source_project+"_"+type+"_with_in_nb_bn_score.arff";		
 String target_file_path = path+"L6-CROSS-IF\\dataset\\"+target_project+"-arff\\"+type+"\\"+source_project+"_to_"+ target_project+"_"+type+"_cross_nb_bn_score.arff";
@@ -148,14 +147,12 @@ public void pre_process_data()
 	//  tests = Filter.useFilter(tests, tfidf_filter);
  
      /*
-
      //2. Standarize  (not normalize because normalization is affected by outliers very easily)   	  
 	  Standardize  std_filter =  new Standardize();
 	  std_filter.setInputFormat(trains);
 	  trains= Filter.useFilter(trains,std_filter);     	  
 	 
 	  tests= Filter.useFilter(tests,std_filter);  	  
-     
 
      //3. Discretizations
 	  Discretize dfilter = new Discretize();
@@ -165,7 +162,15 @@ public void pre_process_data()
      tests = Filter.useFilter(tests, dfilter);	      
      */
 
-
+     // 4. Remove BN Score from the dataset
+	    Remove rm =  new Remove();
+	    rm.setAttributeIndices("20");
+		rm.setInputFormat(trains);
+		trains = Filter.useFilter(trains, rm);     	  
+		
+		tests = Filter.useFilter(tests, rm);
+	 	 
+	 
 	} catch (Exception e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
@@ -551,7 +556,7 @@ System.out.println("Computing for:"+ m1.getClass().getName()+  "  Ensemble:"+ en
 public static void main(String args[])
 {	  	
 
-	  cross_log_pred_nb_bn_score_thres_bag_learning clps =  new cross_log_pred_nb_bn_score_thres_bag_learning();
+	  cross_log_pred_only_bn_score_thres_bag_learning clps =  new cross_log_pred_only_bn_score_thres_bag_learning();
 	
 	  double precision[]   = new double[clps.iterations];
 	  double recall[]      = new double[clps.iterations];
