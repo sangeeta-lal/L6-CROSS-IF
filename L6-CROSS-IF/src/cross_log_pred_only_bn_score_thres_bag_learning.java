@@ -76,7 +76,7 @@ String target_project="hd";
 
 
 String db_name ="logging6_crossif";
-String result_table = "result_cross_pred_clif_only_nb_learning_"+type;
+String result_table = "result_cross_pred_clif_only_bn_learning_"+type;
 
 String source_file_path = path+"L6-CROSS-IF\\dataset\\"+source_project+"-arff\\"+type+"\\"+source_project+"_to_"+ source_project+"_"+type+"_with_in_nb_bn_score.arff";		
 String target_file_path = path+"L6-CROSS-IF\\dataset\\"+target_project+"-arff\\"+type+"\\"+source_project+"_to_"+ target_project+"_"+type+"_cross_nb_bn_score.arff";
@@ -568,40 +568,34 @@ public static void main(String args[])
 		
 	 // SIMPLE MODELS    
 	  clps.learn_and_insert(new ADTree(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert(new DecisionTable(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
 	  clps.learn_and_insert(new J48(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
 	  clps.learn_and_insert(new Logistic(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
 	  clps.learn_and_insert(new RandomForest(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
 	  clps.learn_and_insert(new NaiveBayes(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
 	  clps.learn_and_insert(new BayesNet(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
 	  clps.learn_and_insert(new AdaBoostM1(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert(new RBFNetwork(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
 	  clps.learn_and_insert(new SMO(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
 	   
 	  
 	  //Bagging models
 	  clps.learn_and_insert_bagging(new ADTree(), "Bagging", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert_bagging(new DecisionTable(), "Bagging", precision, recall, accuracy,fmeasure,roc_auc, ba);
 	  clps.learn_and_insert_bagging(new J48(), "Bagging", precision, recall, accuracy,fmeasure,roc_auc, ba);
 	  clps.learn_and_insert_bagging(new Logistic(), "Bagging", precision, recall, accuracy,fmeasure,roc_auc, ba);
 	  clps.learn_and_insert_bagging(new RandomForest() , "Bagging", precision, recall, accuracy,fmeasure,roc_auc, ba);
 	  clps.learn_and_insert_bagging(new NaiveBayes(), "Bagging", precision, recall, accuracy,fmeasure,roc_auc, ba); 
 	  clps.learn_and_insert_bagging(new BayesNet(), "Bagging", precision, recall, accuracy,fmeasure,roc_auc, ba);
 	  clps.learn_and_insert_bagging(new AdaBoostM1(), "Bagging", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert_bagging(new RBFNetwork(), "Bagging", precision, recall, accuracy,fmeasure,roc_auc, ba);
 	  clps.learn_and_insert_bagging(new SMO(), "Bagging", precision, recall, accuracy,fmeasure,roc_auc, ba);
 	  
 	  
 	  // Boosting
 	  clps.learn_and_insert_boosting(new ADTree(), "Boosting", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert_boosting(new DecisionTable(), "Boosting", precision, recall, accuracy,fmeasure,roc_auc, ba);
 	  clps.learn_and_insert_boosting(new J48(), "Boosting", precision, recall, accuracy,fmeasure,roc_auc, ba);
 	  clps.learn_and_insert_boosting(new Logistic(), "Boosting", precision, recall, accuracy,fmeasure,roc_auc, ba);
 	  clps.learn_and_insert_boosting(new RandomForest() , "Boosting", precision, recall, accuracy,fmeasure,roc_auc, ba);
 	  clps.learn_and_insert_boosting(new NaiveBayes(), "Boosting", precision, recall, accuracy,fmeasure,roc_auc, ba); 
 	  clps.learn_and_insert_boosting(new BayesNet(), "Boosting", precision, recall, accuracy,fmeasure,roc_auc, ba);
 	  clps.learn_and_insert_boosting(new AdaBoostM1(), "Boosting", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert_boosting(new RBFNetwork(), "Boosting", precision, recall, accuracy,fmeasure,roc_auc, ba);
 	  clps.learn_and_insert_boosting(new SMO(), "Boosting", precision, recall, accuracy,fmeasure,roc_auc, ba);
 	  
 	  
