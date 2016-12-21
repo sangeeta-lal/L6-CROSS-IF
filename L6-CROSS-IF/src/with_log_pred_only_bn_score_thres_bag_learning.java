@@ -25,15 +25,16 @@ import weka.core.converters.ArffSaver;
 import weka.core.converters.ConverterUtils.DataSource;
 import weka.filters.Filter;
 import weka.filters.supervised.attribute.Discretize;
+import weka.filters.unsupervised.attribute.Remove;
 import weka.filters.unsupervised.attribute.Standardize;
 import weka.filters.unsupervised.attribute.StringToWordVector;
 
 // This file will be used to ensemble based prediction for cross project prediction
 //Note:
-// 1. It uses NB and BN score
+// 1. It uses only NB score
 // 2. It uses threshold 
 // 3. It uses bagging
-public class with_log_pred_nb_bn_score_thres_bag_learning
+public class with_log_pred_only_bn_score_thres_bag_learning
 {
 
 
@@ -65,7 +66,7 @@ String source_project="tomcat";
 //String source_project="hd";
 
 String db_name ="logging6_crossif";
-String result_table = "result_within_pred_clif_nb_bn_learning_"+type;
+String result_table = "result_within_pred_clif_only_bn_learning_"+type;
 
 String source_file_path = path+"L6-CROSS-IF\\dataset\\"+source_project+"-arff\\"+type+"\\"+source_project+"_to_"+ source_project+"_"+type+"_with_in_nb_bn_score.arff";		
 //String target_file_path = path+"L6-CROSS-IF\\dataset\\"+target_project+"-arff\\"+type+"\\"+source_project+"_to_"+ target_project+"_"+type+"_cross_nb_bn_score.arff";
@@ -147,7 +148,7 @@ public void pre_process_data()
 	 // std_filter.setInputFormat(trains);
 	 // trains= Filter.useFilter(trains,std_filter);     	  
 	 
-	 // tests= Filter.useFilter(tests,std_filter);  	  
+	  //tests= Filter.useFilter(tests,std_filter);  	  
    //  */
 /*
      //3. Discretizations
@@ -158,6 +159,14 @@ public void pre_process_data()
      tests = Filter.useFilter(tests, dfilter);	      
      */
 
+	 
+	// 4. Remove BN Score from the dataset
+	    Remove rm =  new Remove();
+	    rm.setAttributeIndices("20");
+		rm.setInputFormat(trains);
+		trains = Filter.useFilter(trains, rm);     	  
+		
+		tests = Filter.useFilter(tests, rm);
 
 	} catch (Exception e) {
 		// TODO Auto-generated catch block
@@ -544,7 +553,7 @@ System.out.println("Computing for:"+ m1.getClass().getName()+  "  Ensemble:"+ en
 public static void main(String args[])
 {	  	
 
-	  with_log_pred_nb_bn_score_thres_bag_learning clps =  new with_log_pred_nb_bn_score_thres_bag_learning();
+	  with_log_pred_only_bn_score_thres_bag_learning clps =  new with_log_pred_only_bn_score_thres_bag_learning();
 	
 	  double precision[]   = new double[clps.iterations];
 	  double recall[]      = new double[clps.iterations];
