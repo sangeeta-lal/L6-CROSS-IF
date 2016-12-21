@@ -65,7 +65,7 @@ String source_project="tomcat";
 //String source_project="hd";
 
 String db_name ="logging6_crossif";
-String result_table = "result_within_pred_clif_learning_"+type;
+String result_table = "result_within_pred_clif_nb_bn_learning_"+type;
 
 String source_file_path = path+"L6-CROSS-IF\\dataset\\"+source_project+"-arff\\"+type+"\\"+source_project+"_to_"+ source_project+"_"+type+"_with_in_nb_bn_score.arff";		
 //String target_file_path = path+"L6-CROSS-IF\\dataset\\"+target_project+"-arff\\"+type+"\\"+source_project+"_to_"+ target_project+"_"+type+"_cross_nb_bn_score.arff";
@@ -140,7 +140,7 @@ public void pre_process_data()
 	
 	//  tests = Filter.useFilter(tests, tfidf_filter);
  
-     /*
+    // /*
 
      //2. Standarize  (not normalize because normalization is affected by outliers very easily)   	  
 	  Standardize  std_filter =  new Standardize();
@@ -148,8 +148,8 @@ public void pre_process_data()
 	  trains= Filter.useFilter(trains,std_filter);     	  
 	 
 	  tests= Filter.useFilter(tests,std_filter);  	  
-     
-
+   //  */
+/*
      //3. Discretizations
 	  Discretize dfilter = new Discretize();
      dfilter.setInputFormat(trains);
@@ -555,17 +555,17 @@ public static void main(String args[])
 		
 		
 	 // SIMPLE MODELS    
-	  clps.learn_and_insert(new ADTree(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert(new J48(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert(new Logistic(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert(new RandomForest(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert(new NaiveBayes(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert(new BayesNet(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert(new AdaBoostM1(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert(new SMO(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
+	//  clps.learn_and_insert(new ADTree(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
+	 // clps.learn_and_insert(new J48(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
+	 // clps.learn_and_insert(new Logistic(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
+	  //clps.learn_and_insert(new RandomForest(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
+	  //clps.learn_and_insert(new NaiveBayes(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
+	 // clps.learn_and_insert(new BayesNet(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
+	  //clps.learn_and_insert(new AdaBoostM1(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
+	  //clps.learn_and_insert(new SMO(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
 	   
 	  
-	  //Bagging models
+	  /*//Bagging models
 	  clps.learn_and_insert_bagging(new ADTree(), "Bagging", precision, recall, accuracy,fmeasure,roc_auc, ba);
 	  clps.learn_and_insert_bagging(new J48(), "Bagging", precision, recall, accuracy,fmeasure,roc_auc, ba);
 	  clps.learn_and_insert_bagging(new Logistic(), "Bagging", precision, recall, accuracy,fmeasure,roc_auc, ba);
@@ -581,10 +581,10 @@ public static void main(String args[])
 	  clps.learn_and_insert_boosting(new J48(), "Boosting", precision, recall, accuracy,fmeasure,roc_auc, ba);
 	  clps.learn_and_insert_boosting(new Logistic(), "Boosting", precision, recall, accuracy,fmeasure,roc_auc, ba);
 	  clps.learn_and_insert_boosting(new RandomForest() , "Boosting", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert_boosting(new NaiveBayes(), "Boosting", precision, recall, accuracy,fmeasure,roc_auc, ba); 
-	  clps.learn_and_insert_boosting(new BayesNet(), "Boosting", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert_boosting(new AdaBoostM1(), "Boosting", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert_boosting(new SMO(), "Boosting", precision, recall, accuracy,fmeasure,roc_auc, ba);
+	  clps.learn_and_insert_boosting(new NaiveBayes(), "Boosting", precision, recall, accuracy,fmeasure,roc_auc, ba); */
+	//  clps.learn_and_insert_boosting(new BayesNet(), "Boosting", precision, recall, accuracy,fmeasure,roc_auc, ba);
+	 clps.learn_and_insert_boosting(new AdaBoostM1(), "Boosting", precision, recall, accuracy,fmeasure,roc_auc, ba);
+	//  clps.learn_and_insert_boosting(new SMO(), "Boosting", precision, recall, accuracy,fmeasure,roc_auc, ba);
 	  
 	  
 	
