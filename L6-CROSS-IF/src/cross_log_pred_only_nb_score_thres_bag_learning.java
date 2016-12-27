@@ -197,7 +197,7 @@ try
 	evaluation= new Evaluation(trains);
 	
 	
-	for(double thres=0.1; thres<=1.0; thres=thres+0.01)
+	for(double thres=0.0; thres<=1.0; thres=thres+0.01)
 	 {
 		double tp=0.0, fp=0.0, tn =0.0,fn=0.0;
 		
