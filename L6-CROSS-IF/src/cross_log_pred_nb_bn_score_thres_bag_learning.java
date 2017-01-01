@@ -237,7 +237,11 @@ try
 		double recall       =   ut6.compute_recall(tp, fp, tn, fn);
 		double accuracy     =   ut6.compute_accuracy(tp, fp, tn, fn);
 		double fmeasure     =   ut6.compute_fmeasure(tp, fp, tn, fn);
-		double roc_auc      =   0.0;// result.areaUnderROC(1)*100;	
+		
+		 evaluation.evaluateModel(m1, tests);   // This is created because I want to Roc-auc. As it returns same value for all the threshold.
+		 double roc_auc = evaluation.areaUnderROC(1)*100;
+		
+		//double roc_auc      =   0.0;// result.areaUnderROC(1)*100;	
 		double ba           =   0.0;// write a function for this computation
 		
 		
@@ -314,7 +318,11 @@ try
 		double recall       =   ut6.compute_recall(tp, fp, tn, fn);
 		double accuracy     =   ut6.compute_accuracy(tp, fp, tn, fn);
 		double fmeasure     =   ut6.compute_fmeasure(tp, fp, tn, fn);
-		double roc_auc      =   0.0;// result.areaUnderROC(1)*100;	
+		
+		 evaluation.evaluateModel(model, tests);   // This is created because I want to Roc-auc. As it returns same value for all the threshold.
+		 double roc_auc = evaluation.areaUnderROC(1)*100;
+		
+		//double roc_auc      =   0.0;// result.areaUnderROC(1)*100;	
 		double ba           =   0.0;// write a function for this computation
 		
 		
@@ -392,7 +400,10 @@ try
 		double recall       =   ut6.compute_recall(tp, fp, tn, fn);
 		double accuracy     =   ut6.compute_accuracy(tp, fp, tn, fn);
 		double fmeasure     =   ut6.compute_fmeasure(tp, fp, tn, fn);
-		double roc_auc      =   0.0;// result.areaUnderROC(1)*100;	
+		
+		 evaluation.evaluateModel(model, tests);   // This is created because I want to Roc-auc. As it returns same value for all the threshold.
+		 double roc_auc = evaluation.areaUnderROC(1)*100;
+		//double roc_auc      =   0.0;// result.areaUnderROC(1)*100;	
 		double ba           =   0.0;// write a function for this computation
 		
 		

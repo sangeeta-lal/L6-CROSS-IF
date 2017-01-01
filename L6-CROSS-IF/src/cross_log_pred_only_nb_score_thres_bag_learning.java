@@ -242,8 +242,14 @@ try
 		double recall       =   ut6.compute_recall(tp, fp, tn, fn);
 		double accuracy     =   ut6.compute_accuracy(tp, fp, tn, fn);
 		double fmeasure     =   ut6.compute_fmeasure(tp, fp, tn, fn);
-		double roc_auc      =   0.0;// result.areaUnderROC(1)*100;	
-		double ba           =   0.0;// write a function for this computation
+		
+		
+		 evaluation.evaluateModel(m1, tests);   // This is created because I want to Roc-auc. As it returns same value for all the threshold.
+		 double roc_auc = evaluation.areaUnderROC(1)*100;
+		 
+		// System.out.println(" thresh="+ thres+ "  accuracy="+ accuracy+ "  temo_accuracy="+ evaluation.pctCorrect());
+		
+		 double ba           =   0.0;// write a function for this computation
 		
 		
 		compute_avg_stdev_and_insert(classifier_name, thres, ensemble_type, precision, recall, accuracy, fmeasure, roc_auc, ba);
@@ -319,7 +325,11 @@ try
 		double recall       =   ut6.compute_recall(tp, fp, tn, fn);
 		double accuracy     =   ut6.compute_accuracy(tp, fp, tn, fn);
 		double fmeasure     =   ut6.compute_fmeasure(tp, fp, tn, fn);
-		double roc_auc      =   0.0;// result.areaUnderROC(1)*100;	
+		
+		 evaluation.evaluateModel(model, tests);   // This is created because I want to Roc-auc. As it returns same value for all the threshold.
+		 double roc_auc = evaluation.areaUnderROC(1)*100;
+		
+		//double roc_auc      =   0.0;// result.areaUnderROC(1)*100;	
 		double ba           =   0.0;// write a function for this computation
 		
 		
@@ -397,7 +407,11 @@ try
 		double recall       =   ut6.compute_recall(tp, fp, tn, fn);
 		double accuracy     =   ut6.compute_accuracy(tp, fp, tn, fn);
 		double fmeasure     =   ut6.compute_fmeasure(tp, fp, tn, fn);
-		double roc_auc      =   0.0;// result.areaUnderROC(1)*100;	
+		
+		 evaluation.evaluateModel(model, tests);   // This is created because I want to Roc-auc. As it returns same value for all the threshold.
+		 double roc_auc = evaluation.areaUnderROC(1)*100;
+		
+		//double roc_auc      =   0.0;// result.areaUnderROC(1)*100;	
 		double ba           =   0.0;// write a function for this computation
 		
 		
