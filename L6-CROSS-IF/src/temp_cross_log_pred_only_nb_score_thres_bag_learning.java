@@ -34,7 +34,7 @@ import weka.filters.unsupervised.attribute.StringToWordVector;
 // 1. It uses only NB score
 // 2. It uses threshold 
 // 3. It uses bagging
-public class with_log_pred_only_nb_score_thres_bag_learning
+public class temp_cross_log_pred_only_nb_score_thres_bag_learning
 {
 
 
@@ -60,20 +60,22 @@ String driver = "com.mysql.jdbc.Driver";
 //String type = "catch";
 String type = "if";
 
-int iterations=2;
+int iterations=1;
 String source_project="tomcat";
+String target_project = "cloudstack";
+
 //String source_project="cloudstack";
 //String source_project="hd";
 
 String db_name ="logging6_crossif";
-String result_table = "result_within_pred_clif_only_nb_learning_"+type;
+String result_table = "temp_result_cross_pred_clif_only_nb_learning_"+type;
 
 String source_file_path = path+"L6-CROSS-IF\\dataset\\"+source_project+"-arff\\"+type+"\\"+source_project+"_to_"+ source_project+"_"+type+"_with_in_nb_bn_score.arff";		
-//String target_file_path = path+"L6-CROSS-IF\\dataset\\"+target_project+"-arff\\"+type+"\\"+source_project+"_to_"+ target_project+"_"+type+"_cross_nb_bn_score.arff";
+String target_file_path = path+"L6-CROSS-IF\\dataset\\"+target_project+"-arff\\"+type+"\\"+source_project+"_to_"+ target_project+"_"+type+"_cross_nb_bn_score.arff";
 
-//DataSource trainsource;
+DataSource trainsource;
 DataSource testsource;
-DataSource allsource;
+//DataSource allsource;
 
 double precision[][];
 double recall[][];
@@ -87,7 +89,8 @@ double no_of_features[];
 
 Instances trains;
 Instances tests;
-Instances all_data;
+//Instances all_data;
+
 Evaluation result;
 
 int instance_count_source = 0;
@@ -103,20 +106,25 @@ try
 	{
 	
 	    System.out.println(" source: "+  source_file_path); //+ "  target:"+ target_file_path);
-		//trainsource = new DataSource(source_file_path);
 		
-		allsource = new DataSource(source_file_path);
-		all_data= allsource.getDataSet();	
 		
-		all_data.randomize(new java.util.Random(random_number));
+		trainsource = new DataSource(source_file_path);
+		trains= trainsource.getDataSet();	
 		
-		all_data.setClassIndex(0); //  new line
+		testsource = new DataSource(target_file_path);
+		tests= testsource.getDataSet();	
 		
-		int trainSize = (int) Math.round(all_data.numInstances() * 0.8);
+		
+		//all_data.randomize(new java.util.Random(random_number));
+		
+		trains.setClassIndex(0); //  new line
+		tests.setClassIndex(0); //  
+		
+		/*int trainSize = (int) Math.round(all_data.numInstances() * 0.8);
 		int testSize = all_data.numInstances() - trainSize;
 		
 		trains = new Instances(all_data, 0, trainSize);
-		tests = new Instances(all_data, trainSize, testSize);
+		tests = new Instances(all_data, trainSize, testSize);*/
 		
 		trains.setClassIndex(0);
 		tests.setClassIndex(0);
@@ -776,7 +784,7 @@ System.out.println("Computing for:"+ m1.getClass().getName()+  "  Ensemble:"+ en
 public static void main(String args[])
 {	  	
 
-	  with_log_pred_only_nb_score_thres_bag_learning clps =  new with_log_pred_only_nb_score_thres_bag_learning();
+	  temp_cross_log_pred_only_nb_score_thres_bag_learning clps =  new temp_cross_log_pred_only_nb_score_thres_bag_learning();
 	
 	  int total_threshold_count = 0;
 	  for(double k=0.0; k<=1.0; k=k+0.01)
