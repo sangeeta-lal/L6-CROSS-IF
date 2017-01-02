@@ -362,9 +362,112 @@ try
 } catch (Exception e) 
 { 	e.printStackTrace();  }
 
-}
+}*/
 	
 
+//This function is used to train and test a using a given classifier
+public void within_pred_bagging(Classifier mo, String ensemble_type, int itr) 
+{
+Evaluation evaluation = null;
+
+Bagging model =  new Bagging();	 //bagging
+model.setClassifier(mo);  //bagging
+model.setNumIterations(20); //bagging
+
+
+int len=  mo.getClass().getName().toString().split("\\.").length;
+String classifier_name =  mo.getClass().getName().toString().split("\\.")[len-1];
+
+try
+{		
+    model.buildClassifier(trains);
+	evaluation= new Evaluation(trains);
+	
+	
+	int number_of_threshold= 0;
+	for(double thres=0.0; thres<=1.0; thres=thres+0.01)
+	 {
+		double tp=0.0, fp=0.0, tn =0.0,fn=0.0;
+		
+		for (int j = 0; j < tests.numInstances(); j++) 
+		 {
+		     
+			double score[] ;
+			Instance curr  =  tests.instance(j);  
+			double actual = curr.classValue();
+		  
+			score= model.distributionForInstance(curr);
+			
+			
+			 double predicted = 0;
+		     if ( score[1] <= thres) 
+		     {   predicted = 0;} 
+		     else 
+		     { 	 predicted = 1 ;}
+			 
+		     if (actual == 1) 
+		       {
+			      if (predicted == 1) 
+			      { 			       tp++;			      } 
+			      else
+			      { 			       fn++; 			      }
+			     }
+
+			 else if (actual == 0)
+			   {
+			      if (predicted == 0) 
+			      { 			       tn++; 			      } 
+			      else 
+			      { 			       fp++; 			      }
+			     }//else if
+
+			
+		 }//  for test instances
+		
+		util6_met ut6 =  new util6_met();
+		
+		
+		
+		/*double precision    =   ut6.compute_precision(tp, fp, tn, fn);
+		double recall       =   ut6.compute_recall(tp, fp, tn, fn);
+		double accuracy     =   ut6.compute_accuracy(tp, fp, tn, fn);
+		double fmeasure     =   ut6.compute_fmeasure(tp, fp, tn, fn);
+		double roc_auc      =   0.0;// result.areaUnderROC(1)*100;	
+		double ba           =   0.0;// write a function for this computation
+		
+		
+		compute_avg_stdev_and_insert(classifier_name, thres, ensemble_type, precision, recall, accuracy, fmeasure, roc_auc, ba);*/
+		
+		precision[itr][number_of_threshold]=ut6.compute_precision(tp, fp, tn, fn);
+		double temp = ut6.compute_precision(tp, fp, tn, fn);
+	
+		recall[itr][number_of_threshold]= ut6.compute_recall(tp, fp, tn, fn);
+		fmeasure[itr][number_of_threshold]=ut6.compute_fmeasure(tp, fp, tn, fn);
+		accuracy[itr][number_of_threshold]=ut6.compute_accuracy(tp, fp, tn, fn);
+		
+		//ebecuase i want roc auc, hence i am doing evaluation here again. although its not required 
+		evaluation.evaluateModel(model, tests);
+		roc_auc[itr][number_of_threshold] = evaluation.areaUnderROC(1)*100;// call some method here if possible	
+		ba[itr][number_of_threshold]=0.0;
+		
+		 
+
+
+		no_of_features[itr] =  trains.numAttributes();
+
+		
+		number_of_threshold =  number_of_threshold+1;
+	 }// for thres
+	
+	System.out.println("precision ["+itr+"]["+0+"]="+ precision[itr][0]);//+ "  temp="+temp+ " thres= "+ thres + " tp="+ tp+ "  fp"+ fp +" fn="+fn+" tn="+tn);
+	
+
+} catch (Exception e) 
+{ 	e.printStackTrace();  }
+
+}
+
+/*
 
 //This function is used to train and test a using a given classifier
 public void within_pred_boosting(Classifier mo, String ensemble_type) 
@@ -372,7 +475,7 @@ public void within_pred_boosting(Classifier mo, String ensemble_type)
 	
 Evaluation evaluation = null;
 
-AdaBoostM1 model =  new AdaBoostM1();	 //bagging
+AdaBoostM1 model =  new AdaBoostM1();	 //boosting
 model.setClassifier(mo);  //bagging
 model.setNumIterations(20); //bagging
 
@@ -443,6 +546,108 @@ try
 }
 	*/
 
+
+//This function is used to train and test a using a given classifier
+public void within_pred_boosting(Classifier mo, String ensemble_type, int itr) 
+{
+Evaluation evaluation = null;
+
+AdaBoostM1 model =  new AdaBoostM1();	 //bOOSTING
+model.setClassifier(mo);  //bOOSTING
+model.setNumIterations(20); //bOOSTING
+
+
+int len=  mo.getClass().getName().toString().split("\\.").length;
+String classifier_name =  mo.getClass().getName().toString().split("\\.")[len-1];
+
+try
+{		
+  model.buildClassifier(trains);
+	evaluation= new Evaluation(trains);
+	
+	
+	int number_of_threshold= 0;
+	for(double thres=0.0; thres<=1.0; thres=thres+0.01)
+	 {
+		double tp=0.0, fp=0.0, tn =0.0,fn=0.0;
+		
+		for (int j = 0; j < tests.numInstances(); j++) 
+		 {
+		     
+			double score[] ;
+			Instance curr  =  tests.instance(j);  
+			double actual = curr.classValue();
+		  
+			score= model.distributionForInstance(curr);
+			
+			
+			 double predicted = 0;
+		     if ( score[1] <= thres) 
+		     {   predicted = 0;} 
+		     else 
+		     { 	 predicted = 1 ;}
+			 
+		     if (actual == 1) 
+		       {
+			      if (predicted == 1) 
+			      { 			       tp++;			      } 
+			      else
+			      { 			       fn++; 			      }
+			     }
+
+			 else if (actual == 0)
+			   {
+			      if (predicted == 0) 
+			      { 			       tn++; 			      } 
+			      else 
+			      { 			       fp++; 			      }
+			     }//else if
+
+			
+		 }//  for test instances
+		
+		util6_met ut6 =  new util6_met();
+		
+		
+		
+		/*double precision    =   ut6.compute_precision(tp, fp, tn, fn);
+		double recall       =   ut6.compute_recall(tp, fp, tn, fn);
+		double accuracy     =   ut6.compute_accuracy(tp, fp, tn, fn);
+		double fmeasure     =   ut6.compute_fmeasure(tp, fp, tn, fn);
+		double roc_auc      =   0.0;// result.areaUnderROC(1)*100;	
+		double ba           =   0.0;// write a function for this computation
+		
+		
+		compute_avg_stdev_and_insert(classifier_name, thres, ensemble_type, precision, recall, accuracy, fmeasure, roc_auc, ba);*/
+		
+		precision[itr][number_of_threshold]=ut6.compute_precision(tp, fp, tn, fn);
+		double temp = ut6.compute_precision(tp, fp, tn, fn);
+	
+		recall[itr][number_of_threshold]= ut6.compute_recall(tp, fp, tn, fn);
+		fmeasure[itr][number_of_threshold]=ut6.compute_fmeasure(tp, fp, tn, fn);
+		accuracy[itr][number_of_threshold]=ut6.compute_accuracy(tp, fp, tn, fn);
+		
+		//ebecuase i want roc auc, hence i am doing evaluation here again. although its not required 
+		evaluation.evaluateModel(model, tests);
+		roc_auc[itr][number_of_threshold] = evaluation.areaUnderROC(1)*100;// call some method here if possible	
+		ba[itr][number_of_threshold]=0.0;
+		
+		 
+
+
+		no_of_features[itr] =  trains.numAttributes();
+
+		
+		number_of_threshold =  number_of_threshold+1;
+	 }// for thres
+	
+	System.out.println("precision ["+itr+"]["+0+"]="+ precision[itr][0]);//+ "  temp="+temp+ " thres= "+ thres + " tp="+ tp+ "  fp"+ fp +" fn="+fn+" tn="+tn);
+	
+
+} catch (Exception e) 
+{ 	e.printStackTrace();  }
+
+}
 
 
 
@@ -622,8 +827,68 @@ System.out.println("Computing for:"+ m1.getClass().getName()+  "  Ensemble:"+ en
 				  
 		  // compute_avg_stdev_and_insert("Random Forest", precision, recall, accuracy, fmeasure , roc_auc );	   
 }
+*/
 
 
+private void learn_and_insert_bagging(Classifier m1, String ensemble_type) 
+{
+	
+System.out.println("Computing for:"+ m1.getClass().getName()+  "  Ensemble:"+ ensemble_type);  
+	
+	//\\=========== Decision table=================================//\\			
+		for(int i=0; i<iterations; i++)
+			 {
+			    read_file(i);			   
+				pre_process_data();
+				within_pred_bagging(m1, ensemble_type, i);			
+				
+				//System.out.println(clp.result.toSummaryString());			
+					
+			}
+		
+
+		int len=  m1.getClass().getName().toString().split("\\.").length;
+		String classifier_name =  m1.getClass().getName().toString().split("\\.")[len-1];
+		
+		
+		// This is the 	
+		int threshold_number=0;
+		for(double k=0.0; k<=1.0; k=k+0.01)
+		{
+			double temp_precision[] = new double [iterations];
+			double temp_recall[] = new double[iterations];
+			double temp_fmeasure[] = new double[iterations];
+			double temp_accuracy[] =  new double[iterations];
+			double temp_roc_auc[] =  new double[iterations];
+			double temp_ba[] = new double[iterations];
+			
+			for(int l = 0; l<iterations; l++)
+			{
+			  temp_precision[l]  = precision[l][threshold_number];	
+			  temp_recall[l]     = recall[l][threshold_number];	
+			  temp_fmeasure[l]   = fmeasure[l][threshold_number];						
+			  temp_accuracy[l]   = accuracy[l][threshold_number];						
+			  temp_roc_auc[l]    = roc_auc[l][threshold_number];	
+			  temp_ba[l]         = ba[l][threshold_number];	
+			  
+			}// for
+			
+			compute_avg_stdev_and_insert(classifier_name,  ensemble_type, temp_precision, temp_recall, temp_accuracy, temp_fmeasure, temp_roc_auc, temp_ba,  no_of_features, k);
+			
+			//clp.compute_avg_stdev_and_insert(classifier_name, ensemble_tech, temp_thres, feature_selection_tech,  p_of_features, temp_precision, temp_recall, temp_accuracy, temp_fmeasure , temp_roc_auc, temp_train_time,temp_test_time );
+	   
+	      threshold_number = threshold_number +1;
+	      
+		}// for
+		
+		
+		
+		//compute_avg_stdev_and_insert(classifier_name,  ensemble_type, precision, recall, accuracy, fmeasure, roc_auc, ba,  no_of_features);
+				  
+		 
+}
+
+/*
 private void learn_and_insert_boosting(Classifier m1, String ensemble_type, double[] precision,
 		double[] recall, double[] accuracy, double[] fmeasure, double[] roc_auc, double ba[]) 
 {
@@ -641,8 +906,68 @@ System.out.println("Computing for:"+ m1.getClass().getName()+  "  Ensemble:"+ en
 			}
 				  
 		  // compute_avg_stdev_and_insert("Random Forest", precision, recall, accuracy, fmeasure , roc_auc );	   
+}*/
+
+
+
+private void learn_and_insert_boosting(Classifier m1, String ensemble_type) 
+{
+	
+System.out.println("Computing for:"+ m1.getClass().getName()+  "  Ensemble:"+ ensemble_type);  
+	
+	//\\=========== Decision table=================================//\\			
+		for(int i=0; i<iterations; i++)
+			 {
+			    read_file(i);			   
+				pre_process_data();
+				within_pred_boosting(m1, ensemble_type, i);			
+				
+				//System.out.println(clp.result.toSummaryString());			
+					
+			}
+		
+
+		int len=  m1.getClass().getName().toString().split("\\.").length;
+		String classifier_name =  m1.getClass().getName().toString().split("\\.")[len-1];
+		
+		
+		// This is the 	
+		int threshold_number=0;
+		for(double k=0.0; k<=1.0; k=k+0.01)
+		{
+			double temp_precision[] = new double [iterations];
+			double temp_recall[] = new double[iterations];
+			double temp_fmeasure[] = new double[iterations];
+			double temp_accuracy[] =  new double[iterations];
+			double temp_roc_auc[] =  new double[iterations];
+			double temp_ba[] = new double[iterations];
+			
+			for(int l = 0; l<iterations; l++)
+			{
+			  temp_precision[l]  = precision[l][threshold_number];	
+			  temp_recall[l]     = recall[l][threshold_number];	
+			  temp_fmeasure[l]   = fmeasure[l][threshold_number];						
+			  temp_accuracy[l]   = accuracy[l][threshold_number];						
+			  temp_roc_auc[l]    = roc_auc[l][threshold_number];	
+			  temp_ba[l]         = ba[l][threshold_number];	
+			  
+			}// for
+			
+			compute_avg_stdev_and_insert(classifier_name,  ensemble_type, temp_precision, temp_recall, temp_accuracy, temp_fmeasure, temp_roc_auc, temp_ba,  no_of_features, k);
+			
+			//clp.compute_avg_stdev_and_insert(classifier_name, ensemble_tech, temp_thres, feature_selection_tech,  p_of_features, temp_precision, temp_recall, temp_accuracy, temp_fmeasure , temp_roc_auc, temp_train_time,temp_test_time );
+	   
+	      threshold_number = threshold_number +1;
+	      
+		}// for
+		
+		
+		
+		//compute_avg_stdev_and_insert(classifier_name,  ensemble_type, precision, recall, accuracy, fmeasure, roc_auc, ba,  no_of_features);
+				  
+		 
 }
-*/
+
 
 //This is the main function
 public static void main(String args[])
@@ -662,17 +987,17 @@ public static void main(String args[])
 	  clps.accuracy =  new double[clps.iterations][total_threshold_count+1];
 	  clps.roc_auc =  new double[clps.iterations][total_threshold_count+1];
 	  clps.ba = new double[clps.iterations][total_threshold_count+1];
-	  
+	   clps.no_of_features =  new double[clps.iterations];
 		
 	 // SIMPLE MODELS    
 	  clps.learn_and_insert(new ADTree(), "none");
-	/*  clps.learn_and_insert(new J48(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert(new Logistic(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert(new RandomForest(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert(new NaiveBayes(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert(new BayesNet(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert(new AdaBoostM1(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert(new SMO(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
+	  clps.learn_and_insert(new J48(), "none");
+	  clps.learn_and_insert(new Logistic(), "none");
+	  clps.learn_and_insert(new RandomForest(), "none");
+	  clps.learn_and_insert(new NaiveBayes(), "none");
+	  clps.learn_and_insert(new BayesNet(), "none");
+	  clps.learn_and_insert(new AdaBoostM1(), "none");
+	  clps.learn_and_insert(new SMO(), "none");
 	   
 	  
 	 /* //Bagging models
