@@ -650,13 +650,19 @@ public static void main(String args[])
 
 	  with_log_pred_only_nb_score_thres_bag_learning clps =  new with_log_pred_only_nb_score_thres_bag_learning();
 	
-	 // double precision[]   = new double[clps.iterations];
-	 // double recall[]      = new double[clps.iterations];
-	 // double accuracy[]    = new double[clps.iterations];
-	 // double fmeasure[]    = new double[clps.iterations];	
-	 // double roc_auc[]     = new double[clps.iterations];
-	  //double  ba[]     =     new double[clps.iterations];
-		
+	  int total_threshold_count = 0;
+	  for(double k=0.0; k<=1.0; k=k+0.01)
+		{
+		 total_threshold_count =  total_threshold_count +1;
+		}	
+	  
+	  clps.precision = new double [clps.iterations][total_threshold_count+1];
+	  clps.recall = new double[clps.iterations][total_threshold_count+1];
+	  clps.fmeasure = new double[clps.iterations][total_threshold_count+1];
+	  clps.accuracy =  new double[clps.iterations][total_threshold_count+1];
+	  clps.roc_auc =  new double[clps.iterations][total_threshold_count+1];
+	  clps.ba = new double[clps.iterations][total_threshold_count+1];
+	  
 		
 	 // SIMPLE MODELS    
 	  clps.learn_and_insert(new ADTree(), "none");
@@ -669,7 +675,7 @@ public static void main(String args[])
 	  clps.learn_and_insert(new SMO(), "none", precision, recall, accuracy,fmeasure,roc_auc, ba);
 	   
 	  
-	  //Bagging models
+	 /* //Bagging models
 	  clps.learn_and_insert_bagging(new ADTree(), "Bagging", precision, recall, accuracy,fmeasure,roc_auc, ba);
 	  clps.learn_and_insert_bagging(new J48(), "Bagging", precision, recall, accuracy,fmeasure,roc_auc, ba);
 	  clps.learn_and_insert_bagging(new Logistic(), "Bagging", precision, recall, accuracy,fmeasure,roc_auc, ba);
