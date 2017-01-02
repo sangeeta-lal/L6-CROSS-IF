@@ -60,7 +60,7 @@ String driver = "com.mysql.jdbc.Driver";
 //String type = "catch";
 String type = "if";
 
-int iterations=1;
+int iterations=10;
 String source_project="tomcat";
 //String source_project="cloudstack";
 //String source_project="hd";
@@ -286,84 +286,7 @@ try
 { 	e.printStackTrace();  }
 
 }
-	/*
-
-//This function is used to train and test a using a given classifier
-public void within_pred_bagging(Classifier mo, String ensemble_type) 
-{
-	
-Evaluation evaluation = null;
-
-Bagging model =  new Bagging();	 //bagging
-model.setClassifier(mo);  //bagging
-model.setNumIterations(20); //bagging
-
-int len=  mo.getClass().getName().toString().split("\\.").length;
-String classifier_name =  mo.getClass().getName().toString().split("\\.")[len-1];
-
-try
-{	
-  model.buildClassifier(trains);
-	evaluation= new Evaluation(trains);
-	
-	for(double thres=0.0; thres<=1.0; thres=thres+0.01)
-	 {
-		double tp=0.0, fp=0.0, tn =0.0,fn=0.0;
 		
-		for (int j = 0; j < tests.numInstances(); j++) 
-		 {
-		     
-			double score[] ;
-			Instance curr  =  tests.instance(j);  
-			double actual = curr.classValue();
-		  
-			score= model.distributionForInstance(curr);
-			
-			
-			 double predicted = 0;
-		     if ( score[1] <= thres) 
-		     {   predicted = 0;} 
-		     else 
-		     { 	 predicted = 1 ;}
-			 
-		     if (actual == 1) 
-		       {
-			      if (predicted == 1) 
-			      { 			       tp++;			      } 
-			      else
-			      { 			       fn++; 			      }
-			     }
-
-			 else if (actual == 0)
-			   {
-			      if (predicted == 0) 
-			      { 			       tn++; 			      } 
-			      else 
-			      { 			       fp++; 			      }
-			     }//else if
-
-			
-		 }//  for test instances
-		
-		util6_met ut6 =  new util6_met();
-		
-		double precision    =   ut6.compute_precision(tp, fp, tn, fn);
-		double recall       =   ut6.compute_recall(tp, fp, tn, fn);
-		double accuracy     =   ut6.compute_accuracy(tp, fp, tn, fn);
-		double fmeasure     =   ut6.compute_fmeasure(tp, fp, tn, fn);
-		double roc_auc      =   0.0;// result.areaUnderROC(1)*100;	
-		double ba           =   0.0;// write a function for this computation
-		
-		
-		compute_avg_stdev_and_insert(classifier_name, thres, ensemble_type, precision, recall, accuracy, fmeasure, roc_auc, ba);
-		
-	 }// for thres
-
-} catch (Exception e) 
-{ 	e.printStackTrace();  }
-
-}*/
-	
 
 //This function is used to train and test a using a given classifier
 public void within_pred_bagging(Classifier mo, String ensemble_type, int itr) 
@@ -467,84 +390,6 @@ try
 
 }
 
-/*
-
-//This function is used to train and test a using a given classifier
-public void within_pred_boosting(Classifier mo, String ensemble_type) 
-{
-	
-Evaluation evaluation = null;
-
-AdaBoostM1 model =  new AdaBoostM1();	 //boosting
-model.setClassifier(mo);  //bagging
-model.setNumIterations(20); //bagging
-
-int len=  mo.getClass().getName().toString().split("\\.").length;
-String classifier_name =  mo.getClass().getName().toString().split("\\.")[len-1];
-
-try
-{	
-  model.buildClassifier(trains);
-	evaluation= new Evaluation(trains);
-	
-	for(double thres=0.0; thres<=1.0; thres=thres+0.01)
-	 {
-		double tp=0.0, fp=0.0, tn =0.0,fn=0.0;
-		
-		for (int j = 0; j < tests.numInstances(); j++) 
-		 {
-		     
-			double score[] ;
-			Instance curr  =  tests.instance(j);  
-			double actual = curr.classValue();
-		  
-			score= model.distributionForInstance(curr);
-			
-			
-			 double predicted = 0;
-		     if ( score[1] <= thres) 
-		     {   predicted = 0;} 
-		     else 
-		     { 	 predicted = 1 ;}
-			 
-		     if (actual == 1) 
-		       {
-			      if (predicted == 1) 
-			      { 			       tp++;			      } 
-			      else
-			      { 			       fn++; 			      }
-			     }
-
-			 else if (actual == 0)
-			   {
-			      if (predicted == 0) 
-			      { 			       tn++; 			      } 
-			      else 
-			      { 			       fp++; 			      }
-			     }//else if
-
-			
-		 }//  for test instances
-		
-		util6_met ut6 =  new util6_met();
-		
-		double precision    =   ut6.compute_precision(tp, fp, tn, fn);
-		double recall       =   ut6.compute_recall(tp, fp, tn, fn);
-		double accuracy     =   ut6.compute_accuracy(tp, fp, tn, fn);
-		double fmeasure     =   ut6.compute_fmeasure(tp, fp, tn, fn);
-		double roc_auc      =   0.0;// result.areaUnderROC(1)*100;	
-		double ba           =   0.0;// write a function for this computation
-		
-		
-		compute_avg_stdev_and_insert(classifier_name, thres, ensemble_type, precision, recall, accuracy, fmeasure, roc_auc, ba);
-		
-	 }// for thres
-
-} catch (Exception e) 
-{ 	e.printStackTrace();  }
-
-}
-	*/
 
 
 //This function is used to train and test a using a given classifier
@@ -808,27 +653,6 @@ System.out.println("Computing for:"+ m1.getClass().getName()+  "  Ensemble:"+ en
 }
 
 
-/*
-private void learn_and_insert_bagging(Classifier m1, String ensemble_type, double[] precision,
-		double[] recall, double[] accuracy, double[] fmeasure, double[] roc_auc, double ba[]) 
-{
-System.out.println("Computing for:"+ m1.getClass().getName()+  "  Ensemble:"+ ensemble_type);  
-	
-	//\\=========== Decision table=================================//\\			
-		for(int i=0; i<iterations; i++)
-			 {
-			    read_file(i);			   
-				pre_process_data();
-				within_pred_bagging(m1, ensemble_type, i);			
-				
-				//System.out.println(clp.result.toSummaryString());			
-					
-			}
-				  
-		  // compute_avg_stdev_and_insert("Random Forest", precision, recall, accuracy, fmeasure , roc_auc );	   
-}
-*/
-
 
 private void learn_and_insert_bagging(Classifier m1, String ensemble_type) 
 {
@@ -887,28 +711,6 @@ System.out.println("Computing for:"+ m1.getClass().getName()+  "  Ensemble:"+ en
 				  
 		 
 }
-
-/*
-private void learn_and_insert_boosting(Classifier m1, String ensemble_type, double[] precision,
-		double[] recall, double[] accuracy, double[] fmeasure, double[] roc_auc, double ba[]) 
-{
-System.out.println("Computing for:"+ m1.getClass().getName()+  "  Ensemble:"+ ensemble_type);  
-	
-	//\\=========== Decision table=================================//\\			
-		for(int i=0; i<iterations; i++)
-			 {
-			    read_file(i);			   
-				pre_process_data();
-				within_pred_boosting(m1, ensemble_type, i);			
-				
-				//System.out.println(clp.result.toSummaryString());			
-					
-			}
-				  
-		  // compute_avg_stdev_and_insert("Random Forest", precision, recall, accuracy, fmeasure , roc_auc );	   
-}*/
-
-
 
 private void learn_and_insert_boosting(Classifier m1, String ensemble_type) 
 {
@@ -1000,26 +802,26 @@ public static void main(String args[])
 	  clps.learn_and_insert(new SMO(), "none");
 	   
 	  
-	 /* //Bagging models
-	  clps.learn_and_insert_bagging(new ADTree(), "Bagging", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert_bagging(new J48(), "Bagging", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert_bagging(new Logistic(), "Bagging", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert_bagging(new RandomForest() , "Bagging", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert_bagging(new NaiveBayes(), "Bagging", precision, recall, accuracy,fmeasure,roc_auc, ba); 
-	  clps.learn_and_insert_bagging(new BayesNet(), "Bagging", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert_bagging(new AdaBoostM1(), "Bagging", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert_bagging(new SMO(), "Bagging", precision, recall, accuracy,fmeasure,roc_auc, ba);
+	  //Bagging models
+	  clps.learn_and_insert_bagging(new ADTree(), "Bagging");
+	  clps.learn_and_insert_bagging(new J48(), "Bagging");
+	  clps.learn_and_insert_bagging(new Logistic(), "Bagging");
+	  clps.learn_and_insert_bagging(new RandomForest() , "Bagging");
+	  clps.learn_and_insert_bagging(new NaiveBayes(), "Bagging");
+	  clps.learn_and_insert_bagging(new BayesNet(), "Bagging");
+	  clps.learn_and_insert_bagging(new AdaBoostM1(), "Bagging");
+	  clps.learn_and_insert_bagging(new SMO(), "Bagging");
 	  
 	  
 	  // Boosting
-	  clps.learn_and_insert_boosting(new ADTree(), "Boosting", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert_boosting(new J48(), "Boosting", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert_boosting(new Logistic(), "Boosting", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert_boosting(new RandomForest() , "Boosting", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert_boosting(new NaiveBayes(), "Boosting", precision, recall, accuracy,fmeasure,roc_auc, ba); 
-	  clps.learn_and_insert_boosting(new BayesNet(), "Boosting", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	 clps.learn_and_insert_boosting(new AdaBoostM1(), "Boosting", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert_boosting(new SMO(), "Boosting", precision, recall, accuracy,fmeasure,roc_auc, ba);*/
+	  clps.learn_and_insert_boosting(new ADTree(), "Boosting");
+	  clps.learn_and_insert_boosting(new J48(), "Boosting");
+	  clps.learn_and_insert_boosting(new Logistic(), "Boosting");
+	  clps.learn_and_insert_boosting(new RandomForest() , "Boosting");
+	  clps.learn_and_insert_boosting(new NaiveBayes(), "Boosting");
+	  clps.learn_and_insert_boosting(new BayesNet(), "Boosting");
+	 clps.learn_and_insert_boosting(new AdaBoostM1(), "Boosting");
+	  clps.learn_and_insert_boosting(new SMO(), "Boosting");
 	  
 	  
 	

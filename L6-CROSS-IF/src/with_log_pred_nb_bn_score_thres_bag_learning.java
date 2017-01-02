@@ -60,7 +60,7 @@ String driver = "com.mysql.jdbc.Driver";
 //String type = "catch";
 String type = "if";
 
-int iterations=1;
+int iterations=10;
 String source_project="tomcat";
 //String source_project="cloudstack";
 //String source_project="hd";
