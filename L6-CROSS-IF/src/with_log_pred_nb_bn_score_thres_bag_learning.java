@@ -1000,26 +1000,26 @@ public static void main(String args[])
 	  clps.learn_and_insert(new SMO(), "none");
 	   
 	  
-	 /* //Bagging models
-	  clps.learn_and_insert_bagging(new ADTree(), "Bagging", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert_bagging(new J48(), "Bagging", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert_bagging(new Logistic(), "Bagging", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert_bagging(new RandomForest() , "Bagging", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert_bagging(new NaiveBayes(), "Bagging", precision, recall, accuracy,fmeasure,roc_auc, ba); 
-	  clps.learn_and_insert_bagging(new BayesNet(), "Bagging", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert_bagging(new AdaBoostM1(), "Bagging", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert_bagging(new SMO(), "Bagging", precision, recall, accuracy,fmeasure,roc_auc, ba);
+	  //Bagging models
+	  clps.learn_and_insert_bagging(new ADTree(), "Bagging");
+	  clps.learn_and_insert_bagging(new J48(), "Bagging");
+	  clps.learn_and_insert_bagging(new Logistic(), "Bagging");
+	  clps.learn_and_insert_bagging(new RandomForest() , "Bagging");
+	  clps.learn_and_insert_bagging(new NaiveBayes(), "Bagging"); 
+	  clps.learn_and_insert_bagging(new BayesNet(), "Bagging");
+	  clps.learn_and_insert_bagging(new AdaBoostM1(), "Bagging");
+	  clps.learn_and_insert_bagging(new SMO(), "Bagging");
 	  
 	  
 	  // Boosting
-	  clps.learn_and_insert_boosting(new ADTree(), "Boosting", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert_boosting(new J48(), "Boosting", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert_boosting(new Logistic(), "Boosting", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert_boosting(new RandomForest() , "Boosting", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert_boosting(new NaiveBayes(), "Boosting", precision, recall, accuracy,fmeasure,roc_auc, ba); 
-	  clps.learn_and_insert_boosting(new BayesNet(), "Boosting", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	 clps.learn_and_insert_boosting(new AdaBoostM1(), "Boosting", precision, recall, accuracy,fmeasure,roc_auc, ba);
-	  clps.learn_and_insert_boosting(new SMO(), "Boosting", precision, recall, accuracy,fmeasure,roc_auc, ba);*/
+	  clps.learn_and_insert_boosting(new ADTree(), "Boosting");
+	  clps.learn_and_insert_boosting(new J48(), "Boosting");
+	  clps.learn_and_insert_boosting(new Logistic(), "Boosting");
+	  clps.learn_and_insert_boosting(new RandomForest() , "Boosting");
+	  clps.learn_and_insert_boosting(new NaiveBayes(), "Boosting"); 
+	  clps.learn_and_insert_boosting(new BayesNet(), "Boosting");
+	 clps.learn_and_insert_boosting(new AdaBoostM1(), "Boosting");
+	  clps.learn_and_insert_boosting(new SMO(), "Boosting");
 	  
 	  
 	

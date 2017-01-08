@@ -6,9 +6,9 @@ import os
 
 #"""
 
-rootdir = "F:\\Research\\L6-CROSS-IF\\dataset\\tomcat-8.0.9"
+#rootdir = "F:\\Research\\L6-CROSS-IF\\dataset\\tomcat-8.0.9"
 #rootdir = "F:\\Research\\L6-CROSS-IF\\dataset\\cloudstack-4.3.0"
-#rootdir = "F:\\Research\\L6-CROSS-IF\\dataset\\hd"
+rootdir = "F:\\Research\\L6-CROSS-IF\\dataset\\hd"
 path = "F:\\Research\\L6-CROSS-IF\\result\\"
 
 """

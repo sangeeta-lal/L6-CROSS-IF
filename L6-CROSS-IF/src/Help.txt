@@ -32,8 +32,8 @@ d. Now delete the extra rows by running following commands: delete from  tomcat_
                                                             if_expr like '%isDebugEnabled()'  or if_expr  like '%isInfoEnabled()' or if_expr like '%isWarnEnabled()'  
                                                             or if_expr like '%isErrorEnabled()'  or if_expr  like '%isFatalEnabled()'  or if_expr=''
  
- e. generate WEKA text features files containing ID'S                                                           
- f. Now run the  program    "generate_NB_BN_text_feature_SCORE_with_in_log_pred.java" for generating cross-project NB and BN score.              
+ e. generate WEKA text features files containing  ID'S                                                           
+ f. Now run the  program    "generate_NB_BN_text_feature_SCORE_with_in_log_pred.java" for generating within-project NB and BN score.              
                                   
 
     
