@@ -14,7 +14,7 @@ import utill6
 ======================================================================================================"""
 
 #Project
-#"""
+"""
 project= "tomcat"
 title = 'Tomcat'
 source_project = "tomcat"
@@ -30,7 +30,7 @@ target_project = "tomcat"
 #target_project = "hd"
 #"""
 
-"""
+#"""
 project =  "hd"
 title = 'Hadoop'
 source_project = "hd"
@@ -53,7 +53,8 @@ text_features_db_file_path = path+ project+"-arff\\if\\"+project+"_if_text_featu
 all_features_with_in_nb_bn_score_file_path  =  path+ project +"-arff\\if\\"+ project+"_to_"+project+"_if_with_in_nb_bn_score.arff"
 all_features_cross_nb_bn_score_file_path  =  path+ source_project +"-arff\\if\\"+ target_project+"_to_"+source_project+"_if_cross_nb_bn_score.arff"
 
-
+#======== Not required files ========#
+"""
 if_expr_text_features_db_file_path=path+project+"-arff\\if\\"+project+"_if_expr_text_features.arff"
 till_if_log_level_text_features_db_file_path = path+project+"-arff\\if\\"+project+"_till_if_log_level_text_features.arff"
 operators_till_if_text_features_db_file_path = path+project+"-arff\\if\\"+project+"_till_if_log_level_text_featuress.arff"
@@ -64,6 +65,8 @@ method_param_name_text_features_db_file_path = path+project+"-arff\\if\\"+projec
 package_name_text_features_db_file_path =      path+project+"-arff\\if\\"+project+"till_if_log_level_text_features.arff"
 class_name_text_features_db_file_path =        path+project+"-arff\\if\\"+project+"_till_if_log_level_text_features.arff"
 method_name_text_features_db_file_path=        path+project+"-arff\\if\\"+project+"_till_if_log_level_text_features.arff"
+"""
+
 """
 
 port=3307
@@ -1042,12 +1045,12 @@ def create_different_text_features_files(if_expr_text_features_db_file_path, til
 #===================================================#
 #  call- functions                                  #
 
-#create_one_complete_all_features(all_features_db_file_path)
+create_one_complete_all_features(all_features_db_file_path)
 #create_one_complete_num_features(num_features_db_file_path)
 #create_one_complete_bool_features(bool_features_db_file_path)
 #create_one_complete_text_features(text_features_db_file_path)
-create_one_complete_all_features_with_in_nb_bn_score(all_features_with_in_nb_bn_score_file_path)
-create_one_complete_all_features_cross_nb_bn_score(all_features_cross_nb_bn_score_file_path)
+#create_one_complete_all_features_with_in_nb_bn_score(all_features_with_in_nb_bn_score_file_path)
+#create_one_complete_all_features_cross_nb_bn_score(all_features_cross_nb_bn_score_file_path)
 
 """
 # Following functions is not running currently, will make in future

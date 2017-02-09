@@ -56,8 +56,8 @@ String type = "if";
 
 int iterations=1;
 String source_project="tomcat";
-String target_project = "cloudstack";
-//String target_project="hd";
+//String target_project = "cloudstack";
+String target_project="hd";
 
 //String source_project="cloudstack";
 //String target_project = "tomcat";
@@ -788,16 +788,15 @@ public static void main(String args[])
 	  double fmeasure[]    = new double[clps.iterations];	
 	  double roc_auc[]     = new double[clps.iterations];
 		
-	 // clps.learn_and_insert_adtree(precision, recall, accuracy,fmeasure,roc_auc);
-	  //clps.learn_and_insert_decision_table(precision, recall, accuracy,fmeasure,roc_auc);
-	  //clps.learn_and_insert_j48(precision, recall, accuracy,fmeasure,roc_auc);
-	  //clps.learn_and_insert_logistic(precision, recall, accuracy,fmeasure,roc_auc);
-	  //clps.learn_and_insert_random_forest(precision, recall, accuracy,fmeasure,roc_auc);
-	  //clps.learn_and_insert_naive_bayes(precision, recall, accuracy,fmeasure,roc_auc);
-	  //clps.learn_and_insert_bayes_net(precision, recall, accuracy,fmeasure,roc_auc);
+	  //clps.learn_and_insert_adtree(precision, recall, accuracy,fmeasure,roc_auc);
+	 // clps.learn_and_insert_j48(precision, recall, accuracy,fmeasure,roc_auc);
+	 // clps.learn_and_insert_logistic(precision, recall, accuracy,fmeasure,roc_auc);
+	//  clps.learn_and_insert_random_forest(precision, recall, accuracy,fmeasure,roc_auc);
+	 // clps.learn_and_insert_naive_bayes(precision, recall, accuracy,fmeasure,roc_auc);
+	 // clps.learn_and_insert_bayes_net(precision, recall, accuracy,fmeasure,roc_auc);
 	  //clps.learn_and_insert_adaboost(precision, recall, accuracy,fmeasure,roc_auc);
 	  //clps.learn_and_insert_rbfnetwork(precision, recall, accuracy,fmeasure,roc_auc);
-	//clps.learn_and_insert_svm(precision, recall, accuracy,fmeasure,roc_auc);
+	  //clps.learn_and_insert_svm(precision, recall, accuracy,fmeasure,roc_auc);
 	    
 	  
 	  
