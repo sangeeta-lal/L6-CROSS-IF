@@ -107,7 +107,7 @@ public class Hadoop_Training6_IF
 	ArrayList<String> all_file_list= new ArrayList<String>();
 	String log_levels_combined = "";
 		
-	///*
+	/*
 	String url = "jdbc:mysql://localhost:3306/";
 	String driver = "com.mysql.jdbc.Driver";
 	String db_name ="logging6_crossif";
@@ -136,6 +136,37 @@ public class Hadoop_Training6_IF
 	String logged_file_path = "E:\\Sangeeta\\Research\\L6-CROSS-IF\\result\\hd_log_if.txt";
 	
    //*/
+	
+	
+	///*
+		String url = "jdbc:mysql://localhost:3306/";
+		String driver = "com.mysql.jdbc.Driver";
+		String db_name ="logging6_crossif_rc_feb9";
+		String userName = "root"; 
+		String password = "1234";
+		String table ="hd_if_training6_crossif";	
+	    String listing_file_path = "F:\\Research\\L6-CROSS-IF\\result\\hd_java_files.txt";
+	    
+	    String non_logged_file_path = "F:\\Research\\L6-CROSS-IF\\result\\hd_non_log_if.txt";
+		String logged_file_path = "F:\\Research\\L6-CROSS-IF\\result\\hd_log_if.txt";
+		
+		
+		//*/
+	    //@Note: create this file using create_file_listing.py
+		/*
+		String folder_path = "";
+		String url = "jdbc:mysql://localhost:3306/";
+		String driver = "com.mysql.jdbc.Driver";
+		String db_name ="logging6_crossif_rc_feb9";
+		String userName = "sangeetal"; 
+		String password = "sangeetal";
+		String table ="hd_if_training6_crossif";
+	    String listing_file_path = "D:\\Sangeeta\\Research\\L6-CROSS-IF\\result\\hd_java_files.txt"; 
+	    
+	    String non_logged_file_path = "D:\\Sangeeta\\Research\\L6-CROSS-IF\\result\\hd_non_log_if.txt";
+		String logged_file_path = "D:\\Sangeeta\\Research\\L6-CROSS-IF\\result\\hd_log_if.txt";
+		
+	   //*/
 	 
     Connection conn=null;	
 	java.sql.Statement stmt = null;
