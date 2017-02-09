@@ -156,7 +156,7 @@ public class Tomcat_Training6_IF
 	    //@Note: create this file using create_file_listing.py
 		/*
 		String folder_path = "";
-		String url = "jdbc:mysql://localhost:3307/";
+		String url = "jdbc:mysql://localhost:3306/";
 		String driver = "com.mysql.jdbc.Driver";
 		String db_name ="logging6_crossif_rc_feb9";
 		String userName = "root"; 
