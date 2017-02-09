@@ -20,6 +20,15 @@ path = "E:\\Sangeeta\\Research\\L6-CROSS-IF\\result\\"
 
 #"""
 
+"""
+## JIIT Server 
+rootdir = "D:\\Sangeeta\\Research\\L6-CROSS-IF\\dataset\\tomcat-8.0.9"
+#rootdir = "D:\\Sangeeta\\Research\\L6-CROSS-IF\\dataset\\cloudstack-4.3.0"
+rootdir = "D:\\Sangeeta\\Research\\L6-CROSS-IF\\dataset\\hd"
+path = "D:\\Sangeeta\\Research\\L6-CROSS-IF\\result\\"
+
+#"""
+
 # #
 file_name = rootdir.rsplit("\\", 1)[1]
 file_name= path+(str)(file_name)+"_java_files.txt"
