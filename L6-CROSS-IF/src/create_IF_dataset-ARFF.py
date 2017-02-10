@@ -38,7 +38,7 @@ target_project = "tomcat"
 #target_project = "cloudstack"
 #"""
 
-#"""
+"""
 port=3306
 user="root"
 password="1234"
@@ -52,6 +52,42 @@ bool_features_db_file_path=path+project+"-arff\\if\\"+project+"_if_bool_features
 text_features_db_file_path = path+ project+"-arff\\if\\"+project+"_if_text_features.arff"
 all_features_with_in_nb_bn_score_file_path  =  path+ project +"-arff\\if\\"+ project+"_to_"+project+"_if_with_in_nb_bn_score.arff"
 all_features_cross_nb_bn_score_file_path  =  path+ source_project +"-arff\\if\\"+ target_project+"_to_"+source_project+"_if_cross_nb_bn_score.arff"
+"""
+
+"""
+port=3307
+user="sangeetal"
+password="sangeetal"
+database="logging6_crossif"
+main_source_table = project+"_if_training6_crossif"  # from this table we have to take the data
+source_table_with_nb_bn_score = project+"_if_training6_nb_bn_score"
+path = "E:\\Sangeeta\\Research\\L6-CROSS-IF\\dataset\\"
+all_features_db_file_path=path+project+"-arff\\if\\"+project+"_if_all_features.arff"
+num_features_db_file_path=path+project+"-arff\\if\\"+project+"_if_num_features.arff"
+bool_features_db_file_path=path+project+"-arff\\if\\"+project+"_if_bool_features.arff"
+text_features_db_file_path = path+ project+"-arff\\if\\"+project+"_if_text_features.arff"
+all_features_with_in_nb_bn_score_file_path  =  path+ project +"-arff\\if\\"+ project+"_to_"+ project+"_if_with_in_nb_bn_score.arff"
+all_features_cross_nb_bn_score_file_path  =  path+ source_project +"-arff\\if\\"+ target_project+"_to_"+source_project+"_if_cross_nb_bn_score.arff"
+#"""
+
+
+# JJIT SERVER
+#"""
+port=3306
+user="root"
+password="1234"
+database="logging6_crossif_rc_feb9"
+main_source_table = project+"_if_training6_crossif"  # from this table we have to take the data
+source_table_with_nb_bn_score = project+"_if_training6_nb_bn_score"
+path = "D:\\Sangeeta\\Research\\L6-CROSS-IF\\dataset\\"
+all_features_db_file_path=path+project+"-arff\\if\\"+project+"_if_all_features.arff"
+num_features_db_file_path=path+project+"-arff\\if\\"+project+"_if_num_features.arff"
+bool_features_db_file_path=path+project+"-arff\\if\\"+project+"_if_bool_features.arff"
+text_features_db_file_path = path+ project+"-arff\\if\\"+project+"_if_text_features.arff"
+all_features_with_in_nb_bn_score_file_path  =  path+ project +"-arff\\if\\"+ project+"_to_"+ project+"_if_with_in_nb_bn_score.arff"
+all_features_cross_nb_bn_score_file_path  =  path+ source_project +"-arff\\if\\"+ target_project+"_to_"+source_project+"_if_cross_nb_bn_score.arff"
+#"""
+
 
 #======== Not required files ========#
 """
@@ -66,25 +102,6 @@ package_name_text_features_db_file_path =      path+project+"-arff\\if\\"+projec
 class_name_text_features_db_file_path =        path+project+"-arff\\if\\"+project+"_till_if_log_level_text_features.arff"
 method_name_text_features_db_file_path=        path+project+"-arff\\if\\"+project+"_till_if_log_level_text_features.arff"
 """
-
-"""
-
-port=3307
-user="sangeetal"
-password="sangeetal"
-database="logging6_crossif"
-main_source_table = project+"_if_training6_crossif"  # from this table we have to take the data
-source_table_with_nb_bn_score = project+"_if_training6_nb_bn_score"
-path = "E:\\Sangeeta\\Research\\L6-CROSS-IF\\dataset\\"
-all_features_db_file_path=path+project+"-arff\\if\\"+project+"_if_all_features.arff"
-num_features_db_file_path=path+project+"-arff\\if\\"+project+"_if_num_features.arff"
-bool_features_db_file_path=path+project+"-arff\\if\\"+project+"_if_bool_features.arff"
-text_features_db_file_path = path+ project+"-arff\\if\\"+project+"_if_text_features.arff"
-all_features_with_in_nb_bn_score_file_path  =  path+ project +"-arff\\if\\"+ project+"_to_"+ project+"_if_with_in_nb_bn_score.arff"
-all_features_cross_nb_bn_score_file_path  =  path+ source_project +"-arff\\if\\"+ target_project+"_to_"+source_project+"_if_cross_nb_bn_score.arff"
-
-#"""
-
 
 db1= MySQLdb.connect(host="localhost",user=user, passwd=password, db=database, port=port)
 select_cursor = db1.cursor()
