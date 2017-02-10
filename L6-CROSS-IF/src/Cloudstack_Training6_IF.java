@@ -158,8 +158,8 @@ public class Cloudstack_Training6_IF
 	String url = "jdbc:mysql://localhost:3306/";
 	String driver = "com.mysql.jdbc.Driver";
 	String db_name ="logging6_crossif_rc_feb9";
-	String userName = "sangeetal"; 
-	String password = "sangeetal";
+	String userName = "root"; 
+	String password = "1234";
 	String table ="cloudstack_if_training6_crossif";
     String listing_file_path = "D:\\Sangeeta\\Research\\L6-CROSS-IF\\result\\cloudstack-4.3.0_java_files.txt"; 
     

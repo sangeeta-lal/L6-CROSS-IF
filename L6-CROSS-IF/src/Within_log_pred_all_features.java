@@ -39,8 +39,17 @@ String url = "jdbc:mysql://localhost:3307/";
 String driver = "com.mysql.jdbc.Driver";  
 // */
 
-///*
+/*
 String path = "F:\\Research\\";
+String user_name =  "root";
+String password = "1234";
+String url = "jdbc:mysql://localhost:3306/";
+String driver = "com.mysql.jdbc.Driver";
+//*/
+
+///* 
+ //jiit server
+String path = "D:\\Research\\";
 String user_name =  "root";
 String password = "1234";
 String url = "jdbc:mysql://localhost:3306/";
