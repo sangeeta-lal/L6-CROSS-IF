@@ -28,7 +28,7 @@ project =  "hd"
 title = 'Hadoop'
 #"""
 
-#"""
+"""
 port=3306
 user="root"
 password="1234"
@@ -36,7 +36,7 @@ database="logging6_crossif"
 main_source_table = project+"_if_training6_crossif"  # from this table we have to take the data
 path = "F:\\Research\\L6-CROSS-IF\\dataset\\"
 text_features_db_file_path = path+ project+"-arff\\if\\"+project+"_if_text_features_WITH_ID.arff"
-
+"""
 
 """
 
@@ -49,6 +49,27 @@ path = "E:\\Sangeeta\\Research\\L6-CROSS-IF\\dataset\\"
 text_features_db_file_path = path+ project+"-arff\\if\\"+project+"_if_text_features_WITH_ID.arff"
 #"""
 
+## Feb 9 for JIIT SERVER ##
+
+"""
+port=3306
+user="root"
+password="1234"
+database="logging6_crossif_rc_feb9"
+main_source_table = project+"_if_training6_crossif"  # from this table we have to take the data
+path = "F:\\Research\\L6-CROSS-IF\\dataset\\"
+text_features_db_file_path = path+ project+"-arff\\if\\"+project+"_if_text_features_WITH_ID.arff"
+"""
+
+#"""
+port=3306
+user="root"
+password="1234"
+database="logging6_crossif_rc_feb9"
+main_source_table = project+"_if_training6_crossif"  # from this table we have to take the data
+path = "D:\\Sangeeta\\Research\\L6-CROSS-IF\\dataset\\"
+text_features_db_file_path = path+ project+"-arff\\if\\"+project+"_if_text_features_WITH_ID.arff"
+#"""
 
 db1= MySQLdb.connect(host="localhost",user=user, passwd=password, db=database, port=port)
 select_cursor = db1.cursor()

@@ -47,9 +47,10 @@ String url = "jdbc:mysql://localhost:3306/";
 String driver = "com.mysql.jdbc.Driver";
 //*/
 
+	
 ///* 
  //jiit server
-String path = "D:\\Research\\";
+String path = "D:\\Sangeeta\\Research\\";
 String user_name =  "root";
 String password = "1234";
 String url = "jdbc:mysql://localhost:3306/";
@@ -66,7 +67,8 @@ int iterations=5;
 String source_project="hd";
 
 
-String db_name ="logging6_crossif";
+//String db_name ="logging6_crossif";
+String db_name = "logging6_crossif_rc_feb9";
 String result_table = "within_pred_all_feature_"+type;
 
 String source_file_path = path+"L6-CROSS-IF\\dataset\\"+source_project+"-arff\\"+type+"\\"+source_project+"_"+type+"_all_features.arff";		

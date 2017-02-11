@@ -10,11 +10,25 @@ This file gives help about some of the parts of this paper
 "cross project score generation:"
 Steps:
 a. first run :  create table tomcat_if_training6_NB_BN_score (select *  from tomcat_if_training6_crossif)
+create table tomcat_if_training6_nb_bn_score ( select *  from tomcat_if_training6_crossif);
+create table cloudstack_if_training6_nb_bn_score ( select *  from cloudstack_if_training6_crossif)
+create table hd_if_training6_nb_bn_score ( select *  from hd_if_training6_crossif);
+
 b. Now make f_id as primary key
-c. Now create six columns related to NB and BN score
-d. Now delete the extra rows by running following commands: delete from  tomcat_if_training6_nb_bn_score where if_expr like '%isTraceEnabled()'  or
+ALTER TABLE logging6_crossif_rc_feb9.tomcat_if_training6_nb_bn_score ADD PRIMARY KEY (if_id);
+ALTER TABLE logging6_crossif_rc_feb9.cloudstack_if_training6_nb_bn_score ADD PRIMARY KEY (if_id);
+ALTER TABLE logging6_crossif_rc_feb9._if_training6_nb_bn_score ADD PRIMARY KEY (if_id);
+
+c. Now delete the extra rows by running following commands: 
+
+delete from  tomcat_if_training6_nb_bn_score where if_expr like '%isTraceEnabled()'  or
                                                             if_expr like '%isDebugEnabled()'  or if_expr  like '%isInfoEnabled()' or if_expr like '%isWarnEnabled()'  
                                                             or if_expr like '%isErrorEnabled()'  or if_expr  like '%isFatalEnabled()'  or if_expr=''
+                                                            
+   
+d. Now create six columns related to NB and BN score                                                         
+ 
+ 
  
  e. generate WEKA files containing only text features for the required source and target project.
                                                             
@@ -32,8 +46,12 @@ d. Now delete the extra rows by running following commands: delete from  tomcat_
                                                             if_expr like '%isDebugEnabled()'  or if_expr  like '%isInfoEnabled()' or if_expr like '%isWarnEnabled()'  
                                                             or if_expr like '%isErrorEnabled()'  or if_expr  like '%isFatalEnabled()'  or if_expr=''
  
- e. generate WEKA text features files containing  ID'S                                                           
- f. Now run the  program    "generate_NB_BN_text_feature_SCORE_with_in_log_pred.java" for generating within-project NB and BN score.              
+ e. generate WEKA text features files containing  ID'S    :create_IF_dataset-ARFF_withID.py
+ 
+ g. Now alter the table "tomcat_if_training6_NB_BN_score" to add six new fileds.
+                                                        
+ h. Now run the  program    "generate_NB_BN_text_feature_SCORE_with_in_log_pred.java" for generating within-project NB and BN score.    
+ i. Now run the  program    "generate_NB_BN_text_feature_SCORE_cross_log_pred.java" for generating cross-project NB and BN score.          
                                   
 
     
