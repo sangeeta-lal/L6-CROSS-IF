@@ -7,7 +7,7 @@ import utill6
 """=====================================================================================================
 @ Author: Sangeeta
 @Uses:
-1. This file will be used to create dataset from the main training table "project_Training6_IF_isec.java
+1. This file will be used to create dataset from the main training table "project_Training6.java
 2. It will create 11 ARFF Files
 
     a. One having all the instances present in the main table
