@@ -44,13 +44,23 @@ String driver = "com.mysql.jdbc.Driver";
  
 // */
 
-///*
+/*
 String path = "F:\\Research\\";
 String user_name =  "root";
 String password = "1234";
 String url = "jdbc:mysql://localhost:3306/";
 String driver = "com.mysql.jdbc.Driver";
 //*/
+
+// JIIT Server
+///*
+String path = "D:\\Sangeeta\\Research\\";
+String user_name =  "root";
+String password = "1234";
+String url = "jdbc:mysql://localhost:3306/";
+String driver = "com.mysql.jdbc.Driver";
+//*/
+
 
 
 //String type = "catch";
@@ -69,7 +79,10 @@ String target_project="hd";
 //String target_project = "tomcat";
 //String target_project="cloudstack";
 
-String db_name ="logging6_crossif";
+//String db_name ="logging6_crossif";
+
+String db_name ="logging6_crossif_rc_feb9";
+
 String result_table = target_project+"_"+type+"_training6_nb_bn_score";  //score will be generated and updated in the target table using source table
 String source_file_path = path+"L6-CROSS-IF\\dataset\\"+source_project+"-arff\\"+type+"\\"+source_project+"_"+type+"_text_features.arff";		
 String target_file_path = path+"L6-CROSS-IF\\dataset\\"+target_project+"-arff\\"+type+"\\"+target_project+"_"+type+"_text_features.arff";
