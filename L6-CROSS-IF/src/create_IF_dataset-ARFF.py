@@ -71,7 +71,7 @@ all_features_cross_nb_bn_score_file_path  =  path+ source_project +"-arff\\if\\"
 #"""
 
 
-# JJIT SERVER
+# JJIT SERVER ##
 #"""
 port=3306
 user="root"
