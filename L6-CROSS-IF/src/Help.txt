@@ -35,8 +35,7 @@ d. Now create six columns related to NB and BN score
  
  g. Now run the program "generate_NB_BN_text_feature_SCORE_within_log_pred.java" to generate the within-project project NB and BN score.
  
- h.Now generate the WEKA File
-                                                            
+ h.Now generate the a weka file containing only textual features using file  "create_IF_dataset-ARFF.py". Call the function (): create_one_complete_text_features(text_features_db_file_path)                                                         
  i. Now run the  program    "generate_NB_BN_text_feature_SCORE_cross_log_pred.java" for generating cross-project NB and BN score.              
                                  
                                                             
