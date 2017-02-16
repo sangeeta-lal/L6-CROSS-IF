@@ -56,6 +56,15 @@ String driver = "com.mysql.jdbc.Driver";
 //*/
 
 
+/*
+String path = "D:\\Sangeeta\\Research\\";
+String user_name =  "root";
+String password = "1234";
+String url = "jdbc:mysql://localhost:3306/";
+String driver = "com.mysql.jdbc.Driver";
+//*/
+
+
 //String type = "catch";
 String type = "if";
 
@@ -75,7 +84,9 @@ String target_project="hd";
 
 
 
-String db_name ="logging6_crossif";
+//String db_name ="logging6_crossif";
+String db_name ="logging6_crossif_rc_feb9";
+
 String result_table = "result_cross_pred_clif_only_bn_learning_"+type;
 
 String source_file_path = path+"L6-CROSS-IF\\dataset\\"+source_project+"-arff\\"+type+"\\"+source_project+"_to_"+ source_project+"_"+type+"_with_in_nb_bn_score.arff";		
